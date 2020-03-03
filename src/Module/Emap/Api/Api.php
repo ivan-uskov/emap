@@ -2,7 +2,6 @@
 
 namespace App\Module\Emap\Api;
 
-use App\Entity\Melogram;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,7 +17,7 @@ class Api implements ApiInterface
 
     public function getMelogramsList(): MelogramsListOutput
     {
-        $qs = new MelogramQueryService($this->doctrine->getRepository(Melogram::class));
+        $qs = new MelogramQueryService($this->doctrine->getManager());
         return new MelogramsListOutput($qs->getAllMelograms());
     }
 }

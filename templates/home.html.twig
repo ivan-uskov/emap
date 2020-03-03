@@ -8,16 +8,22 @@
                 <th scope="col">#</th>
                 <th scope="col">Особь</th>
                 <th scope="col">Семья</th>
+                <th scope="col">Колония</th>
                 <th scope="col">Популяция</th>
+                <th scope="col">Вид</th>
+                <th scope="col">Аттрибуты</th>
             </tr>
             </thead>
             <tbody>
-            {% for name in items %}
+            {% for m in items %}
                 <tr>
                     <th scope="row">1</th>
-                    <td>{{ name }}</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td>{{ m.name }}</td>
+                    <td>{{ m.family }}</td>
+                    <td>{{ m.colony }}</td>
+                    <td>{{ m.population }}</td>
+                    <td>{{ m.specie }}</td>
+                    <td>{{ m.attributes | join(',') }}</td>
                 </tr>
             {% endfor %}
 

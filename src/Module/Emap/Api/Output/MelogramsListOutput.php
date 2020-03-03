@@ -19,7 +19,7 @@ class MelogramsListOutput
     public function getAsArray(): array
     {
         return [
-            'items' => array_map(fn(MelogramData $d) => $d->getName(), $this->datas),
+            'items' => array_map(fn(MelogramData $d) => $d->asArray(), $this->datas),
         ];
     }
 }
