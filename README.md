@@ -1,5 +1,17 @@
 # ЭМАП
 
+## Живой
+```
+http://emap12.herokuapp.com/
+```
+
+## ADR
+
+* [Database](/adr/database_server.md)
+* [Production](/adr/production.md)
+* [Frontend](/adr/frontend.md)
+* [Framework](/adr/server_framework.md)
+
 ## Настройка локального окружения
 
 1 - Установить php 7.4, нужно распаковать архив и добавить в path
