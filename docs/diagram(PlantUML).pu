@@ -1,0 +1,17 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+
+title Container diagram for EMAP
+
+Person(user, User, "Пользователь")
+
+Container(web_server, "Web Server", "nginx", "Отдает статические файлы Маршрутизирует запрос Авторизация пользователя")
+Container(app_server, "App Server", "Php - Fpm", "Запускает php")
+ContainerDb(database, "Database", "Relational Database MySQL 5.7", "Хранение данных")
+
+Rel_Neighbor(user, web_server, " ", "HTTP")
+Rel_Neighbor(web_server, app_server, "Проксирование авторизованного запроса")
+Rel_Neighbor(app_server, database, "CRUD-операция к БД")
+
+@enduml
