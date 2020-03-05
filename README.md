@@ -14,7 +14,9 @@ http://emap12.herokuapp.com/
 * [Production](/docs/production.md)
 * [Frontend](/docs/frontend.md)
 * [Framework](/docs/server_framework.md)
-* Архитектура (в разработке)
+
+## Архитектура
+![Event Storming 1](/docs/architecture.png)
 
 ## Event Storming
 ### Версия 1
