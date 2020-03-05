@@ -10,17 +10,17 @@ http://emap12.herokuapp.com/
 
 ## ADR
 
-* [Database](/adr/database_server.md)
-* [Production](/adr/production.md)
-* [Frontend](/adr/frontend.md)
-* [Framework](/adr/server_framework.md)
+* [Database](/docs/database_server.md)
+* [Production](/docs/production.md)
+* [Frontend](/docs/frontend.md)
+* [Framework](/docs/server_framework.md)
 * Архитектура (в разработке)
 
 ## Event Storming
 В разработке
 
 ## Диаграмма контейнеров
-В разработке
+![Диаграмма контейнеров](/docs/containers.jpg)
 
 ## Настройка локального окружения
 
