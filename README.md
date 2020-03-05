@@ -16,7 +16,10 @@ http://emap12.herokuapp.com/
 * [Framework](/docs/server_framework.md)
 
 ## Архитектура
-![Event Storming 1](/docs/architecture.png)
+![Architecture](/docs/architecture.png)
+
+## Структура базы данных
+![DB schema](/docs/db_schema.png)
 
 ## Event Storming
 ### Версия 1
