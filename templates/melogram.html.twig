@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+
+{% block body %}
+    <form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Название особи</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Семья</label>
+            <select class="form-control" id="melogram-family">
+                <option>Семья 1</option>
+                <option>Семья 2</option>
+                <option>Семья 3</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="form-tags-4" name="tags-4" type="text" value="">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+{% endblock %}
