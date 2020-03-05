@@ -28,7 +28,7 @@ http://emap12.herokuapp.com/
 ![DB schema](/docs/db_schema.png)
 
 ## Диаграмма контейнеров
-![Диаграмма контейнеров](/docs/containers.jpg)
+![Диаграмма контейнеров](/docs/сontainer_diagram.jpg)
 
 ## Настройка локального окружения
 
