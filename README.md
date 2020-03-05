@@ -17,7 +17,11 @@ http://emap12.herokuapp.com/
 * Архитектура (в разработке)
 
 ## Event Storming
-В разработке
+### Версия 1
+![Event Storming 1](/docs/event_storming1.png)
+### Версия 2
+![Event Storming 2](/docs/event_storming2.png)
+
 
 ## Диаграмма контейнеров
 ![Диаграмма контейнеров](/docs/containers.jpg)
