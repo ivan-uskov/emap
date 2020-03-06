@@ -3,6 +3,7 @@
 namespace App\Module\Emap\Api;
 
 use App\Module\Emap\Api\Input\AddMelogramInput;
+use App\Module\Emap\Api\Output\HierarchyVariantsListOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
@@ -32,5 +33,11 @@ class Api implements ApiInterface
     {
         $handler = new AddMelogramCommandHandler($this->service);
         $handler->handle(new AddMelogramCommand($input->getName()));
+    }
+
+    public function getHierarchyVariantsList(): HierarchyVariantsListOutput
+    {
+        $qs = new MelogramQueryService($this->doctrine->getManager());
+        return new HierarchyVariantsListOutput($qs->getHierarchyVariants());
     }
 }
