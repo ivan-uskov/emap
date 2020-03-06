@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <form action="/action_page.php" method="post">
+    <form action="{{ path('melogram_ajax') }}" method="post">
         <div class="form-group">
             <label for="exampleFormControlInput1">Название особи *</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" required maxlength="255">

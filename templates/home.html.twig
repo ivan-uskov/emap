@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block search %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Поиск">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        </form>
+    </div>
+{% endblock %}
+
 {% block body %}
     <div class="text-right">
         <a class="btn btn-primary mb-2" href="{{ path('melogram') }}" role="button">Добавить особь</a>

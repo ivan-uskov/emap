@@ -5,3 +5,7 @@ homepage:
 melogram:
   path: /melogram
   controller: App\Controller\MelogramController::page
+
+melogram_ajax:
+  path: /melogram/ajax
+  controller: App\Controller\MelogramController::ajax
