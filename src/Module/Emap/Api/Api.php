@@ -32,7 +32,7 @@ class Api implements ApiInterface
     public function addMelogram(AddMelogramInput $input): void
     {
         $handler = new AddMelogramCommandHandler($this->service);
-        $handler->handle(new AddMelogramCommand($input->getName()));
+        $handler->handle(new AddMelogramCommand($input->getName(), $input->getFamilyId(), $input->getFile()));
     }
 
     public function getHierarchyVariantsList(): HierarchyVariantsListOutput

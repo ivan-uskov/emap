@@ -17,6 +17,6 @@ class AddMelogramCommandHandler
 
     public function handle(AddMelogramCommand $command)
     {
-        $this->service->addMelogram(new Melogram($command->getName()));
+        $this->service->addMelogram(new Melogram($command->getName(), $command->getFamilyId(), $command->getFile()));
     }
 }

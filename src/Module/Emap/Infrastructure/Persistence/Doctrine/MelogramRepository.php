@@ -2,6 +2,7 @@
 
 namespace App\Module\Emap\Infrastructure\Persistence\Doctrine;
 
+use App\Module\Emap\App\Service\Data\HierarchyVariantData;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Model\MelogramRepositoryInterface;
 
@@ -23,10 +24,52 @@ class MelogramRepository implements MelogramRepositoryInterface
             INSERT INTO
               melogram
             SET
-              name = :name
+              name = :name,
+              file = :file
         ";
 
-        $stmt = $this->em->getConnection()->prepare($sql)->setParameter(':name', $m->getName());
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt->bindValue('name', $m->getName());
+        $stmt->bindValue('file', $m->getFile());
         $stmt->execute();
+
+        //TODO: encode file content
+        //TODO: insert hierarchy rows
+    }
+
+    public function hasFamily(int $familyId): bool
+    {
+        $sql = "
+            SELECT
+              f.id
+            FROM
+              family f
+            WHERE
+              id = :id;
+        ";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt->bindValue('id', $familyId);
+        $stmt->execute();
+
+        return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+    }
+
+    public function hasMelogram(string $name): bool
+    {
+        $sql = "
+            SELECT
+              id
+            FROM
+              melogram
+            WHERE
+              `name` = :name;
+        ";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt->bindValue('name', $name);
+        $stmt->execute();
+
+        return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 }
