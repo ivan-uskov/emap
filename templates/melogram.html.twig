@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/Melogram.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <form action="/action_page.php" method="post">
         <div class="form-group">
@@ -8,7 +12,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Семья</label>
-            <select class="form-control" id="melogram-family" name="family_id">
+            <select class="form-control" id="melogramFamily" name="family_id">
                 {% for id, f in hierarchy.families %}
                     <option value="{{ id }}">{{ f }}</option>
                 {% endfor %}
@@ -16,7 +20,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Колония</label>
-            <select class="form-control" id="melogram-family" disabled>
+            <select class="form-control" id="melogramColony" disabled>
                 {% for id, c in hierarchy.colonies %}
                     <option value="{{ id }}">{{ c }}</option>
                 {% endfor %}
@@ -24,7 +28,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Популяция</label>
-            <select class="form-control" id="melogram-family" disabled>
+            <select class="form-control" id="melogramPopulation" disabled>
                 {% for id, p in hierarchy.populations %}
                     <option value="{{ id }}">{{ p }}</option>
                 {% endfor %}
@@ -32,7 +36,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Вид</label>
-            <select class="form-control" id="melogram-family" disabled>
+            <select class="form-control" id="melogramSpecie" disabled>
                 {% for id, s in hierarchy.species %}
                     <option value="{{ id }}">{{ s }}</option>
                 {% endfor %}

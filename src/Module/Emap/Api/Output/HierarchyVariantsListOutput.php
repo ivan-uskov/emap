@@ -27,8 +27,8 @@ class HierarchyVariantsListOutput
         {
             $families[$variant->getFamilyId()] = $variant->getFamilyName();
             $colonies[$variant->getFamilyId()] = $variant->getColonyName();
-            $populations[$variant->getPopulationName()] = $variant->getPopulationName();
-            $species[$variant->getSpecieName()] = $variant->getSpecieName();
+            $populations[$variant->getFamilyId()] = $variant->getPopulationName();
+            $species[$variant->getFamilyId()] = $variant->getSpecieName();
         }
 
         return [
