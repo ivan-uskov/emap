@@ -2,7 +2,6 @@
 
 namespace App\Module\Emap\Infrastructure\Persistence\Doctrine;
 
-use App\Module\Emap\App\Service\Data\HierarchyVariantData;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Model\MelogramRepositoryInterface;
 
@@ -33,7 +32,6 @@ class MelogramRepository implements MelogramRepositoryInterface
         $stmt->bindValue('file', $m->getFile());
         $stmt->execute();
 
-        //TODO: encode file content
         //TODO: insert hierarchy rows
     }
 

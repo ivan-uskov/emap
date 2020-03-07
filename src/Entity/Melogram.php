@@ -22,7 +22,7 @@ class Melogram
     private $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="blob")
      */
     private $file;
 

@@ -35,7 +35,7 @@ class MelogramController extends AbstractController
 
         if ($melogramName === '' || $familyId < 1 || $fileContent === '')
         {
-            return new Response("Not Found",404);
+            return new Response("Bad Request", 400);
         }
 
         $api = new Api($this->getDoctrine());
