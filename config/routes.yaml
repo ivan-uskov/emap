@@ -6,6 +6,18 @@ melogram:
   path: /melogram
   controller: App\Controller\MelogramController::page
 
+remove_melogram:
+  path: /melogram/remove/{id}
+  controller: App\Controller\MelogramController::remove
+  requirements:
+    id: '\d+'
+
+edit_melogram:
+  path: /melogram/edit/{id}
+  controller: App\Controller\MelogramController::edit
+  requirements:
+    id: '\d+'
+
 melogram_ajax:
   path: /melogram/ajax
   controller: App\Controller\MelogramController::ajax

@@ -18,6 +18,11 @@ class MelogramService
         $this->repository = $repository;
     }
 
+    public function removeMelogram(int $id): void
+    {
+        $this->repository->removeMelogram($id);
+    }
+
     /**
      * @param Melogram $melogram
      * @throws EmptyMelogramFileException

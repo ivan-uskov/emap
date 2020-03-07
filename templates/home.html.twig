@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/Home.js') }}"></script>
+{% endblock %}
+
 {% block search %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto"></ul>
@@ -36,7 +40,11 @@
                     <td>{{ m.colony }}</td>
                     <td>{{ m.population }}</td>
                     <td>{{ m.specie }}</td>
-                    <td>{{ m.attributes | join(',') }}</td>
+                    <td>
+                        {{ m.attributes | join(',') }}
+                        <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}" /></a>
+                        <a href="{{ path('remove_melogram', {id: m.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}" /></a>
+                    </td>
                 </tr>
             {% endfor %}
 

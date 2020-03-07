@@ -18,6 +18,11 @@ class MelogramRepository implements MelogramRepositoryInterface
         $this->em = $manager;
     }
 
+    public function removeMelogram(int $id): void
+    {
+        $this->query('DELETE FROM melogram WHERE id = :id', ['id' => $id]);
+    }
+
     public function addMelogram(Melogram $m): void
     {
         $sql = "

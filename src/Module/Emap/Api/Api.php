@@ -35,6 +35,11 @@ class Api implements ApiInterface
         $handler->handle(new AddMelogramCommand($input->getName(), $input->getFamilyId(), $input->getFile()));
     }
 
+    public function removeMelogram(int $id): void
+    {
+        $this->service->removeMelogram($id);
+    }
+
     public function getHierarchyVariantsList(): HierarchyVariantsListOutput
     {
         $qs = new MelogramQueryService($this->doctrine->getManager());

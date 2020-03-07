@@ -45,4 +45,20 @@ class MelogramController extends AbstractController
 
         return $this->redirectToRoute('homepage');
     }
+
+    public function remove(int $id): Response
+    {
+        if ($id > 0)
+        {
+            $api = new Api($this->getDoctrine());
+            $api->removeMelogram($id);
+        }
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    public function edit(int $id): Response
+    {
+        return $this->redirectToRoute('homepage');
+    }
 }

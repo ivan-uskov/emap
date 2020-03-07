@@ -10,6 +10,7 @@ interface ApiInterface
 {
     public function getMelogramsList(): MelogramsListOutput;
     public function addMelogram(AddMelogramInput $input): void;
+    public function removeMelogram(int $id): void;
 
     public function getHierarchyVariantsList(): HierarchyVariantsListOutput;
 }
