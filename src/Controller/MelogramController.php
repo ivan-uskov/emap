@@ -33,13 +33,15 @@ class MelogramController extends AbstractController
         $filePath = $file ? $file->getRealPath() : '';
         $fileContent = $filePath && file_exists($filePath) ? file_get_contents($filePath) : '';
 
-        if ($melogramName === '' || $familyId < 1 || $fileContent === '')
+        try
         {
-            return new Response("Bad Request", 400);
+            $api = new Api($this->getDoctrine());
+            $api->addMelogram(new AddMelogramInput($melogramName, $familyId, $fileContent));
         }
-
-        $api = new Api($this->getDoctrine());
-        $api->addMelogram(new AddMelogramInput($melogramName, $familyId, $fileContent));
+        catch (\Exception $exception)
+        {
+            return new Response("Bad Request: " . get_class($exception), 400);
+        }
 
         return $this->redirectToRoute('homepage');
     }
