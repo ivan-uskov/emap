@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47ae01e96dcae81ed33ec69858d56dc8",
+    "content-hash": "50f6c9ad9499998d63ee119d065c9ce6",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -6007,6 +6007,51 @@
             "time": "2020-02-03T13:51:17+00:00"
         },
         {
+            "name": "tmont/midiparser",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tmont/midiparser.git",
+                "reference": "b34066345a770fe2b28879fc5fdc7bf8796c8cfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tmont/midiparser/zipball/b34066345a770fe2b28879fc5fdc7bf8796c8cfe",
+                "reference": "b34066345a770fe2b28879fc5fdc7bf8796c8cfe",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pdepend/pdepend": "1.1.0",
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tmont\\Midi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Tommy Montgomery",
+                    "email": "tmont@tmont.com",
+                    "homepage": "http://tmont.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "MIDI parsing library",
+            "keywords": [
+                "midi",
+                "music",
+                "parser"
+            ],
+            "time": "2014-01-22T08:37:38+00:00"
+        },
+        {
             "name": "twig/extra-bundle",
             "version": "v3.0.3",
             "source": {
@@ -6858,7 +6903,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
