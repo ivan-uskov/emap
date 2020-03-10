@@ -55,6 +55,7 @@
 ![DB schema](/docs/db_schema.png)
 
 ## Диаграмма контейнеров
+[Исходник](/docs/diagram(PlantUML).pu)
 ![Диаграмма контейнеров](/docs/сontainer_diagram.jpg)
 
 ## Настройка локального окружения
