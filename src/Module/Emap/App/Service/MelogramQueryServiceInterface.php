@@ -7,6 +7,7 @@ use App\Module\Emap\App\Service\Data\MelogramData;
 
 interface MelogramQueryServiceInterface
 {
+    public function getMelogram(int $id): ?MelogramData;
     /**
      * @return MelogramData[]
      */

@@ -18,6 +18,12 @@ edit_melogram:
   requirements:
     id: '\d+'
 
-melogram_ajax:
+add_melogram_ajax:
   path: /melogram/ajax
   controller: App\Controller\MelogramController::ajax
+
+edit_melogram_ajax:
+  path: /melogram/ajax/{id}
+  controller: App\Controller\MelogramController::ajax
+  requirements:
+    id: '\d+'

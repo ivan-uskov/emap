@@ -59,6 +59,9 @@ class MelogramController extends AbstractController
 
     public function edit(int $id): Response
     {
-        return $this->redirectToRoute('homepage');
+        $api = new Api($this->getDoctrine());
+        $melogram = $api->getMelogram($id);
+
+        return $this->render('melogram.html.twig', ['hierarchy' => $api->getHierarchyVariantsList()->asAssoc(), 'melogram' => $melogram->asArray()]);
     }
 }

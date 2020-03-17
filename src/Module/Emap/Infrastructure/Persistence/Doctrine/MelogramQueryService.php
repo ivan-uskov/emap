@@ -52,12 +52,49 @@ class MelogramQueryService implements MelogramQueryServiceInterface
     /**
      * @inheritDoc
      */
+    public function getMelogram(int $id): ?MelogramData
+    {
+        $sql = "
+            SELECT
+              m.id,
+              m.name,
+              f.id AS family_id,
+              f.name AS family_name,
+              c.name AS colony_name,
+              p.name AS population_name,
+              s.name AS specie_name
+            FROM
+              melogram m
+              LEFT JOIN family_item fi ON (m.id = fi.item_id)
+              LEFT JOIN family f ON (fi.family_id = f.id)
+              LEFT JOIN colony_item ci ON (m.id = ci.item_id)
+              LEFT JOIN colony c ON (c.id = ci.colony_id)
+              LEFT JOIN population_item pi ON (m.id = pi.item_id)
+              LEFT JOIN population p ON (pi.population_id = p.id)
+              LEFT JOIN specie_item si ON (m.id = si.item_id)
+              LEFT JOIN specie s ON (si.specie_id = s.id)
+            WHERE
+              m.id = {$id}
+            LIMIT 1;
+        ";
+
+        $stmt = $this->em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $data = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return (count($data) > 0) ? $this->melogram($data[0]) : null;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getAllMelograms(): array
     {
         $sql = "
             SELECT
               m.id,
               m.name,
+              f.id AS family_id,
               f.name AS family_name,
               c.name AS colony_name,
               p.name AS population_name,
@@ -77,18 +114,22 @@ class MelogramQueryService implements MelogramQueryServiceInterface
         $stmt = $this->em->getConnection()->prepare($sql);
         $stmt->execute();
 
-        $mapper = function (array $data): MelogramData {
-            return new MelogramData(
-                $data['id'],
-                $data['name'],
-                $data['family_name'],
-                $data['colony_name'],
-                $data['population_name'],
-                $data['specie_name'],
-                []
-            );
-        };
+        $mapper = fn(array $data) => $this->melogram($data);
 
         return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
+    }
+
+    private function melogram(array $data): MelogramData
+    {
+        return new MelogramData(
+            $data['id'],
+            $data['name'],
+            $data['family_id'],
+            $data['family_name'],
+            $data['colony_name'],
+            $data['population_name'],
+            $data['specie_name'],
+            []
+        );
     }
 }
