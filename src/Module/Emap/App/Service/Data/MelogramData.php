@@ -6,6 +6,7 @@ class MelogramData
 {
     private int $id;
     private string $name;
+    private string $file;
 
     private ?int $familyId;
     private ?string $family;
@@ -14,10 +15,11 @@ class MelogramData
     private ?string $specie;
     private ?array $attributes;
 
-    public function __construct(int $id, string $name, ?int $familyId, ?string $family, ?string $colony, ?string $population, ?string $specie, ?array $attributes)
+    public function __construct(int $id, string $name, string $file, ?int $familyId, ?string $family, ?string $colony, ?string $population, ?string $specie, ?array $attributes)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->file = $file;
         $this->familyId = $familyId;
         $this->family = $family;
         $this->colony = $colony;
@@ -34,6 +36,11 @@ class MelogramData
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getFile(): string
+    {
+        return $this->file;
     }
 
     public function getFamilyId(): ?int

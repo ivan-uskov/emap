@@ -35,13 +35,14 @@
             {% for m in items %}
                 <tr>
                     <th scope="row">{{ m.id }}</th>
-                    <td>{{ m.name }}</td>
+                    <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.name }}</a></td>
                     <td>{{ m.family }}</td>
                     <td>{{ m.colony }}</td>
                     <td>{{ m.population }}</td>
                     <td>{{ m.specie }}</td>
                     <td class="text-right">
                         {{ m.attributes | join(',') }}
+                        <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
                         <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}" /></a>
                         <a href="{{ path('remove_melogram', {id: m.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}" /></a>
                     </td>

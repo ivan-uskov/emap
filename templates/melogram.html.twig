@@ -11,6 +11,11 @@
         <h3>Добавление мелограммы</h3>
     {% endif %}
     <a href="{{ path('homepage') }}">Назад</a>
+    {% if melogram is defined %}
+        <div class="text-right">
+            <a href="{{ path('export_melogram', {id: melogram.id}) }}" title="Экспортировать"><img alt="Экспортировать" class="mr-1" src="{{ asset('img/download.png') }}" />Экспортировать</a>
+        </div>
+    {% endif %}
     <form action="{% if melogram is defined %}{{ path('edit_melogram_ajax', {id: melogram.id}) }}{% else %}{{ path('add_melogram_ajax') }}{% endif %}" method="post" enctype="multipart/form-data" class="mt-5">
         <div class="form-group">
             <label for="exampleFormControlInput1">Название особи *</label>

@@ -58,6 +58,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
             SELECT
               m.id,
               m.name,
+              m.file,
               f.id AS family_id,
               f.name AS family_name,
               c.name AS colony_name,
@@ -94,6 +95,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
             SELECT
               m.id,
               m.name,
+              m.file,
               f.id AS family_id,
               f.name AS family_name,
               c.name AS colony_name,
@@ -124,6 +126,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
         return new MelogramData(
             $data['id'],
             $data['name'],
+            $data['file'],
             $data['family_id'],
             $data['family_name'],
             $data['colony_name'],

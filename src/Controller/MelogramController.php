@@ -47,6 +47,23 @@ class MelogramController extends AbstractController
         return $this->redirectToRoute('homepage');
     }
 
+    public function export(int $id): Response
+    {
+        $api = new Api($this->getDoctrine());
+        $melogram = $api->getMelogram($id);
+        if ($melogram === null)
+        {
+            return new Response("Not Found",404);
+        }
+
+        return new Response($melogram->getFile(),200, [
+            'Content-Type' => 'audio/midi',
+            'Cache-Control' => 'public',
+            'Content-Length' => strlen($melogram->getFile()),
+            'Content-Disposition' => 'attachment; filename=' . $melogram->getName() . '.midi',
+        ]);
+    }
+
     public function editAjax(int $id): Response
     {
         $request = Request::createFromGlobals();

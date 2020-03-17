@@ -6,6 +6,12 @@ melogram:
   path: /melogram
   controller: App\Controller\MelogramController::page
 
+export_melogram:
+  path: /melogram/export/{id}
+  controller: App\Controller\MelogramController::export
+  requirements:
+    id: '\d+'
+
 remove_melogram:
   path: /melogram/remove/{id}
   controller: App\Controller\MelogramController::remove

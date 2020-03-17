@@ -17,4 +17,14 @@ class MelogramOutput
     {
         return $this->data->asArray();
     }
+
+    public function getFile(): string
+    {
+        return $this->data->getFile();
+    }
+
+    public function getName(): string
+    {
+        return $this->data->getName();
+    }
 }
