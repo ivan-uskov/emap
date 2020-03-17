@@ -4,7 +4,7 @@
 
 title Container diagram for EMAP
 
-Person(user, User, "Пользователь")
+Person(user, Аналитик, "Аналитик")
 
 Container(web_server, "Web Server", "nginx", "Отдает статические файлы Маршрутизирует запрос Авторизация пользователя")
 Container(app_server, "App Server", "Php - Fpm", "Запускает php")
