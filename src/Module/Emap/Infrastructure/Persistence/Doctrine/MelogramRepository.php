@@ -60,6 +60,45 @@ class MelogramRepository implements MelogramRepositoryInterface
         }
     }
 
+    public function updateMelogram(Melogram $m): void
+    {
+        $sql = "
+            UPDATE
+              melogram
+            SET
+              name = :name,
+              file = :file
+            WHERE
+              id = :id
+        ";
+
+        $id = $m->getId();
+        $this->query($sql, ['name' => $m->getName(), 'file' => $m->getFile(), 'id' => $m->getId()]);
+
+        $hierarchyIds = $this->getHierarchyIds($m->getFamilyId());
+        if ($hierarchyIds === null)
+        {
+            return;
+        }
+
+        if ((int) $hierarchyIds['family_id'] > 0)
+        {
+            $this->query('UPDATE family_item SET family_id = :family_id WHERE item_id = :item_id', ['family_id' => $m->getFamilyId(), 'item_id' => $id]);
+        }
+        if ((int) $hierarchyIds['colony_id'] > 0)
+        {
+            $this->query('UPDATE colony_item SET colony_id = :colony_id WHERE item_id = :item_id', ['colony_id' => $hierarchyIds['colony_id'], 'item_id' => $id]);
+        }
+        if ((int) $hierarchyIds['population_id'] > 0)
+        {
+            $this->query('UPDATE population_item SET population_id = :population_id WHERE item_id = :item_id', ['population_id' => $hierarchyIds['population_id'], 'item_id' => $id]);
+        }
+        if ((int) $hierarchyIds['specie_id'] > 0)
+        {
+            $this->query('UPDATE specie_item SET specie_id = :specie_id WHERE item_id = :item_id', ['specie_id' => $hierarchyIds['specie_id'], 'item_id' => $id]);
+        }
+    }
+
     public function hasFamily(int $familyId): bool
     {
         $sql = "
@@ -92,6 +131,32 @@ class MelogramRepository implements MelogramRepositoryInterface
         $stmt = $this->query($sql, ['name' => $name]);
 
         return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+    }
+
+    public function getMelogram(int $id): Melogram
+    {
+        $sql = "
+            SELECT
+              m.id,
+              m.name,
+              file,
+              fi.id AS family_id
+            FROM
+              melogram m
+              LEFT JOIN family_item fi ON (m.id = fi.item_id)
+            WHERE
+              m.id = :id
+            LIMIT 1
+        ";
+
+        $stmt = $this->query($sql, ['id' => $id]);
+        $res = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        if (empty($res))
+        {
+            return null;
+        }
+
+        return new Melogram($id, $res[0]['name'], $res[0]['family_id'], $res[0]['file']);
     }
 
     private function getHierarchyIds(int $familyId): ?array

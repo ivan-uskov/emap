@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Module\Emap\Domain\Model;
+namespace App\Module\Emap\Api\Input;
 
-class Melogram
+class UpdateMelogramInput
 {
-    private ?int $id;
+    private int $id;
     private string $name;
     private int $familyId;
-    private string $file;
+    private ?string $file;
 
-    public function __construct(?int $id, string $name, int $familyId, string $file)
+    public function __construct(int $id, string $name,  int $familyId, ?string $file)
     {
         $this->id = $id;
         $this->name = $name;
@@ -17,7 +17,7 @@ class Melogram
         $this->file = $file;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -32,13 +32,8 @@ class Melogram
         return $this->familyId;
     }
 
-    public function getFile(): string
+    public function getFile(): ?string
     {
         return $this->file;
-    }
-
-    public function setFile(string $file): void
-    {
-        $this->file = $file;
     }
 }

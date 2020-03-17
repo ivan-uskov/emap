@@ -2,11 +2,11 @@
 
 namespace App\Module\Emap\App\Command\Handler;
 
-use App\Module\Emap\App\Command\AddMelogramCommand;
+use App\Module\Emap\App\Command\UpdateMelogramCommand;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Service\MelogramService;
 
-class AddMelogramCommandHandler
+class UpdateMelogramCommandHandler
 {
     private MelogramService $service;
 
@@ -15,8 +15,8 @@ class AddMelogramCommandHandler
         $this->service = $service;
     }
 
-    public function handle(AddMelogramCommand $command)
+    public function handle(UpdateMelogramCommand $command)
     {
-        $this->service->addMelogram(new Melogram(null, $command->getName(), $command->getFamilyId(), $command->getFile()));
+        $this->service->updateMelogram(new Melogram($command->getId(), $command->getName(), $command->getFamilyId(), (string) $command->getFile()));
     }
 }

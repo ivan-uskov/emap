@@ -6,6 +6,7 @@ use App\Module\Emap\Domain\Exception\DuplicateMelogramNameException;
 use App\Module\Emap\Domain\Exception\EmptyMelogramFileException;
 use App\Module\Emap\Domain\Exception\EmptyMelogramNameException;
 use App\Module\Emap\Domain\Exception\InvalidFamilyIdException;
+use App\Module\Emap\Domain\Exception\MelogramNotExistsException;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Model\MelogramRepositoryInterface;
 
@@ -53,5 +54,37 @@ class MelogramService
         }
 
         $this->repository->addMelogram($melogram);
+    }
+
+    /**
+     * @param Melogram $melogram
+     * @throws DuplicateMelogramNameException
+     * @throws InvalidFamilyIdException
+     * @throws MelogramNotExistsException
+     */
+    public function updateMelogram(Melogram $melogram): void
+    {
+        $oldMelogram = $this->repository->getMelogram($melogram->getId());
+        if ($oldMelogram === null)
+        {
+            throw new MelogramNotExistsException();
+        }
+
+        if (($oldMelogram->getName() !== $melogram->getName()) && $this->repository->hasMelogram($melogram->getName()))
+        {
+            throw new DuplicateMelogramNameException();
+        }
+
+        if (!$this->repository->hasFamily($melogram->getFamilyId()))
+        {
+            throw new InvalidFamilyIdException();
+        }
+
+        if ($melogram->getFile() === '')
+        {
+            $melogram->setFile($oldMelogram->getFile());
+        }
+
+        $this->repository->updateMelogram($melogram);
     }
 }

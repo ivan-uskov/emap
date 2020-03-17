@@ -54,6 +54,6 @@
                 <label class="custom-file-label" for="inputGroupFile01">Выбрать файл мелограммы</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-primary">{% if melogram is defined %}Сохранить{% else %}Добавить{% endif %}</button>
     </form>
 {% endblock %}

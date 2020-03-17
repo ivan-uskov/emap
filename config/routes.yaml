@@ -20,10 +20,10 @@ edit_melogram:
 
 add_melogram_ajax:
   path: /melogram/ajax
-  controller: App\Controller\MelogramController::ajax
+  controller: App\Controller\MelogramController::addAjax
 
 edit_melogram_ajax:
   path: /melogram/ajax/{id}
-  controller: App\Controller\MelogramController::ajax
+  controller: App\Controller\MelogramController::editAjax
   requirements:
     id: '\d+'

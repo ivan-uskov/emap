@@ -3,11 +3,14 @@
 namespace App\Module\Emap\Api;
 
 use App\Module\Emap\Api\Input\AddMelogramInput;
+use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\HierarchyVariantsListOutput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
+use App\Module\Emap\App\Command\Handler\UpdateMelogramCommandHandler;
+use App\Module\Emap\App\Command\UpdateMelogramCommand;
 use App\Module\Emap\Domain\Service\MelogramService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramRepository;
@@ -40,6 +43,12 @@ class Api implements ApiInterface
     {
         $handler = new AddMelogramCommandHandler($this->service);
         $handler->handle(new AddMelogramCommand($input->getName(), $input->getFamilyId(), $input->getFile()));
+    }
+
+    public function updateMelogram(UpdateMelogramInput $input): void
+    {
+        $handler = new UpdateMelogramCommandHandler($this->service);
+        $handler->handle(new UpdateMelogramCommand($input->getId(), $input->getName(), $input->getFamilyId(), $input->getFile()));
     }
 
     public function removeMelogram(int $id): void
