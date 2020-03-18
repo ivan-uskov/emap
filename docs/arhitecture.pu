@@ -1,0 +1,64 @@
+@startuml Архитектура
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Component.puml
+
+
+Person(user, "Иследователь")
+
+Container_Boundary(controller, "Controller") {
+  Component(homecon, "HomeController", '','')
+  Component(melogramcon, "MelogramController", '','')
+
+}
+
+Container_Boundary(api, "API") {
+  Component(apiCom, "Api", '','')
+  Component(apiInt, "ApiInterface", '<<interface>>','')
+  Rel(apiInt, apiCom, " ")
+}
+Container_Boundary(infra, "Infrastructure") {
+  Component(mqs, "MelogramQueryService", '','')
+  Component(mr, "MelogramRepository", '<<interface>>','')
+}
+
+Container_Boundary(app, "App") {
+  Component(mqsi, "MelogramQueryServiceInterface", '<<interface>>','')
+  Component(hvd, "HiearhyVariantData", '','')
+  Component(md, "MelogramData", '','')
+  Component(amc, "AddMelogrammCommand", '','')
+  Component(umc, "UpdateMelogrammCommand", '','')
+  Component(amch, "AddMelogrammCommandHandler", '','')
+  Component(umch, "UpdateMelogrammCommandHandler", '','')
+
+  Rel(mqsi, hvd, "Uses")
+  Rel(mqsi, md, "Uses")
+  Rel(amch, amc, "Uses")
+  Rel(umch, umc, "Uses")
+}
+
+Container_Boundary(domain, "Domain") {
+  Component(mri, "MelogramQueryServiceInterface", '<<interface>>','')
+  Component(melogram, "Melogram", '','')
+  Component(ms, "MelogramService", '','')
+
+  Rel(ms, mri, " ")
+  Rel(mri, melogram, " ")
+}
+
+Container(view, "View",' ',' ')
+
+Rel(view, user, "Uses")
+Rel(homecon, view,"Uses")
+Rel(user, homecon, "Uses")
+Rel(user, melogramcon, "Uses")
+Rel(melogramcon, view, "Uses")
+Rel(homecon, apiCom, "Uses")
+Rel(melogramcon, apiCom, "Uses")
+Rel(apiCom, mqs, "Uses")
+Rel(apiCom, mr, "Uses")
+Rel(mqs, mqsi, "Uses")
+Rel(mr, mri, "Uses")
+Rel(amch, ms, "Uses")
+Rel(umch, ms, "Uses")
+
+
+@enduml
