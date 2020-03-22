@@ -42,16 +42,16 @@
 
 ## Use case diagram
 [Исходник](/docs/usecase.pu)
-![Use case diagram](/docs/img/usecase.jpg)  
+![Use case diagram](/docs/img/usecase_diagram.jpg)  
 
 ## Онтологическая диаграмма
-![Диаграмма контейнеров](/docs/img/onto_diagram.jpg)
+![Диаграмма контейнеров](/docs/img/ontology_diagram.jpg)
 
 ## Event Storming
 ### Версия 1
-![Event Storming 1](/docs/img/event_storming1.png)
+![Event Storming 1](/docs/img/event_storming_1_0.png)
 ### Версия 2
-![Event Storming 2](/docs/img/event_storming2.png)
+![Event Storming 2](/docs/img/event_storming_2_0.png)
 
 ## Архитектура
 ![Architecture](/docs/img/architecture.png)
@@ -64,8 +64,8 @@
 ![Диаграмма контейнеров](/docs/img/сontainer_diagram.jpg)
 
 ## DDD-диаграмма
-[Исходник](/docs/puml/arhitecture.pu)
-![Диаграмма контейнеров](/docs/img/DDD.jpg)
+[Исходник](/docs/puml/components_diagram.pu)
+![Диаграмма контейнеров](/docs/img/components_diagram.jpg)
 
 ## Настройка локального окружения
 
