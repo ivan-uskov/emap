@@ -1,6 +1,7 @@
 @startuml Архитектура
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Component.puml
 
+top to bottom direction
 
 Person(user, "Иследователь")
 
@@ -17,7 +18,7 @@ Container_Boundary(api, "API") {
 }
 Container_Boundary(infra, "Infrastructure") {
   Component(mqs, "MelogramQueryService", '','')
-  Component(mr, "MelogramRepository", '<<interface>>','')
+  Component(mr, "MelogramRepository", '','')
 }
 
 Container_Boundary(app, "App") {
@@ -44,13 +45,8 @@ Container_Boundary(domain, "Domain") {
   Rel(mri, melogram, " ")
 }
 
-Container(view, "View",' ',' ')
-
-Rel(view, user, "Uses")
-Rel(homecon, view,"Uses")
 Rel(user, homecon, "Uses")
 Rel(user, melogramcon, "Uses")
-Rel(melogramcon, view, "Uses")
 Rel(homecon, apiCom, "Uses")
 Rel(melogramcon, apiCom, "Uses")
 Rel(apiCom, mqs, "Uses")
