@@ -5,9 +5,15 @@
     use \Tmont\Midi\Parsing\FileParser;
     use \Tmont\Midi\Event as Event;
     use \Tmont\Midi\Util\Note;
+    use Tmont\Midi\Reporting\Printer;
+    use Tmont\Midi\Reporting\TextFormatter;
+
 
     $parser = new FileParser();
     $parser->load('\emap1\melogramExample\melo1.mid');
+
+    //$printer = new Printer(new TextFormatter(), $parser);
+    //$printer->printAll();
 
     $currentTrackName = null;
     while ($chunk = $parser->parse()) {
@@ -20,8 +26,9 @@
               //to stop playing a note in lieu of a NOTE OFF event
              $noteName = Note::getNoteName($noteNumber);
              echo $currentTrackName . ': [' . $channel . '] ' . $noteName .
-                ' (velocity=' . $velocity . ')' . PHP_EOL;
+                 ' (velocity=' . $velocity . ')' . PHP_EOL;
          }
         }
     }
+
 

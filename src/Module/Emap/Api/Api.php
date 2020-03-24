@@ -11,6 +11,7 @@ use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
 use App\Module\Emap\App\Command\Handler\UpdateMelogramCommandHandler;
 use App\Module\Emap\App\Command\UpdateMelogramCommand;
+use App\Module\Emap\Domain\Service\MelogramParser;
 use App\Module\Emap\Domain\Service\MelogramService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramRepository;
@@ -20,17 +21,23 @@ class Api implements ApiInterface
 {
     private ManagerRegistry $doctrine;
     private MelogramService $service;
+    private MelogramParser $parser;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
         $this->service = new MelogramService(new MelogramRepository($doctrine->getManager()));
+        $this->parser = new MelogramParser();
     }
 
     public function getMelogram(int $melogramId): ?MelogramOutput
     {
         $qs = new MelogramQueryService($this->doctrine->getManager());
         return new MelogramOutput($qs->getMelogram($melogramId));
+    }
+
+    public function getNoteList(): array {
+        return $this->parser->getMelogramArray();
     }
 
     public function getMelogramsList(): MelogramsListOutput

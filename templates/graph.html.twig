@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="{{ asset('js/Graph.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="chartContainer" style="height: 370px; width: 100%;">
+        <input type="text" id="noteInput" value="{{ noteList }}">
+    </div>
+{% endblock %}
