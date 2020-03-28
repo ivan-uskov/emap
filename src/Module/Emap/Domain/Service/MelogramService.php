@@ -48,11 +48,6 @@ class MelogramService
             throw new DuplicateMelogramNameException();
         }
 
-        if (!$this->repository->hasFamily($melogram->getFamilyId()))
-        {
-            throw new InvalidFamilyIdException();
-        }
-
         $this->repository->addMelogram($melogram);
     }
 
