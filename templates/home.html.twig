@@ -23,11 +23,11 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Особь</th>
-                <th scope="col">Семья</th>
-                <th scope="col">Колония</th>
-                <th scope="col">Популяция</th>
                 <th scope="col">Вид</th>
+                <th scope="col">Популяция</th>
+                <th scope="col">Колония</th>
+                <th scope="col">Семья</th>
+                <th scope="col">Особь</th>
                 <th scope="col">Действия</th>
             </tr>
             </thead>
@@ -35,11 +35,11 @@
             {% for m in items %}
                 <tr>
                     <th scope="row">{{ m.id }}</th>
-                    <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.name }}</a></td>
-                    <td>{{ m.family }}</td>
-                    <td>{{ m.colony }}</td>
-                    <td>{{ m.population }}</td>
                     <td>{{ m.specie }}</td>
+                    <td>{{ m.population }}</td>
+                    <td>{{ m.colony }}</td>
+                    <td>{{ m.family }}</td>
+                    <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.name }}</a></td>
                     <td class="text-right">
                         {{ m.attributes | join(',') }}
                         <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
