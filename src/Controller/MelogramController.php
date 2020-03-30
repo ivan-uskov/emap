@@ -14,9 +14,7 @@ class MelogramController extends AbstractController
 {
     public function page(): Response
     {
-        $api = new Api($this->getDoctrine());
-
-        return $this->render('melogram.html.twig', ['hierarchy' => $api->getHierarchyVariantsList()->asAssoc()]);
+        return $this->render('melogram.html.twig');
     }
 
     public function addAjax(): Response
@@ -114,6 +112,6 @@ class MelogramController extends AbstractController
         $api = new Api($this->getDoctrine());
         $melogram = $api->getMelogram($id);
 
-        return $this->render('melogram.html.twig', ['hierarchy' => $api->getHierarchyVariantsList()->asAssoc(), 'melogram' => $melogram->asArray()]);
+        return $this->render('melogram.html.twig', ['melogram' => $melogram->asArray()]);
     }
 }

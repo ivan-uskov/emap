@@ -33,18 +33,42 @@ class MelogramRepository implements MelogramRepositoryInterface
               file = :file
         ";
 
-        $this->query($sql, ['name' => $m->getName(), 'file' => $m->getFile()]);
+        $this->query($sql, ['name' => $m->getItemId(), 'file' => $m->getFile()]);
         $id = $this->getLastInsertId();
 
-        $hierarchyIds = $this->getHierarchyIds($m->getFamilyId());
-        if ($hierarchyIds === null)
-        {
-            return;
-        }
+        $insertSpecie = 'INSERT INTO specie SET name = :name';
+        $insertFamily = 'INSERT INTO family SET name = :name, colony_id = :colonyId';
+        $insertColony = 'INSERT INTO colony SET name = :name, population_id = :populationId';
+        $insertPopulation = 'INSERT INTO population SET name = :name, specie_id = :specieId';
 
+        $specieIdArray = $this->query('SELECT id FROM specie WHERE name = :name', ['name' => $m->getSpecieId()])->fetch();
+        if(empty($specieIdArray) || !array_key_exists('id', $specieIdArray)) {
+            $this->query($insertSpecie, ['name' => $m->getSpecieId()]);
+        }
+        $specieId = $this->query('SELECT id FROM specie WHERE name = :name', ['name' => $m->getSpecieId()])->fetch()['id'];
+
+        $populationIdArray = $this->query('SELECT id FROM population WHERE name = :name AND specie_id = :specieId', ['specieId' => $specieId, 'name' => $m->getPopulationId()])->fetch();
+        if(empty($populationIdArray) || !array_key_exists('id', $populationIdArray)) {
+            $this->query($insertPopulation, ['name' => $m->getPopulationId(), 'specieId'=>$specieId]);
+        }
+        $populationId = $this->query('SELECT id FROM population WHERE name = :name AND specie_id = :specieId', ['specieId' => $specieId, 'name' => $m->getPopulationId()])->fetch()['id'];
+
+        $colonyIdArray = $this->query('SELECT id FROM colony WHERE name = :name 
+            AND population_id = :populationId', ['name'=>$m->getColonyId(), 'populationId' => $populationId])->fetch();
+        if(empty($colonyIdArray) || !array_key_exists('id', $colonyIdArray)) {
+            $this->query($insertColony, ['name' => $m->getColonyId(), 'populationId' => $populationId]);
+        }
+        $colonyId = $this->query('SELECT id FROM colony WHERE name = :name
+            AND population_id = :populationId', ['name'=>$m->getColonyId(), 'populationId' => $populationId])->fetch()['id'];
+
+        $this->query($insertFamily, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]);
+        $familyId = $this->query('SELECT id FROM family WHERE name =:name 
+        AND colony_id = :colonyId', ['name' => $m->getFamilyId(), 'colonyId' => $colonyId])->fetch()['id'];
+
+        $hierarchyIds = $this->getHierarchyIds($familyId);
         if ((int) $hierarchyIds['family_id'] > 0)
         {
-            $this->query('INSERT INTO family_item SET family_id = :family_id, item_id = :item_id', ['family_id' => $m->getFamilyId(), 'item_id' => $id]);
+            $this->query('INSERT INTO family_item SET family_id = :family_id, item_id = :item_id', ['family_id' => $familyId, 'item_id' => $id]);
         }
         if ((int) $hierarchyIds['colony_id'] > 0)
         {
@@ -135,15 +159,30 @@ class MelogramRepository implements MelogramRepositoryInterface
 
     public function getMelogram(int $id): Melogram
     {
+        $t = 'SELECT
+              f.name AS family_id,
+              c.name AS colony_id,
+              p.name AS population_id,
+              s.name AS specie_id
+            FROM
+              family f
+              LEFT JOIN colony c ON (c.id = f.colony_id)
+              LEFT JOIN population p ON (c.population_id = p.id)
+              LEFT JOIN specie s ON (p.specie_id = s.id)
+            WHERE
+              f.id = :id
+            LIMIT 1';
+
         $sql = "
             SELECT
               m.id,
               m.name,
               file,
-              fi.id AS family_id
+              fi.name AS family_id
             FROM
               melogram m
               LEFT JOIN family_item fi ON (m.id = fi.item_id)
+              
             WHERE
               m.id = :id
             LIMIT 1
