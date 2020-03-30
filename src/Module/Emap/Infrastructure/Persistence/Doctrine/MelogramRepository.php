@@ -13,6 +13,16 @@ class MelogramRepository implements MelogramRepositoryInterface
 {
     private EntityManagerInterface $em;
 
+    private string $insertSpecieQuery = 'INSERT INTO specie SET name = :name';
+    private string $insertPopulationQuery = 'INSERT INTO population SET name = :name, specie_id = :specieId';
+    private string $insertColonyQuery = 'INSERT INTO colony SET name = :name, population_id = :populationId';
+    private string $insertFamilyQuery = 'INSERT INTO family SET name = :name, colony_id = :colonyId';
+
+    private string $getSpecieIdQuery = 'SELECT id FROM specie WHERE name = :name';
+    private string $getPopulationIdQuery = 'SELECT id FROM population WHERE name = :name AND specie_id = :specieId';
+    private string $getColonyIdQuery = 'SELECT id FROM colony WHERE name = :name AND population_id = :populationId';
+    private string $getFamilyIdQuery = 'SELECT id FROM family WHERE name =:name AND colony_id = :colonyId';
+
     public function __construct(EntityManagerInterface $manager)
     {
         $this->em = $manager;
@@ -21,6 +31,16 @@ class MelogramRepository implements MelogramRepositoryInterface
     public function removeMelogram(int $id): void
     {
         $this->query('DELETE FROM melogram WHERE id = :id', ['id' => $id]);
+    }
+
+    private function getOrCreateEntityId(string $name, string $getQuery, $getQueryArguments
+        , string $insertQuery, $queryArguments):int
+    {
+        $entityIdArray = $this->query($getQuery, $getQueryArguments)->fetch();
+        if(empty($entityIdArray) || !array_key_exists('id', $entityIdArray)) {
+            $this->query($insertQuery, $queryArguments);
+        }
+        return $this->query($getQuery, $getQueryArguments)->fetch()['id'];
     }
 
     public function addMelogram(Melogram $m): void
@@ -36,34 +56,18 @@ class MelogramRepository implements MelogramRepositoryInterface
         $this->query($sql, ['name' => $m->getItemId(), 'file' => $m->getFile()]);
         $id = $this->getLastInsertId();
 
-        $insertSpecie = 'INSERT INTO specie SET name = :name';
-        $insertFamily = 'INSERT INTO family SET name = :name, colony_id = :colonyId';
-        $insertColony = 'INSERT INTO colony SET name = :name, population_id = :populationId';
-        $insertPopulation = 'INSERT INTO population SET name = :name, specie_id = :specieId';
-
-        $specieIdArray = $this->query('SELECT id FROM specie WHERE name = :name', ['name' => $m->getSpecieId()])->fetch();
-        if(empty($specieIdArray) || !array_key_exists('id', $specieIdArray)) {
-            $this->query($insertSpecie, ['name' => $m->getSpecieId()]);
-        }
-        $specieId = $this->query('SELECT id FROM specie WHERE name = :name', ['name' => $m->getSpecieId()])->fetch()['id'];
-
-        $populationIdArray = $this->query('SELECT id FROM population WHERE name = :name AND specie_id = :specieId', ['specieId' => $specieId, 'name' => $m->getPopulationId()])->fetch();
-        if(empty($populationIdArray) || !array_key_exists('id', $populationIdArray)) {
-            $this->query($insertPopulation, ['name' => $m->getPopulationId(), 'specieId'=>$specieId]);
-        }
-        $populationId = $this->query('SELECT id FROM population WHERE name = :name AND specie_id = :specieId', ['specieId' => $specieId, 'name' => $m->getPopulationId()])->fetch()['id'];
-
-        $colonyIdArray = $this->query('SELECT id FROM colony WHERE name = :name 
-            AND population_id = :populationId', ['name'=>$m->getColonyId(), 'populationId' => $populationId])->fetch();
-        if(empty($colonyIdArray) || !array_key_exists('id', $colonyIdArray)) {
-            $this->query($insertColony, ['name' => $m->getColonyId(), 'populationId' => $populationId]);
-        }
-        $colonyId = $this->query('SELECT id FROM colony WHERE name = :name
-            AND population_id = :populationId', ['name'=>$m->getColonyId(), 'populationId' => $populationId])->fetch()['id'];
-
-        $this->query($insertFamily, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]);
-        $familyId = $this->query('SELECT id FROM family WHERE name =:name 
-        AND colony_id = :colonyId', ['name' => $m->getFamilyId(), 'colonyId' => $colonyId])->fetch()['id'];
+        $specieId = $this->getOrCreateEntityId($m->getSpecieId()
+            , $this->getSpecieIdQuery, ['name' => $m->getSpecieId()]
+            , $this->insertSpecieQuery, ['name' => $m->getSpecieId()]);
+        $populationId = $this->getOrCreateEntityId($m->getPopulationId()
+            , $this->getPopulationIdQuery, ['name' => $m->getPopulationId(), 'specieId' => $specieId]
+            , $this->insertPopulationQuery, ['name' => $m->getPopulationId(), 'specieId' => $specieId]);
+        $colonyId = $this->getOrCreateEntityId($m->getColonyId()
+            , $this->getColonyIdQuery, ['name'=>$m->getColonyId(), 'populationId' => $populationId]
+            , $this->insertColonyQuery, ['name' => $m->getColonyId(), 'populationId' => $populationId]);
+        $familyId = $this->getOrCreateEntityId($m->getFamilyId()
+            , $this->getFamilyIdQuery, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]
+            , $this->insertFamilyQuery, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]);
 
         $hierarchyIds = $this->getHierarchyIds($familyId);
         if ((int) $hierarchyIds['family_id'] > 0)
