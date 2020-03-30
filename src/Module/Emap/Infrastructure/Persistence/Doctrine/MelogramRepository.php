@@ -145,19 +145,24 @@ class MelogramRepository implements MelogramRepositoryInterface
         return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 
-    public function hasMelogram(string $name): bool
+    public function hasMelogram(string $specie, string $population, string $colony, string $family
+        , string $item): bool
     {
-        $sql = "
-            SELECT
-              id
-            FROM
-              melogram
-            WHERE
-              `name` = :name;
+        $sql = "SELECT specie.id 
+                FROM specie 
+                    LEFT JOIN population ON specie.id = population.specie_id
+                    LEFT JOIN colony ON population.id = colony.population_id
+                    LEFT JOIN family ON colony.id = family.colony_id
+                    LEFT JOIN family_item ON family.id = family_item.family_id
+                    LEFT JOIN melogram ON family_item.item_id = melogram.id
+                WHERE
+                    specie.name = :sName AND population.name = :pName 
+                    AND colony.name = :cName AND family.name = :fName
+                    AND melogram.name = :mName
         ";
 
-        $stmt = $this->query($sql, ['name' => $name]);
-
+        $stmt = $this->query($sql, ['sName'=>$specie, 'pName' => $population
+            , 'cName' => $colony, 'fName' => $family, 'mName' => $item]);
         return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 

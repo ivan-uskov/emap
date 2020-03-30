@@ -9,6 +9,7 @@ interface MelogramRepositoryInterface
     public function removeMelogram(int $id): void;
 
     public function hasFamily(int $familyId): bool;
-    public function hasMelogram(string $name): bool;
+    public function hasMelogram(string $specie, string $population, string $colony, string $family
+        , string $item): bool;
     public function getMelogram(int $id): Melogram;
 }

@@ -43,11 +43,18 @@ class MelogramService
             throw new EmptyMelogramFileException();
         }
 
-        if ($this->repository->hasMelogram($melogram->getName()))
+        $specie = $melogram->getSpecieId();
+        $population = $melogram->getPopulationId();
+        $colony = $melogram->getColonyId();
+        $family = $melogram->getFamilyId();
+        $item = $melogram->getItemId();
+
+        if ($this->repository->hasMelogram(
+            $specie, $population, $colony, $family, $item
+        ))
         {
             throw new DuplicateMelogramNameException();
         }
-
         $this->repository->addMelogram($melogram);
     }
 
