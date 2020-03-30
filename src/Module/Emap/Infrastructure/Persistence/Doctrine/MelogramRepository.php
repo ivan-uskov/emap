@@ -13,6 +13,16 @@ class MelogramRepository implements MelogramRepositoryInterface
 {
     private EntityManagerInterface $em;
 
+    private string $insertSpecieQuery = 'INSERT INTO specie SET name = :name';
+    private string $insertPopulationQuery = 'INSERT INTO population SET name = :name, specie_id = :specieId';
+    private string $insertColonyQuery = 'INSERT INTO colony SET name = :name, population_id = :populationId';
+    private string $insertFamilyQuery = 'INSERT INTO family SET name = :name, colony_id = :colonyId';
+
+    private string $getSpecieIdQuery = 'SELECT id FROM specie WHERE name = :name';
+    private string $getPopulationIdQuery = 'SELECT id FROM population WHERE name = :name AND specie_id = :specieId';
+    private string $getColonyIdQuery = 'SELECT id FROM colony WHERE name = :name AND population_id = :populationId';
+    private string $getFamilyIdQuery = 'SELECT id FROM family WHERE name =:name AND colony_id = :colonyId';
+
     public function __construct(EntityManagerInterface $manager)
     {
         $this->em = $manager;
@@ -21,6 +31,16 @@ class MelogramRepository implements MelogramRepositoryInterface
     public function removeMelogram(int $id): void
     {
         $this->query('DELETE FROM melogram WHERE id = :id', ['id' => $id]);
+    }
+
+    private function getOrCreateEntityId(string $name, string $getQuery, $getQueryArguments
+        , string $insertQuery, $queryArguments):int
+    {
+        $entityIdArray = $this->query($getQuery, $getQueryArguments)->fetch();
+        if(empty($entityIdArray) || !array_key_exists('id', $entityIdArray)) {
+            $this->query($insertQuery, $queryArguments);
+        }
+        return $this->query($getQuery, $getQueryArguments)->fetch()['id'];
     }
 
     public function addMelogram(Melogram $m): void
@@ -33,18 +53,26 @@ class MelogramRepository implements MelogramRepositoryInterface
               file = :file
         ";
 
-        $this->query($sql, ['name' => $m->getName(), 'file' => $m->getFile()]);
+        $this->query($sql, ['name' => $m->getItemId(), 'file' => $m->getFile()]);
         $id = $this->getLastInsertId();
 
-        $hierarchyIds = $this->getHierarchyIds($m->getFamilyId());
-        if ($hierarchyIds === null)
-        {
-            return;
-        }
+        $specieId = $this->getOrCreateEntityId($m->getSpecieId()
+            , $this->getSpecieIdQuery, ['name' => $m->getSpecieId()]
+            , $this->insertSpecieQuery, ['name' => $m->getSpecieId()]);
+        $populationId = $this->getOrCreateEntityId($m->getPopulationId()
+            , $this->getPopulationIdQuery, ['name' => $m->getPopulationId(), 'specieId' => $specieId]
+            , $this->insertPopulationQuery, ['name' => $m->getPopulationId(), 'specieId' => $specieId]);
+        $colonyId = $this->getOrCreateEntityId($m->getColonyId()
+            , $this->getColonyIdQuery, ['name'=>$m->getColonyId(), 'populationId' => $populationId]
+            , $this->insertColonyQuery, ['name' => $m->getColonyId(), 'populationId' => $populationId]);
+        $familyId = $this->getOrCreateEntityId($m->getFamilyId()
+            , $this->getFamilyIdQuery, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]
+            , $this->insertFamilyQuery, ['name' => $m->getFamilyId(), 'colonyId' => $colonyId]);
 
+        $hierarchyIds = $this->getHierarchyIds($familyId);
         if ((int) $hierarchyIds['family_id'] > 0)
         {
-            $this->query('INSERT INTO family_item SET family_id = :family_id, item_id = :item_id', ['family_id' => $m->getFamilyId(), 'item_id' => $id]);
+            $this->query('INSERT INTO family_item SET family_id = :family_id, item_id = :item_id', ['family_id' => $familyId, 'item_id' => $id]);
         }
         if ((int) $hierarchyIds['colony_id'] > 0)
         {
@@ -117,33 +145,53 @@ class MelogramRepository implements MelogramRepositoryInterface
         return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 
-    public function hasMelogram(string $name): bool
+    public function hasMelogram(string $specie, string $population, string $colony, string $family
+        , string $item): bool
     {
-        $sql = "
-            SELECT
-              id
-            FROM
-              melogram
-            WHERE
-              `name` = :name;
+        $sql = "SELECT specie.id 
+                FROM specie 
+                    LEFT JOIN population ON specie.id = population.specie_id
+                    LEFT JOIN colony ON population.id = colony.population_id
+                    LEFT JOIN family ON colony.id = family.colony_id
+                    LEFT JOIN family_item ON family.id = family_item.family_id
+                    LEFT JOIN melogram ON family_item.item_id = melogram.id
+                WHERE
+                    specie.name = :sName AND population.name = :pName 
+                    AND colony.name = :cName AND family.name = :fName
+                    AND melogram.name = :mName
         ";
 
-        $stmt = $this->query($sql, ['name' => $name]);
-
+        $stmt = $this->query($sql, ['sName'=>$specie, 'pName' => $population
+            , 'cName' => $colony, 'fName' => $family, 'mName' => $item]);
         return !empty($stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 
     public function getMelogram(int $id): Melogram
     {
+        $t = 'SELECT
+              f.name AS family_id,
+              c.name AS colony_id,
+              p.name AS population_id,
+              s.name AS specie_id
+            FROM
+              family f
+              LEFT JOIN colony c ON (c.id = f.colony_id)
+              LEFT JOIN population p ON (c.population_id = p.id)
+              LEFT JOIN specie s ON (p.specie_id = s.id)
+            WHERE
+              f.id = :id
+            LIMIT 1';
+
         $sql = "
             SELECT
               m.id,
               m.name,
               file,
-              fi.id AS family_id
+              fi.name AS family_id
             FROM
               melogram m
               LEFT JOIN family_item fi ON (m.id = fi.item_id)
+              
             WHERE
               m.id = :id
             LIMIT 1

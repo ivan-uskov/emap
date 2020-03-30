@@ -6,9 +6,9 @@
 
 {% block body %}
     {% if melogram is defined %}
-        <h3>Редактирование мелограммы</h3>
+        <h3>Редактирование особи</h3>
     {% else %}
-        <h3>Добавление мелограммы</h3>
+        <h3>Добавление особи</h3>
     {% endif %}
     <a href="{{ path('homepage') }}">Назад</a>
     {% if melogram is defined %}
@@ -17,46 +17,55 @@
         </div>
     {% endif %}
     <form action="{% if melogram is defined %}{{ path('edit_melogram_ajax', {id: melogram.id}) }}{% else %}{{ path('add_melogram_ajax') }}{% endif %}" method="post" enctype="multipart/form-data" class="mt-5">
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Название особи *</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" required maxlength="255" name="melogram_name" value="{% if melogram is defined %}{{ melogram.name }}{% endif %}">
+        <div class="form-group row">
+            <label for="form" class="col-form-label col-sm-2">Вид</label>
+            <div>
+                <input type="number" id="form" name="specie_id" class="form-control"
+                       value="{% if melogram is defined %}{{melogram.specie}}{% endif %}"
+                       {% if melogram is defined %}disabled{% endif %}
+                />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Семья</label>
-            <select class="form-control" id="melogramFamily" name="family_id">
-                {% for id, f in hierarchy.families %}
-                    <option value="{{ id }}"{% if melogram is defined and (melogram.familyId == id) %}selected="selected"{% endif %}>{{ f }}</option>
-                {% endfor %}
-            </select>
+        <div class="form-group row">
+            <label for="population" class="col-form-label col-sm-2">Популяция</label>
+            <div>
+                <input type="number" id="population" name="population_id" class="form-control"
+                       value="{% if melogram is defined %}{{melogram.population}}{% endif %}"
+                       {% if melogram is defined %}disabled{% endif %}
+                />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Колония</label>
-            <select class="form-control" id="melogramColony" disabled>
-                {% for id, c in hierarchy.colonies %}
-                    <option value="{{ id }}"{% if melogram is defined and (melogram.familyId == id) %}selected="selected"{% endif %}>{{ c }}</option>
-                {% endfor %}
-            </select>
+        <div class="form-group row">
+            <label for="colony" class="col-form-label col-sm-2">Колония</label>
+            <div>
+                <input type="number" id="colony" name="colony_id" class="form-control"
+                       value="{% if melogram is defined %}{{melogram.colony}}{% endif %}"
+                       {% if melogram is defined %}disabled{% endif %}
+                />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Популяция</label>
-            <select class="form-control" id="melogramPopulation" disabled>
-                {% for id, p in hierarchy.populations %}
-                    <option value="{{ id }}"{% if melogram is defined and (melogram.familyId == id) %}selected="selected"{% endif %}>{{ p }}</option>
-                {% endfor %}
-            </select>
+        <div class="form-group row">
+            <label for="family" class="col-form-label col-sm-2">Семья</label>
+            <div>
+                <input type="number" id="family" name="family_id" class="form-control"
+                       value="{% if melogram is defined %}{{melogram.family}}{% endif %}"
+                       {% if melogram is defined %}disabled{% endif %}
+                />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlSelect1">Вид</label>
-            <select class="form-control" id="melogramSpecie" disabled>
-                {% for id, s in hierarchy.species %}
-                    <option value="{{ id }}"{% if melogram is defined and (melogram.familyId == id) %}selected="selected"{% endif %}>{{ s }}</option>
-                {% endfor %}
-            </select>
+        <div class="form-group row">
+            <label for="item" class="col-form-label col-sm-2">Особь</label>
+            <div>
+                <input type="number" id="item" name="item_id" class="form-control"
+                       value="{% if melogram is defined %}{{melogram.name}}{% endif %}"
+                       {% if melogram is defined %}disabled{% endif %}
+                />
+            </div>
         </div>
         <div class="input-group mb-3">
             <div class="custom-file">
-                <input type="file" name="melogram_file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" {% if melogram is not defined %}required{% endif %}>
-                <label class="custom-file-label" for="inputGroupFile01">Выбрать файл мелограммы</label>
+                <input type="file" name="melody_file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" {% if melogram is not defined %}required{% endif %}>
+                <label class="custom-file-label" for="inputGroupFile01">Мелодия</label>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">{% if melogram is defined %}Сохранить{% else %}Добавить{% endif %}</button>

@@ -14,9 +14,7 @@ class MelogramController extends AbstractController
 {
     public function page(): Response
     {
-        $api = new Api($this->getDoctrine());
-
-        return $this->render('melogram.html.twig', ['hierarchy' => $api->getHierarchyVariantsList()->asAssoc()]);
+        return $this->render('melogram.html.twig');
     }
 
     public function addAjax(): Response
@@ -27,17 +25,23 @@ class MelogramController extends AbstractController
             return new Response("Not Found",404);
         }
 
-        $melogramName = (string) $request->get('melogram_name');
+        $specieId = (int) $request->get('specie_id');
+        $populationId = (int) $request->get('population_id');
+        $colonyId = (int) $request->get('colony_id');
         $familyId = (int) $request->get('family_id');
+        $itemId = (int) $request->get('item_id');
 
-        $file = $request->files->get('melogram_file');
+        $melogramName = sprintf("%u.%u.%u.%u.%u", $specieId, $populationId, $colonyId, $familyId, $itemId);
+
+        $file = $request->files->get('melody_file');
         $filePath = $file ? $file->getRealPath() : '';
         $fileContent = $filePath && file_exists($filePath) ? file_get_contents($filePath) : '';
 
         try
         {
             $api = new Api($this->getDoctrine());
-            $api->addMelogram(new AddMelogramInput($melogramName, $familyId, $fileContent));
+            $api->addMelogram(new AddMelogramInput($melogramName, $itemId, $familyId
+                , $colonyId, $populationId, $specieId, $fileContent));
         }
         catch (\Exception $exception)
         {
@@ -108,6 +112,6 @@ class MelogramController extends AbstractController
         $api = new Api($this->getDoctrine());
         $melogram = $api->getMelogram($id);
 
-        return $this->render('melogram.html.twig', ['hierarchy' => $api->getHierarchyVariantsList()->asAssoc(), 'melogram' => $melogram->asArray()]);
+        return $this->render('melogram.html.twig', ['melogram' => $melogram->asArray()]);
     }
 }

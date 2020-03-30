@@ -49,7 +49,9 @@ class Api implements ApiInterface
     public function addMelogram(AddMelogramInput $input): void
     {
         $handler = new AddMelogramCommandHandler($this->service);
-        $handler->handle(new AddMelogramCommand($input->getName(), $input->getFamilyId(), $input->getFile()));
+        $handler->handle(new AddMelogramCommand($input->getName(), $input->getItemId()
+            , $input->getFamilyId(), $input->getColonyId(), $input->getPopulationId()
+            , $input->getSpecieId(), $input->getFile()));
     }
 
     public function updateMelogram(UpdateMelogramInput $input): void
