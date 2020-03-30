@@ -27,11 +27,11 @@ class MelogramController extends AbstractController
             return new Response("Not Found",404);
         }
 
-        $specieId = (int) $request->get('specie_id');;
-        $populationId = (int) $request->get('population_id');;
-        $colonyId = (int) $request->get('colony_id');;
-        $familyId = (int) $request->get('family_id');;
-        $itemId = (int) $request->get('item_id');;
+        $specieId = (int) $request->get('specie_id');
+        $populationId = (int) $request->get('population_id');
+        $colonyId = (int) $request->get('colony_id');
+        $familyId = (int) $request->get('family_id');
+        $itemId = (int) $request->get('item_id');
 
         $melogramName = sprintf("%u.%u.%u.%u.%u", $specieId, $populationId, $colonyId, $familyId, $itemId);
 
@@ -42,7 +42,8 @@ class MelogramController extends AbstractController
         try
         {
             $api = new Api($this->getDoctrine());
-            $api->addMelogram(new AddMelogramInput($melogramName, $familyId, $fileContent));
+            $api->addMelogram(new AddMelogramInput($melogramName, $itemId, $familyId
+                , $colonyId, $populationId, $specieId, $fileContent));
         }
         catch (\Exception $exception)
         {
