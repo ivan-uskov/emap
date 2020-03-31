@@ -37,3 +37,11 @@ edit_melogram_ajax:
   controller: App\Controller\MelogramController::editAjax
   requirements:
     id: '\d+'
+
+sample:
+  path: /sample
+  controller: App\Controller\SampleController::sample
+
+sample_result:
+  path: /sample_result
+  controller: App\Controller\SampleResultController::result
