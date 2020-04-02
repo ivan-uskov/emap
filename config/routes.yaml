@@ -2,6 +2,14 @@ homepage:
   path: /
   controller: App\Controller\HomeController::home
 
+login:
+  path: /login
+  controller: App\Controller\HomeController::login
+
+logout:
+  path: /logout
+  controller: App\Controller\HomeController::logout
+
 melogram:
   path: /melogram
   controller: App\Controller\MelogramController::page

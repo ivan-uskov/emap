@@ -25,6 +25,12 @@
 {% endblock %}
 
 {% block body %}
+    {% if app.user %}
+        <div class="mb-3 text-right">
+           Вы в системе как {{ app.user.username }}, <a href="{{ path('logout') }}">Выйти</a>
+        </div>
+    {% endif %}
+
     <div class="text-right">
         <a class="btn btn-primary mb-2" href="{{ path('graph') }}" role="button">Выборка</a>
         <a class="btn btn-primary mb-2" href="{{ path('melogram') }}" role="button">Добавить особь</a>
