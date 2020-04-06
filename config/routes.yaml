@@ -47,9 +47,9 @@ edit_melogram_ajax:
     id: '\d+'
 
 sample:
-  path: /sample
+  path: /selection
   controller: App\Controller\SampleController::sample
 
 sample_result:
-  path: /sample_result
+  path: /selection/result
   controller: App\Controller\SampleResultController::result
