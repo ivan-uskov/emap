@@ -2,6 +2,14 @@ homepage:
   path: /
   controller: App\Controller\HomeController::home
 
+login:
+  path: /login
+  controller: App\Controller\HomeController::login
+
+logout:
+  path: /logout
+  controller: App\Controller\HomeController::logout
+
 melogram:
   path: /melogram
   controller: App\Controller\MelogramController::page
@@ -37,3 +45,11 @@ edit_melogram_ajax:
   controller: App\Controller\MelogramController::editAjax
   requirements:
     id: '\d+'
+
+sample:
+  path: /selection
+  controller: App\Controller\SampleController::sample
+
+sample_result:
+  path: /selection/result
+  controller: App\Controller\SampleResultController::result

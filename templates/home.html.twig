@@ -15,7 +15,14 @@
 {% endblock %}
 
 {% block body %}
+    {% if app.user %}
+        <div class="mb-3 text-right">
+           Вы в системе как {{ app.user.username }}, <a href="{{ path('logout') }}">Выйти</a>
+        </div>
+    {% endif %}
+
     <div class="text-right">
+        <a class="btn btn-primary mb-2" href="{{ path('sample') }}" role="button">Выборка</a>
         <a class="btn btn-primary mb-2" href="{{ path('melogram') }}" role="button">Добавить особь</a>
     </div>
     <div class="list">
@@ -40,7 +47,7 @@
                     <td>{{ m.colony }}</td>
                     <td>{{ m.family }}</td>
                     <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.name }}</a></td>
-                    <td class="text-right">
+                    <td>
                         {{ m.attributes | join(',') }}
                         <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
                         <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}?ver=1" /></a>
