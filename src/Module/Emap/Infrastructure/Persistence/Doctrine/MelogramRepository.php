@@ -168,20 +168,6 @@ class MelogramRepository implements MelogramRepositoryInterface
 
     public function getMelogram(int $id): Melogram
     {
-        $t = 'SELECT
-              f.name AS family_id,
-              c.name AS colony_id,
-              p.name AS population_id,
-              s.name AS specie_id
-            FROM
-              family f
-              LEFT JOIN colony c ON (c.id = f.colony_id)
-              LEFT JOIN population p ON (c.population_id = p.id)
-              LEFT JOIN specie s ON (p.specie_id = s.id)
-            WHERE
-              f.id = :id
-            LIMIT 1';
-
         $sql = "
             SELECT
               m.id,
