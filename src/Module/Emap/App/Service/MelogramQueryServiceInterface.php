@@ -17,4 +17,7 @@ interface MelogramQueryServiceInterface
      * @return HierarchyVariantData[]
      */
     public function getHierarchyVariants(): array;
+
+    public function getMelogramsByHierarchy(int $itemId, int $familyId
+        , int $colonyId, int $populationId, int $specieId): array;
 }

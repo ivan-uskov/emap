@@ -11,7 +11,6 @@ class SampleController extends AbstractController
 {
     public function sample(): Response
     {
-        $api = new Api($this->getDoctrine());
-        return $this->render('sample.html.twig', $api->getMelogramsList()->getAsArray());
+        return $this->render('sample.html.twig');
     }
 }

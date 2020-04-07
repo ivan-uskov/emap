@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="list">
+    <form action="{{ path('sample_result')}}"  enctype="multipart/form-data" class="mt-5" method="post">
         <table class="table">
             <thead>
             <tr>
@@ -19,11 +19,11 @@
             </thead>
             <tbody>
                 <tr id="empty_row">
-                    <td><input type="number" class="form-control" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" id="exampleFormControlInput1"></td>
+                    <td><input type="number" class="form-control" name="specie_id" id="exampleFormControlInput1"></td>
+                    <td><input type="number" class="form-control" name="population_id" id="exampleFormControlInput1"></td>
+                    <td><input type="number" class="form-control" name="colony_id" id="exampleFormControlInput1"></td>
+                    <td><input type="number" class="form-control" name="family_id" id="exampleFormControlInput1"></td>
+                    <td><input type="number" class="form-control" name="item_id" id="exampleFormControlInput1"></td>
                     <td>
                         <a href="" onclick="return false;" class="remove_row_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}" /></a>
                     </td>
@@ -33,8 +33,6 @@
         <div class="text-left">
             <a href="" onclick="return false;" id="add_row_link"  class="btn btn-primary mb-2" role="button">Добавить</a>
         </div>
-        <div class="text-left">
-            <a class="btn btn-primary mb-2" href="{{ path('sample_result') }}" role="button">Выбрать</a>
-        </div>
-    </div>
+        <input type="submit" class="btn btn-primary mb-2" />
+    </form>
 {% endblock %}

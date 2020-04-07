@@ -135,4 +135,62 @@ class MelogramQueryService implements MelogramQueryServiceInterface
             []
         );
     }
+
+    public function getMelogramsByHierarchy(int $itemId, int $familyId, int $colonyId, int $populationId, int $specieId): array
+    {
+        $sql = "
+            SELECT
+              m.id,
+              m.name,
+              m.file,
+              f.id AS family_id,
+              f.name AS family_name,
+              c.name AS colony_name,
+              p.name AS population_name,
+              s.name AS specie_name
+            FROM
+              melogram m
+              LEFT JOIN family_item fi ON (m.id = fi.item_id)
+              LEFT JOIN family f ON (fi.family_id = f.id)
+              LEFT JOIN colony_item ci ON (m.id = ci.item_id)
+              LEFT JOIN colony c ON (c.id = ci.colony_id)
+              LEFT JOIN population_item pi ON (m.id = pi.item_id)
+              LEFT JOIN population p ON (pi.population_id = p.id)
+              LEFT JOIN specie_item si ON (m.id = si.item_id)
+              LEFT JOIN specie s ON (si.specie_id = s.id)            
+        ";
+
+        var_dump($familyId);
+        $where_clauses = array();
+        if($specieId !== 0)
+        {
+            array_push($where_clauses, "s.name = {$specieId}");
+        }
+        if($populationId !== 0)
+        {
+            array_push($where_clauses, "p.name = {$populationId}");
+        }
+        if($colonyId !== 0)
+        {
+            array_push($where_clauses, "c.name = {$colonyId}");
+        }
+        if($familyId !== 0)
+        {
+            array_push($where_clauses, "f.name = {$familyId}");
+        }
+        if($itemId !== 0)
+        {
+            array_push($where_clauses, "m.name = {$itemId}");
+        }
+
+        $where_clause = "WHERE ".implode(" AND ", $where_clauses);
+
+        $resultSql = $sql.$where_clause;
+        $stmt = $this->em->getConnection()->prepare($resultSql);
+        $stmt->execute();
+
+        $mapper = fn(array $data) => $this->melogram($data);
+
+        return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
+    }
 }
