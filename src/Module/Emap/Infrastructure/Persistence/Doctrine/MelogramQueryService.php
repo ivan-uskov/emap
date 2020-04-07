@@ -160,7 +160,6 @@ class MelogramQueryService implements MelogramQueryServiceInterface
               LEFT JOIN specie s ON (si.specie_id = s.id)            
         ";
 
-        var_dump($familyId);
         $where_clauses = array();
         if($specieId !== 0)
         {
