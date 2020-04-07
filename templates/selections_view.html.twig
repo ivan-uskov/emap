@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="list">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Выборка 1</th>
+                    <td>07.04.2020</td>
+                    <td>
+                        <a title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
+                        <a title="Просмотреть"><img alt="Просмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                        <a class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Выборка 2</th>
+                    <td>01.04.2020</td>
+                    <td>
+                        <a title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
+                        <a title="Просмотреть"><img alt="Просмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                        <a class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

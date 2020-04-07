@@ -53,3 +53,7 @@ sample:
 sample_result:
   path: /selection/result
   controller: App\Controller\SampleResultController::result
+
+selections_view:
+  path: /selections
+  controller: App\Controller\SampleController:selections

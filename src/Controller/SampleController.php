@@ -13,4 +13,9 @@ class SampleController extends AbstractController
     {
         return $this->render('sample.html.twig');
     }
+
+    public function selections(): Response
+    {
+        return $this->render("selections_view.html.twig");
+    }
 }
