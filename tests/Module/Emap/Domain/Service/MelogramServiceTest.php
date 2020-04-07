@@ -13,76 +13,77 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MelogramServiceTest extends KernelTestCase
 {
+
+    private MelogramService $service;
+    private $repository;
+    private $fPath;
+    protected function setUp(): void
+    {
+        $this->repository = $this->createMock(MelogramRepositoryInterface::class);
+        $this->service = new MelogramService($this->repository);
+        $this->fPath = __DIR__."\melo1.mid";
+    }
+
     private function getMelogram() : Melogram
     {
-        $fPath = __DIR__."\melo1.mid";
         return new Melogram(1, 1, 1,
-            1,1, 1,1, file_get_contents($fPath));
+            1,1, 1,1, file_get_contents($this->fPath));
     }
 
     private function getUpdatedMelogram() : Melogram
     {
-        $fPath = __DIR__."\melo1.mid";
         return new Melogram(1, 2, 1,
-            1,1, 1,1, file_get_contents($fPath));
+            1,1, 1,1, file_get_contents($this->fPath));
     }
 
     private function getMelogramWithoutName() : Melogram
     {
-        $fPath = __DIR__."\melo1.mid";
         return new Melogram(1, "", 1,
-            1,1, 1,1, file_get_contents($fPath));
+            1,1, 1,1, file_get_contents($this->fPath));
     }
 
     public function testAddMelogram()
     {
         $melogram = $this->getMelogram();
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-        $repository->expects($this->any())
+        $this->repository->expects($this->once())
             ->method('getMelogram')
             ->willReturn($melogram);
-        $service = new MelogramService($repository);
-        $service->addMelogram($melogram);
 
-        $actual = $repository->getMelogram($melogram->getId());
+        $this->service->addMelogram($melogram);
+
+        $actual = $this->repository->getMelogram($melogram->getId());
         $this->assertEquals($melogram, $actual);
     }
 
     public function testUpdateMelogram()
     {
         $melogram = $this->getMelogram();
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-
         $updated = $this->getUpdatedMelogram();
 
-        $repository->expects($this->any())
+        $this->repository->expects($this->any())
             ->method('getMelogram')
             ->willReturn($updated);
 
-        $service = new MelogramService($repository);
-        $service->addMelogram($melogram);
-        $repository->expects($this->any())
+        $this->service->addMelogram($melogram);
+        $this->repository->expects($this->once())
             ->method('hasFamily')
             ->willReturn(true);
 
-        $service->updateMelogram($updated);
+        $this->service->updateMelogram($updated);
 
-        $actual = $repository->getMelogram($melogram->getId());
+        $actual = $this->repository->getMelogram($melogram->getId());
         $this->assertEquals($updated, $actual);
     }
 
     public function testRemoveMelogram()
     {
         $melogram = $this->getMelogram();
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-
-        $service = new MelogramService($repository);
-        $service->addMelogram($melogram);
-        $service->removeMelogram($melogram->getId());
-        $repository->expects($this->once())
+        $this->service->addMelogram($melogram);
+        $this->service->removeMelogram($melogram->getId());
+        $this->repository->expects($this->once())
             ->method('getMelogram')
             ->willReturn(null);
-        $actual = $repository->getMelogram($melogram->getId());
+        $actual = $this->repository->getMelogram($melogram->getId());
 
         $this->assertNull($actual);
     }
@@ -91,9 +92,7 @@ class MelogramServiceTest extends KernelTestCase
     {
         $this->expectException(MelogramNotExistsException::class);
         $melogram = $this->getMelogram();
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-        $service = new MelogramService($repository);
-        $service->updateMelogram($melogram);
+        $this->service->updateMelogram($melogram);
     }
 
     public function testCanNotAddDuplicatedMelogram() {
@@ -101,34 +100,25 @@ class MelogramServiceTest extends KernelTestCase
         $melogram = $this->getMelogram();
         $duplicated = $this->getMelogram();
 
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-        $service = new MelogramService($repository);
-
-        $service->addMelogram($melogram);
-        $repository->expects($this->once())
+        $this->service->addMelogram($melogram);
+        $this->repository->expects($this->once())
             ->method('hasMelogram')
             ->willReturn(true);
-        $service->addMelogram($duplicated);
+        $this->service->addMelogram($duplicated);
     }
 
     public function testCanNotAddMelogramWithoutName()
     {
         $this->expectException(EmptyMelogramNameException::class);
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-        $service = new MelogramService($repository);
-
         $melogram = $this->getMelogramWithoutName();
-        $service->addMelogram($melogram);
+        $this->service->addMelogram($melogram);
     }
 
     public function testCanNotAddMelogramWithoutFile()
     {
         $this->expectException(EmptyMelogramFileException::class);
-        $repository = $this->createMock(MelogramRepositoryInterface::class);
-        $service = new MelogramService($repository);
-
         $melogram = $this->getMelogram();
         $melogram->setFile("");
-        $service->addMelogram($melogram);
+        $this->service->addMelogram($melogram);
     }
 }
