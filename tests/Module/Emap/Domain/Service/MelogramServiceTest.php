@@ -2,16 +2,10 @@
 
 namespace App\Tests\Module\Emap\Domain\Service;
 
-use App\Module\Emap\Api\Output\MelogramOutput;
+use App\Module\Emap\Domain\Exception\MelogramNotExistsException;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Model\MelogramRepositoryInterface;
 use App\Module\Emap\Domain\Service\MelogramService;
-use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
-use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MelogramServiceTest extends KernelTestCase
@@ -40,13 +34,8 @@ class MelogramServiceTest extends KernelTestCase
         $service = new MelogramService($repository);
         $service->addMelogram($melogram);
 
-        $actual = $repository->getMelogram(1);
-        $this->assertEquals($melogram->getItemId(), $actual->getItemId());
-        $this->assertEquals($melogram->getFamilyId(), $actual->getFamilyId());
-        $this->assertEquals($melogram->getColonyId(), $actual->getColonyId());
-        $this->assertEquals($melogram->getPopulationId(), $actual->getPopulationId());
-        $this->assertEquals($melogram->getSpecieId(), $actual->getSpecieId());
-        $this->assertEquals($melogram->getFile(), $actual->getFile());
+        $actual = $repository->getMelogram($melogram->getId());
+        $this->assertEquals($melogram, $actual);
     }
 
     public function testUpdateMelogram()
@@ -68,14 +57,8 @@ class MelogramServiceTest extends KernelTestCase
 
         $service->updateMelogram($updated);
 
-        $actual = $repository->getMelogram(1);
-        $this->assertEquals($updated->getItemId(), $actual->getItemId());
-        $this->assertEquals($updated->getFamilyId(), $actual->getFamilyId());
-        $this->assertEquals($updated->getColonyId(), $actual->getColonyId());
-        $this->assertEquals($updated->getPopulationId(), $actual->getPopulationId());
-        $this->assertEquals($updated->getSpecieId(), $actual->getSpecieId());
-        $this->assertEquals($updated->getFile(), $actual->getFile());
-
+        $actual = $repository->getMelogram($melogram->getId());
+        $this->assertEquals($updated, $actual);
     }
 
     public function testRemoveMelogram()
@@ -92,5 +75,14 @@ class MelogramServiceTest extends KernelTestCase
         $actual = $repository->getMelogram($melogram->getId());
 
         $this->assertNull($actual);
+    }
+
+    public function testCanNotUpdateNonExistedMelogram()
+    {
+        $this->expectException(MelogramNotExistsException::class);
+        $melogram = $this->getMelogram();
+        $repository = $this->createMock(MelogramRepositoryInterface::class);
+        $service = new MelogramService($repository);
+        $service->updateMelogram($melogram);
     }
 }
