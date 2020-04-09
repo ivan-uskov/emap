@@ -18,12 +18,12 @@
             </tr>
             </thead>
             <tbody>
-                <tr id="empty_row">
-                    <td><input type="number" class="form-control" name="specie_id" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" name="population_id" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" name="colony_id" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" name="family_id" id="exampleFormControlInput1"></td>
-                    <td><input type="number" class="form-control" name="item_id" id="exampleFormControlInput1"></td>
+                <tr class="empty_row">
+                    <td><input type="number" class="form-control" name="select[0][specie_id]" ></td>
+                    <td><input type="number" class="form-control" name="select[0][population_id]" ></td>
+                    <td><input type="number" class="form-control" name="select[0][colony_id]" ></td>
+                    <td><input type="number" class="form-control" name="select[0][family_id]" ></td>
+                    <td><input type="number" class="form-control" name="select[0][item_id]" ></td>
                     <td>
                         <a href="" onclick="return false;" class="remove_row_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}" /></a>
                     </td>
@@ -33,6 +33,6 @@
         <div class="text-left">
             <a href="" onclick="return false;" id="add_row_link"  class="btn btn-primary mb-2" role="button">Добавить</a>
         </div>
-        <input type="submit" class="btn btn-primary mb-2" />
+        <input type="submit" value="Выбрать" class="btn btn-primary mb-2" />
     </form>
 {% endblock %}

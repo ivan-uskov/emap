@@ -7,11 +7,11 @@ use App\Module\Emap\Api\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class SampleController extends AbstractController
+class SelectionController extends AbstractController
 {
     public function sample(): Response
     {
-        return $this->render('sample.html.twig');
+        return $this->render('selection.html.twig');
     }
 
     public function selections(): Response

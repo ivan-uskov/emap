@@ -1,16 +1,29 @@
 $(document).ready(function () {
-    var count = 0;
-    $('#add_row_link').click(function() {
-        var elem  = $('#empty_row').clone(true);
-        $(elem).appendTo('tbody');
-        ++count;
-    });
-    $('.remove_row_link').click(function () {
-        if(count >= 1){
-            var th = $(this).parent();
-            var td = $(th).parent();
-            td.remove();
-            --count;
+
+    $(document).on('click', '#add_row_link', function(){
+        let all = $('.empty_row');
+        // get last row in page
+        let last = all.last();
+        // clone this last row
+        let newSelectRow = last.clone(true);
+        // get children
+        let children = newSelectRow.find('input');
+        for(let i = 0; i < children.length; i++)
+        {
+            let child = children[i];
+            let name = child.name;
+            let lastIndex = name.match(/[\d+]/)[0];
+            // I really hate js
+            lastIndex = (+lastIndex + +1);
+
+            let elementId = name.match(/\[\D+\]/);
+            name = "select"+"["+ lastIndex +"]"+elementId;
+            console.log(name);
+            child.name = name;
         }
-    })
+
+        $(newSelectRow).appendTo('tbody');
+    } );
+
+    // TODO Написать метод удаления строк
 });

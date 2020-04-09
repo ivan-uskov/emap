@@ -6,12 +6,11 @@
             <h2 style="color: rgba(0,0,0,.7)">Выборка</h2>
         </div>
         <div class="block-top" style="margin:2px;border:solid 1px darkgrey;height:100px;overflow:auto;">
-            {% for m in items %}
+            {% for m in selection_result %}
                 <a class="btn btn-outline-secondary" href="" role="button" style="margin:4px 1px;">
                     {{m.specie}}.{{m.population}}.{{m.colony}}.{{m.family}}.{{ m.name }}
                 </a>
             {% endfor %}
-
         </div>
         <div class="block-bottom" style="margin:2px;border:solid 1px darkgrey;height:400px;overflow:auto;">
         </div>

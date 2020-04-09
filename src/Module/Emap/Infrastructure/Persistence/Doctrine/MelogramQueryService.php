@@ -159,7 +159,6 @@ class MelogramQueryService implements MelogramQueryServiceInterface
               LEFT JOIN specie_item si ON (m.id = si.item_id)
               LEFT JOIN specie s ON (si.specie_id = s.id)            
         ";
-
         $where_clauses = array();
         if($specieId !== 0)
         {
@@ -183,7 +182,10 @@ class MelogramQueryService implements MelogramQueryServiceInterface
         }
 
         $where_clause = "WHERE ".implode(" AND ", $where_clauses);
-
+        if(empty($where_clauses))
+        {
+            $where_clause = "";
+        }
         $resultSql = $sql.$where_clause;
         $stmt = $this->em->getConnection()->prepare($resultSql);
         $stmt->execute();
