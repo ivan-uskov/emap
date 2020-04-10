@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/Sample.js') }}"></script>
+    <script src="{{ asset('js/Selection.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -17,7 +17,7 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="selections">
                 <tr class="empty_row">
                     <td><input type="number" class="form-control" name="select[0][specie_id]" ></td>
                     <td><input type="number" class="form-control" name="select[0][population_id]" ></td>
