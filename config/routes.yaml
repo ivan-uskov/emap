@@ -20,10 +20,6 @@ export_melogram:
   requirements:
     id: '\d+'
 
-graph:
-  path: /graph
-  controller: App\Controller\GraphController::graph
-
 remove_melogram:
   path: /melogram/remove/{id}
   controller: App\Controller\MelogramController::remove

@@ -78,6 +78,7 @@ class MelogramData
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'file' => $this->file,
             'familyId' => $this->familyId,
             'family' => $this->family,
             'colony' => $this->colony,
