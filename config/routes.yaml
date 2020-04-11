@@ -42,11 +42,11 @@ edit_melogram_ajax:
   requirements:
     id: '\d+'
 
-sample:
+selection:
   path: /selection
-  controller: App\Controller\SelectionController::sample
+  controller: App\Controller\SelectionController::selection
 
-sample_result:
+selection_result:
   path: /selection/result
   controller: App\Controller\SelectionResultController::result
 

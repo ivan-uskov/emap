@@ -1,0 +1,22 @@
+h2
+{
+    color: rgba(0,0,0,.7);
+}
+
+.button_container
+{
+    margin-bottom: 10px;
+}
+
+.uids_container
+{
+    border-top: solid 1px darkgrey;
+    border-bottom: solid 1px darkgrey;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.graph_container
+{
+    padding-bottom: 50px;
+}
