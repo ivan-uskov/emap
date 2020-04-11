@@ -1,10 +1,10 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Module\Emap\Api\Api;
 use App\Module\MusicXML\Api\Api as MusicXMLApi;
+use App\View\MelogramView;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +28,14 @@ class SelectionResultController extends AbstractController
 
             foreach ($api->getMelogramsByHierarchy($itemId, $familyId, $colonyId, $populationId, $specieId)->getAsArray() as $m)
             {
-                $result[$m['uid']] = $m;
-
                 $res = (new MusicXMLApi())->parse($m['file']);
+                $view = new MelogramView($res);
+
+                $result[$m['uid']] = [
+                    'uid' => $m['uid'],
+                    'file' => $m['file'],
+                    'graph' => $view->getData(),
+                ];
             }
         }
 
