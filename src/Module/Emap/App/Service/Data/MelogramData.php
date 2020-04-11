@@ -84,6 +84,7 @@ class MelogramData
             'population' => $this->population,
             'specie' => $this->specie,
             'attributes' => $this->attributes,
+            'uid' => implode('.', [$this->specie, $this->population, $this->colony, $this->family, $this->name]),
         ];
     }
 }

@@ -36,6 +36,6 @@ class HomeController extends AbstractController
     public function home(): Response
     {
         $api = new Api($this->getDoctrine());
-        return $this->render('home.html.twig', $api->getMelogramsList()->getAsArray());
+        return $this->render('home.html.twig', ['items' => $api->getMelogramsList()->getAsArray()]);
     }
 }

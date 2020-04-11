@@ -46,8 +46,7 @@ class Api implements ApiInterface
         return new MelogramsListOutput($qs->getAllMelograms());
     }
 
-    public function getMelogramsByHierarchy(int $itemId, int $familyId
-        , int $colonyId, int $populationId, int $specieId) :MelogramsListOutput
+    public function getMelogramsByHierarchy(int $itemId, int $familyId, int $colonyId, int $populationId, int $specieId): MelogramsListOutput
     {
         $qs = new MelogramQueryService($this->doctrine->getManager());
         return new MelogramsListOutput($qs->getMelogramsByHierarchy($itemId, $familyId

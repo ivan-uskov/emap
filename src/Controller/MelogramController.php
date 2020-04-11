@@ -61,10 +61,10 @@ class MelogramController extends AbstractController
         }
 
         return new Response($melogram->getFile(),200, [
-            'Content-Type' => 'audio/midi',
+            'Content-Type' => 'text/xml',
             'Cache-Control' => 'public',
             'Content-Length' => strlen($melogram->getFile()),
-            'Content-Disposition' => 'attachment; filename=' . $melogram->getName() . '.midi',
+            'Content-Disposition' => 'attachment; filename=' . $melogram->getName() . '.musicxml',
         ]);
     }
 

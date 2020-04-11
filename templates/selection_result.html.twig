@@ -8,7 +8,7 @@
         <div class="block-top" style="margin:2px;border:solid 1px darkgrey;height:100px;overflow:auto;">
             {% for m in selection_result %}
                 <a class="btn btn-outline-secondary" href="" role="button" style="margin:4px 1px;">
-                    {{m.specie}}.{{m.population}}.{{m.colony}}.{{m.family}}.{{ m.name }}
+                    {{m.uid}}
                 </a>
             {% endfor %}
         </div>

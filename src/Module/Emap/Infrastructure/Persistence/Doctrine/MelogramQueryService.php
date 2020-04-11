@@ -138,9 +138,9 @@ class MelogramQueryService implements MelogramQueryServiceInterface
 
     public function getMelogramsByHierarchy(int $itemId, int $familyId, int $colonyId, int $populationId, int $specieId): array
     {
-        $sql = "
+        $sql = '
             SELECT
-              m.id,
+              DISTINCT m.id,
               m.name,
               m.file,
               f.id AS family_id,
@@ -158,36 +158,31 @@ class MelogramQueryService implements MelogramQueryServiceInterface
               LEFT JOIN population p ON (pi.population_id = p.id)
               LEFT JOIN specie_item si ON (m.id = si.item_id)
               LEFT JOIN specie s ON (si.specie_id = s.id)            
-        ";
-        $where_clauses = array();
-        if($specieId !== 0)
+        ';
+        $whereClauses = [];
+        if ($specieId !== 0)
         {
-            array_push($where_clauses, "s.name = {$specieId}");
+            $whereClauses[] = "s.name = {$specieId}";
         }
-        if($populationId !== 0)
+        if ($populationId !== 0)
         {
-            array_push($where_clauses, "p.name = {$populationId}");
+            $whereClauses[] = "p.name = {$populationId}";
         }
-        if($colonyId !== 0)
+        if ($colonyId !== 0)
         {
-            array_push($where_clauses, "c.name = {$colonyId}");
+            $whereClauses[] = "c.name = {$colonyId}";
         }
-        if($familyId !== 0)
+        if ($familyId !== 0)
         {
-            array_push($where_clauses, "f.name = {$familyId}");
+            $whereClauses[] = "f.name = {$familyId}";
         }
-        if($itemId !== 0)
+        if ($itemId !== 0)
         {
-            array_push($where_clauses, "m.name = {$itemId}");
+            $whereClauses[] = "m.name = {$itemId}";
         }
 
-        $where_clause = "WHERE ".implode(" AND ", $where_clauses);
-        if(empty($where_clauses))
-        {
-            $where_clause = "";
-        }
-        $resultSql = $sql.$where_clause;
-        $stmt = $this->em->getConnection()->prepare($resultSql);
+        $whereClause = empty($whereClauses) ? '' : 'WHERE ' . implode(' AND ', $whereClauses);
+        $stmt = $this->em->getConnection()->prepare($sql . $whereClause);
         $stmt->execute();
 
         $mapper = fn(array $data) => $this->melogram($data);

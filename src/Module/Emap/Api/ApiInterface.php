@@ -12,6 +12,7 @@ interface ApiInterface
 {
     public function getMelogram(int $melogramId): ?MelogramOutput;
     public function getMelogramsList(): MelogramsListOutput;
+    public function getMelogramsByHierarchy(int $itemId, int $familyId, int $colonyId, int $populationId, int $specieId): MelogramsListOutput;
     public function addMelogram(AddMelogramInput $input): void;
     public function updateMelogram(UpdateMelogramInput $input): void;
     public function removeMelogram(int $id): void;
