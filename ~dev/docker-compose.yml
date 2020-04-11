@@ -3,7 +3,7 @@ version: '3'
 services:
   database:
     image: mysql:5.7
-    container_name: questions_db
+    container_name: emap_db
     restart: always
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
@@ -15,7 +15,7 @@ services:
 
   php-fpm:
     image: ivanuskov/symfony4-php-fpm
-    container_name: questions_app
+    container_name: emap_app
     restart: always
     stdin_open: true
     tty: true
@@ -27,7 +27,7 @@ services:
       - ./../:/var/www
   nginx:
     image: ivanuskov/symfony4-nginx
-    container_name: questions_nginx
+    container_name: emap_nginx
     restart: always
     volumes:
       - ./../public:/var/www
