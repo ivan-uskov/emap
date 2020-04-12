@@ -2,9 +2,9 @@
 
 namespace App\Module\Emap\Infrastructure\Persistence\Doctrine;
 
-use App\Module\Emap\App\Service\Data\HierarchyVariantData;
 use App\Module\Emap\App\Service\Data\MelogramData;
 use App\Module\Emap\App\Service\MelogramQueryServiceInterface;
+use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,70 +17,12 @@ class MelogramQueryService implements MelogramQueryServiceInterface
         $this->em = $manager;
     }
 
-    public function getHierarchyVariants(): array
-    {
-        $sql = "
-            SELECT
-              f.id,
-              f.name AS family_name,
-              c.name AS colony_name,
-              p.name AS population_name,
-              s.name AS specie_name
-            FROM
-              family f
-              LEFT JOIN colony c ON (c.id = f.colony_id)
-              LEFT JOIN population p ON (c.population_id = p.id)
-              LEFT JOIN specie s ON (p.specie_id = s.id)
-        ";
-
-        $stmt = $this->em->getConnection()->prepare($sql);
-        $stmt->execute();
-
-        $mapper = function (array $data): HierarchyVariantData {
-            return new HierarchyVariantData(
-                $data['id'],
-                $data['family_name'],
-                $data['colony_name'],
-                $data['population_name'],
-                $data['specie_name']
-            );
-        };
-
-        return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
-    }
-
     /**
      * @inheritDoc
      */
     public function getMelogram(int $id): ?MelogramData
     {
-        $sql = "
-            SELECT
-              m.id,
-              m.name,
-              m.file,
-              f.id AS family_id,
-              f.name AS family_name,
-              c.name AS colony_name,
-              p.name AS population_name,
-              s.name AS specie_name
-            FROM
-              melogram m
-              LEFT JOIN family_item fi ON (m.id = fi.item_id)
-              LEFT JOIN family f ON (fi.family_id = f.id)
-              LEFT JOIN colony_item ci ON (m.id = ci.item_id)
-              LEFT JOIN colony c ON (c.id = ci.colony_id)
-              LEFT JOIN population_item pi ON (m.id = pi.item_id)
-              LEFT JOIN population p ON (pi.population_id = p.id)
-              LEFT JOIN specie_item si ON (m.id = si.item_id)
-              LEFT JOIN specie s ON (si.specie_id = s.id)
-            WHERE
-              m.id = {$id}
-            LIMIT 1;
-        ";
-
-        $stmt = $this->em->getConnection()->prepare($sql);
-        $stmt->execute();
+        $stmt = $this->query("SELECT * FROM melogram WHERE id = {$id} LIMIT 1");
 
         $data = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
         return (count($data) > 0) ? $this->melogram($data[0]) : null;
@@ -91,31 +33,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
      */
     public function getAllMelograms(): array
     {
-        $sql = "
-            SELECT
-              m.id,
-              m.name,
-              m.file,
-              f.id AS family_id,
-              f.name AS family_name,
-              c.name AS colony_name,
-              p.name AS population_name,
-              s.name AS specie_name
-            FROM
-              melogram m
-              LEFT JOIN family_item fi ON (m.id = fi.item_id)
-              LEFT JOIN family f ON (fi.family_id = f.id)
-              LEFT JOIN colony_item ci ON (m.id = ci.item_id)
-              LEFT JOIN colony c ON (c.id = ci.colony_id)
-              LEFT JOIN population_item pi ON (m.id = pi.item_id)
-              LEFT JOIN population p ON (pi.population_id = p.id)
-              LEFT JOIN specie_item si ON (m.id = si.item_id)
-              LEFT JOIN specie s ON (si.specie_id = s.id)
-        ";
-
-        $stmt = $this->em->getConnection()->prepare($sql);
-        $stmt->execute();
-
+        $stmt = $this->query('SELECT * FROM melogram');
         $mapper = fn(array $data) => $this->melogram($data);
 
         return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
@@ -125,68 +43,56 @@ class MelogramQueryService implements MelogramQueryServiceInterface
     {
         return new MelogramData(
             $data['id'],
-            $data['name'],
+            $data['uid'],
+            $data['item'],
+            $data['family'],
+            $data['colony'],
+            $data['population'],
+            $data['specie'],
             $data['file'],
-            $data['family_id'],
-            $data['family_name'],
-            $data['colony_name'],
-            $data['population_name'],
-            $data['specie_name'],
-            []
         );
     }
 
-    public function getMelogramsByHierarchy(int $itemId, int $familyId, int $colonyId, int $populationId, int $specieId): array
+    public function getMelogramsByHierarchy(int $item, int $family, int $colony, int $population, int $specie): array
     {
-        $sql = '
-            SELECT
-              DISTINCT m.id,
-              m.name,
-              m.file,
-              f.id AS family_id,
-              f.name AS family_name,
-              c.name AS colony_name,
-              p.name AS population_name,
-              s.name AS specie_name
-            FROM
-              melogram m
-              LEFT JOIN family_item fi ON (m.id = fi.item_id)
-              LEFT JOIN family f ON (fi.family_id = f.id)
-              LEFT JOIN colony_item ci ON (m.id = ci.item_id)
-              LEFT JOIN colony c ON (c.id = ci.colony_id)
-              LEFT JOIN population_item pi ON (m.id = pi.item_id)
-              LEFT JOIN population p ON (pi.population_id = p.id)
-              LEFT JOIN specie_item si ON (m.id = si.item_id)
-              LEFT JOIN specie s ON (si.specie_id = s.id)            
-        ';
+        $sql = 'SELECT * FROM melogram m ';
         $whereClauses = [];
-        if ($specieId !== 0)
+        if ($specie !== 0)
         {
-            $whereClauses[] = "s.name = {$specieId}";
+            $whereClauses[] = "m.specie = {$specie}";
         }
-        if ($populationId !== 0)
+        if ($population !== 0)
         {
-            $whereClauses[] = "p.name = {$populationId}";
+            $whereClauses[] = "m.population = {$population}";
         }
-        if ($colonyId !== 0)
+        if ($colony !== 0)
         {
-            $whereClauses[] = "c.name = {$colonyId}";
+            $whereClauses[] = "m.colony = {$colony}";
         }
-        if ($familyId !== 0)
+        if ($family !== 0)
         {
-            $whereClauses[] = "f.name = {$familyId}";
+            $whereClauses[] = "m.family = {$family}";
         }
-        if ($itemId !== 0)
+        if ($item !== 0)
         {
-            $whereClauses[] = "m.name = {$itemId}";
+            $whereClauses[] = "m.item = {$item}";
         }
 
         $whereClause = empty($whereClauses) ? '' : 'WHERE ' . implode(' AND ', $whereClauses);
-        $stmt = $this->em->getConnection()->prepare($sql . $whereClause);
-        $stmt->execute();
-
+        $stmt = $this->query($sql . $whereClause);
         $mapper = fn(array $data) => $this->melogram($data);
 
         return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
+    }
+
+    private function query(string $sql, array $params = []): Statement
+    {
+        $stmt = $this->em->getConnection()->prepare($sql);
+        foreach ($params as $key => $val)
+        {
+            $stmt->bindValue($key, $val);
+        }
+        $stmt->execute();
+        return $stmt;
     }
 }

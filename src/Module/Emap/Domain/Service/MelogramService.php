@@ -2,13 +2,13 @@
 
 namespace App\Module\Emap\Domain\Service;
 
-use App\Module\Emap\Domain\Exception\DuplicateMelogramNameException;
+use App\Module\Emap\Domain\Exception\DuplicateMelogramException;
 use App\Module\Emap\Domain\Exception\EmptyMelogramFileException;
-use App\Module\Emap\Domain\Exception\EmptyMelogramNameException;
 use App\Module\Emap\Domain\Exception\InvalidFamilyIdException;
 use App\Module\Emap\Domain\Exception\MelogramNotExistsException;
 use App\Module\Emap\Domain\Model\Melogram;
 use App\Module\Emap\Domain\Model\MelogramRepositoryInterface;
+use App\Module\Emap\Domain\Model\MelogramSpecification;
 
 class MelogramService
 {
@@ -25,67 +25,56 @@ class MelogramService
     }
 
     /**
-     * @param Melogram $melogram
+     * @param MelogramSpecification $specification
      * @throws EmptyMelogramFileException
-     * @throws EmptyMelogramNameException
-     * @throws DuplicateMelogramNameException
+     * @throws DuplicateMelogramException
      * @throws InvalidFamilyIdException
      */
-    public function addMelogram(Melogram $melogram): void
+    public function addMelogram(MelogramSpecification $specification): void
     {
-        if ($melogram->getName() === '')
+        if (empty($specification->getFile()))
         {
-            throw new EmptyMelogramNameException();
+            throw new EmptyMelogramFileException('');
         }
 
-        if (empty($melogram->getFile()))
+        if ($this->repository->hasMelogram($specification->getUid()))
         {
-            throw new EmptyMelogramFileException();
+            throw new DuplicateMelogramException('');
         }
-
-        $specie = $melogram->getSpecieId();
-        $population = $melogram->getPopulationId();
-        $colony = $melogram->getColonyId();
-        $family = $melogram->getFamilyId();
-        $item = $melogram->getItemId();
-
-        if ($this->repository->hasMelogram(
-            $specie, $population, $colony, $family, $item
-        ))
-        {
-            throw new DuplicateMelogramNameException();
-        }
-        $this->repository->addMelogram($melogram);
+        $this->repository->addMelogram($specification);
     }
 
     /**
-     * @param Melogram $melogram
-     * @throws DuplicateMelogramNameException
+     * @param int $id
+     * @param MelogramSpecification $specification
+     * @throws DuplicateMelogramException
      * @throws InvalidFamilyIdException
      * @throws MelogramNotExistsException
      */
-    public function updateMelogram(Melogram $melogram): void
+    public function updateMelogram(int $id, MelogramSpecification $specification): void
     {
-        $oldMelogram = $this->repository->getMelogram($melogram->getId());
-        if ($oldMelogram === null)
+        $melogram = $this->repository->getMelogram($id);
+        if ($melogram === null)
         {
-            throw new MelogramNotExistsException();
+            throw new MelogramNotExistsException('');
         }
 
-        if (($oldMelogram->getName() !== $melogram->getName()) && $this->repository->hasMelogram($melogram->getName()))
+        if (($melogram->getUid() !== $specification->getUid()) && $this->repository->hasMelogram($specification->getUid()))
         {
-            throw new DuplicateMelogramNameException();
+            throw new DuplicateMelogramException('');
         }
 
-        if (!$this->repository->hasFamily($melogram->getFamilyId()))
+        if ($specification->getFile() !== '')
         {
-            throw new InvalidFamilyIdException();
+            $melogram->setFile($melogram->getFile());
         }
 
-        if ($melogram->getFile() === '')
-        {
-            $melogram->setFile($oldMelogram->getFile());
-        }
+        $melogram->setUid($specification->getUid());
+        $melogram->setItem($specification->getItem());
+        $melogram->setFamily($specification->getFamily());
+        $melogram->setColony($specification->getColony());
+        $melogram->setPopulation($specification->getPopulation());
+        $melogram->setSpecie($specification->getSpecie());
 
         $this->repository->updateMelogram($melogram);
     }

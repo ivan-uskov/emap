@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\SpecieItem;
+use App\Entity\SelectionItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method SpecieItem|null find($id, $lockMode = null, $lockVersion = null)
- * @method SpecieItem|null findOneBy(array $criteria, array $orderBy = null)
- * @method SpecieItem[]    findAll()
- * @method SpecieItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SelectionItem|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SelectionItem|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SelectionItem[]    findAll()
+ * @method SelectionItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SpecieItemRepository extends ServiceEntityRepository
+class SelectionItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SpecieItem::class);
+        parent::__construct($registry, SelectionItem::class);
     }
 
     // /**
-    //  * @return SpecieItem[] Returns an array of SpecieItem objects
+    //  * @return SelectionItem[] Returns an array of SelectionItem objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SpecieItemRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?SpecieItem
+    public function findOneBySomeField($value): ?SelectionItem
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

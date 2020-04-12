@@ -2,7 +2,6 @@
 
 namespace App\Module\Emap\App\Service;
 
-use App\Module\Emap\App\Service\Data\HierarchyVariantData;
 use App\Module\Emap\App\Service\Data\MelogramData;
 
 interface MelogramQueryServiceInterface
@@ -13,11 +12,6 @@ interface MelogramQueryServiceInterface
      */
     public function getAllMelograms(): array;
 
-    /**
-     * @return HierarchyVariantData[]
-     */
-    public function getHierarchyVariants(): array;
-
-    public function getMelogramsByHierarchy(int $itemId, int $familyId
-        , int $colonyId, int $populationId, int $specieId): array;
+    public function getMelogramsByHierarchy(int $item, int $family
+        , int $colony, int $population, int $specie): array;
 }

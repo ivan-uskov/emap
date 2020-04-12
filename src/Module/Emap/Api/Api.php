@@ -4,7 +4,6 @@ namespace App\Module\Emap\Api;
 
 use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
-use App\Module\Emap\Api\Output\HierarchyVariantsListOutput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
@@ -56,25 +55,32 @@ class Api implements ApiInterface
     public function addMelogram(AddMelogramInput $input): void
     {
         $handler = new AddMelogramCommandHandler($this->service);
-        $handler->handle(new AddMelogramCommand($input->getName(), $input->getItemId()
-            , $input->getFamilyId(), $input->getColonyId(), $input->getPopulationId()
-            , $input->getSpecieId(), $input->getFile()));
+        $handler->handle(new AddMelogramCommand(
+            $input->getItem(),
+            $input->getFamily(),
+            $input->getColony(),
+            $input->getPopulation(),
+            $input->getSpecie(),
+            $input->getFile()
+        ));
     }
 
     public function updateMelogram(UpdateMelogramInput $input): void
     {
         $handler = new UpdateMelogramCommandHandler($this->service);
-        $handler->handle(new UpdateMelogramCommand($input->getId(), $input->getName(), $input->getFamilyId(), $input->getFile()));
+        $handler->handle(new UpdateMelogramCommand(
+            $input->getId(),
+            $input->getItem(),
+            $input->getFamily(),
+            $input->getColony(),
+            $input->getPopulation(),
+            $input->getSpecie(),
+            $input->getFile()
+        ));
     }
 
     public function removeMelogram(int $id): void
     {
         $this->service->removeMelogram($id);
-    }
-
-    public function getHierarchyVariantsList(): HierarchyVariantsListOutput
-    {
-        $qs = new MelogramQueryService($this->doctrine->getManager());
-        return new HierarchyVariantsListOutput($qs->getHierarchyVariants());
     }
 }

@@ -23,8 +23,8 @@ class MelogramOutput
         return $this->data->getFile();
     }
 
-    public function getName(): string
+    public function getUid(): string
     {
-        return $this->data->getName();
+        return $this->data->getUid();
     }
 }

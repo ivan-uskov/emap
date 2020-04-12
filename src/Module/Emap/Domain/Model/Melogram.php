@@ -2,72 +2,99 @@
 
 namespace App\Module\Emap\Domain\Model;
 
-class Melogram
+class Melogram implements HierarchyElementInterface
 {
-    private ?int $id;
-    private string $name;
+    private int $id;
+    private string $uid;
 
-    private int $itemId;
-    private int $familyId;
-    private int $colonyId;
-    private int $populationId;
-    private int $specieId;
+    private int $item;
+    private int $family;
+    private int $colony;
+    private int $population;
+    private int $specie;
 
     private string $file;
 
-    public function __construct(?int $id, string $name, int $itemId, int $familyId, int $colonyId
-        , int $populationId, int $specieId, string $file)
+    public function __construct(int $id, string $uid, int $item, int $family, int $colony, int $population, int $specie, string $file)
     {
         $this->id = $id;
-        $this->name = $name;
-
-        $this->itemId = $itemId;
-        $this->familyId = $familyId;
-        $this->colonyId = $colonyId;
-        $this->populationId = $populationId;
-        $this->specieId = $specieId;
-
+        $this->uid = $uid;
+        $this->item = $item;
+        $this->family = $family;
+        $this->colony = $colony;
+        $this->population = $population;
+        $this->specie = $specie;
         $this->file = $file;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getUid(): string
     {
-        return $this->name;
+        return $this->uid;
     }
 
-    public function getItemId(): int
+    public function getItem(): int
     {
-        return $this->itemId;
+        return $this->item;
     }
 
-    public function getFamilyId(): int
+    public function getFamily(): int
     {
-        return $this->familyId;
+        return $this->family;
     }
 
-    public function getColonyId(): int
+    public function getColony(): int
     {
-        return $this->colonyId;
+        return $this->colony;
     }
 
-    public function getPopulationId(): int
+    public function getPopulation(): int
     {
-        return $this->populationId;
+        return $this->population;
     }
 
-    public function getSpecieId(): int
+    public function getSpecie(): int
     {
-        return $this->specieId;
+        return $this->specie;
     }
 
     public function getFile(): string
     {
         return $this->file;
+    }
+
+    public function setUid(string $uid): void
+    {
+        $this->uid = $uid;
+    }
+
+    public function setItem(int $item): void
+    {
+        $this->item = $item;
+    }
+
+    public function setFamily(int $family): void
+    {
+        $this->family = $family;
+    }
+
+    public function setColony(int $colony): void
+    {
+        $this->colony = $colony;
+    }
+
+    public function setPopulation(int $population): void
+    {
+        $this->population = $population;
+    }
+
+    public function setSpecie(int $specie): void
+    {
+        $this->specie = $specie;
     }
 
     public function setFile(string $file): void

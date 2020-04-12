@@ -5,15 +5,30 @@ namespace App\Module\Emap\App\Command;
 class UpdateMelogramCommand
 {
     private int $id;
-    private string $name;
-    private int $familyId;
+
+    private int $item;
+    private int $family;
+    private int $colony;
+    private int $population;
+    private int $specie;
+
     private ?string $file;
 
-    public function __construct(int $id, string $name,  int $familyId, ?string $file)
-    {
+    public function __construct(
+        int $id,
+        int $item,
+        int $family,
+        int $colony,
+        int $population,
+        int $specie,
+        ?string $file
+    ) {
         $this->id = $id;
-        $this->name = $name;
-        $this->familyId = $familyId;
+        $this->item = $item;
+        $this->family = $family;
+        $this->colony = $colony;
+        $this->population = $population;
+        $this->specie = $specie;
         $this->file = $file;
     }
 
@@ -22,14 +37,29 @@ class UpdateMelogramCommand
         return $this->id;
     }
 
-    public function getName(): string
+    public function getItem(): int
     {
-        return $this->name;
+        return $this->item;
     }
 
-    public function getFamilyId(): int
+    public function getFamily(): int
     {
-        return $this->familyId;
+        return $this->family;
+    }
+
+    public function getColony(): int
+    {
+        return $this->colony;
+    }
+
+    public function getPopulation(): int
+    {
+        return $this->population;
+    }
+
+    public function getSpecie(): int
+    {
+        return $this->specie;
     }
 
     public function getFile(): ?string

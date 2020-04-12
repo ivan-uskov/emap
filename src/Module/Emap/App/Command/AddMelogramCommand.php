@@ -4,57 +4,54 @@ namespace App\Module\Emap\App\Command;
 
 class AddMelogramCommand
 {
-    private string $name;
-    private int $itemId;
-    private int $familyId;
-    private int $colonyId;
-    private int $populationId;
-    private int $specieId;
+    private int $item;
+    private int $family;
+    private int $colony;
+    private int $population;
+    private int $specie;
 
     private string $file;
 
-    public function __construct(string $name, int $itemId, int $familyId, int $colonyId
-        , int $populationId, int $specieId, string $file)
-    {
-        $this->name = $name;
-
-        $this->itemId = $itemId;
-        $this->familyId = $familyId;
-        $this->colonyId = $colonyId;
-        $this->populationId = $populationId;
-        $this->specieId = $specieId;
+    public function __construct(
+        int $item,
+        int $family,
+        int $colony,
+        int $population,
+        int $specie,
+        string $file
+    ) {
+        $this->item = $item;
+        $this->family = $family;
+        $this->colony = $colony;
+        $this->population = $population;
+        $this->specie = $specie;
 
         $this->file = $file;
     }
 
-    public function getName(): string
+    public function getItem(): int
     {
-        return $this->name;
+        return $this->item;
     }
 
-    public function getItemId(): int
+    public function getFamily(): int
     {
-        return $this->itemId;
+        return $this->family;
     }
 
-    public function getFamilyId(): int
+    public function getColony(): int
     {
-        return $this->familyId;
+        return $this->colony;
     }
 
-    public function getColonyId(): int
+    public function getPopulation(): int
     {
-        return $this->colonyId;
+        return $this->population;
     }
 
-    public function getPopulationId(): int
+    public function getSpecie(): int
     {
-        return $this->populationId;
-    }
-
-    public function getSpecieId(): int
-    {
-        return $this->specieId;
+        return $this->specie;
     }
 
     public function getFile(): string

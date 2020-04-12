@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Specie;
+use App\Entity\Selection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Specie|null find($id, $lockMode = null, $lockVersion = null)
- * @method Specie|null findOneBy(array $criteria, array $orderBy = null)
- * @method Specie[]    findAll()
- * @method Specie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Selection|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Selection|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Selection[]    findAll()
+ * @method Selection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SpecieRepository extends ServiceEntityRepository
+class SelectionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Specie::class);
+        parent::__construct($registry, Selection::class);
     }
 
     // /**
-    //  * @return Specie[] Returns an array of Specie objects
+    //  * @return Selection[] Returns an array of Selection objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SpecieRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Specie
+    public function findOneBySomeField($value): ?Selection
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

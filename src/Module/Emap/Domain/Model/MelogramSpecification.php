@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Module\Emap\Api\Input;
+namespace App\Module\Emap\Domain\Model;
 
-class UpdateMelogramInput
+class MelogramSpecification implements HierarchyElementInterface
 {
-    private int $id;
+    private string $uid;
 
     private int $item;
     private int $family;
@@ -14,28 +14,22 @@ class UpdateMelogramInput
 
     private ?string $file;
 
-    public function __construct(
-        int $id,
-        int $item,
-        int $family,
-        int $colony,
-        int $population,
-        int $specie,
-        ?string $file
-    )
+    public function __construct(int $item, int $family, int $colony, int $population, int $specie, ?string $file)
     {
-        $this->id = $id;
         $this->item = $item;
         $this->family = $family;
         $this->colony = $colony;
         $this->population = $population;
         $this->specie = $specie;
         $this->file = $file;
+
+        $this->uid = UidBuilder::build($this);
+        HierarchyElementValidator::validate($this);
     }
 
-    public function getId(): int
+    public function getUid(): string
     {
-        return $this->id;
+        return $this->uid;
     }
 
     public function getItem(): int
@@ -63,7 +57,7 @@ class UpdateMelogramInput
         return $this->specie;
     }
 
-    public function getFile(): ?string
+    public function getFile(): string
     {
         return $this->file;
     }
