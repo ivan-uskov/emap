@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Module\Emap\Api\Api;
+use App\Module\Emap\Api\ApiInterface;
 use App\Module\MusicXML\Api\Api as MusicXMLApi;
 use App\View\CommonView;
 use App\View\MelogramView;
@@ -12,13 +13,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SelectionResultController extends AbstractController
 {
+    public function view(int $id): Response
+    {
+        $selection = $this->api()->getSelection($id);
+        if ($selection === null)
+        {
+            return new Response('Not Found', 404);
+        }
+
+        $result = [];
+        foreach ($selection->getUidsWithFiles() as $uid => $file)
+        {
+            $result[$uid] = $this->buildElement($uid, $file);
+        }
+
+        return $this->render('selection_result.html.twig', $this->buildTemplateParams($result, true));
+    }
+
     public function result(): Response
     {
-        $api = new Api($this->getDoctrine());
-        $request = Request::createFromGlobals();
-
-        $selections = $request->get('select');
         $result = [];
+        $selections = Request::createFromGlobals()->get('select');
         foreach ($selections as $select)
         {
             $specieId = (int) $select['specie_id'];
@@ -27,16 +42,9 @@ class SelectionResultController extends AbstractController
             $familyId = (int) $select['family_id'];
             $itemId = (int) $select['item_id'];
 
-            foreach ($api->getMelogramsByHierarchy($itemId, $familyId, $colonyId, $populationId, $specieId)->getAsArray() as $m)
+            foreach ($this->api()->getMelogramsByHierarchy($itemId, $familyId, $colonyId, $populationId, $specieId)->getAsArray() as $m)
             {
-                $view = new MelogramView((new MusicXMLApi())->parse($m['file']));
-
-                $result[$m['uid']] = [
-                    'view' => $view,
-                    'uid' => $m['uid'],
-                    'file' => $m['file'],
-                    'melogram' => json_encode($view->getData(), JSON_THROW_ON_ERROR, 512),
-                ];
+                $result[$m['uid']] = $this->buildElement($m['uid'], $m['file']);
             }
         }
         if (empty($result))
@@ -44,15 +52,34 @@ class SelectionResultController extends AbstractController
             return $this->redirectToRoute('selection');
         }
 
+        return $this->render('selection_result.html.twig', $this->buildTemplateParams($result));
+    }
+
+    private function buildTemplateParams(array $result, bool $alreadySaved = false): array
+    {
         $common = (new CommonView($result))->getData();
 
-        return $this->render(
-            'selection_result.html.twig',
-            [
-                'selection_result' => $result,
-                'items' => json_encode(array_keys($result), JSON_THROW_ON_ERROR, 512),
-                'common_result' => json_encode($common, JSON_THROW_ON_ERROR, 512),
-            ]
-        );
+        return [
+            'selection_result' => $result,
+            'items' => json_encode(array_keys($result), JSON_THROW_ON_ERROR, 512),
+            'common_result' => json_encode($common, JSON_THROW_ON_ERROR, 512),
+            'already_saved' => $alreadySaved,
+        ];
+    }
+
+    private function buildElement(string $uid, string $file): array
+    {
+        $view = new MelogramView((new MusicXMLApi())->parse($file));
+        return [
+            'view' => $view,
+            'uid' => $uid,
+            'file' => $file,
+            'melogram' => json_encode($view->getData(), JSON_THROW_ON_ERROR, 512),
+        ];
+    }
+
+    private function api(): ApiInterface
+    {
+        return new Api($this->getDoctrine());
     }
 }

@@ -58,7 +58,7 @@ remove_selection:
 
 view_selection:
   path: /selection/view/{id}
-  controller: App\Controller\SelectionController::view
+  controller: App\Controller\SelectionResultController::view
   requirements:
     id: '\d+'
 

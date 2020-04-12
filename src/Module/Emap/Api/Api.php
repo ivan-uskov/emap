@@ -6,6 +6,7 @@ use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
+use App\Module\Emap\Api\Output\SelectionOutput;
 use App\Module\Emap\Api\Output\SelectionsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\AddSelectionCommand;
@@ -101,5 +102,17 @@ class Api implements ApiInterface
     {
         $qs = new SelectionQueryService($this->manager);
         return new SelectionsListOutput($qs->getSelections());
+    }
+
+    public function getSelection(int $id): ?SelectionOutput
+    {
+        $qs = new SelectionQueryService($this->manager);
+        $data = $qs->getSelection($id);
+        if ($data === null)
+        {
+            return null;
+        }
+
+        return new SelectionOutput($qs->getSelection($id));
     }
 }

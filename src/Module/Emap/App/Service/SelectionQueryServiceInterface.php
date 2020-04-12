@@ -10,4 +10,5 @@ interface SelectionQueryServiceInterface
      * @return SelectionData[]
      */
     public function getSelections(): array;
+    public function getSelection(int $id): ?SelectionData;
 }

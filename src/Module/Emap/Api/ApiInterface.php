@@ -6,6 +6,7 @@ use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
+use App\Module\Emap\Api\Output\SelectionOutput;
 use App\Module\Emap\Api\Output\SelectionsListOutput;
 
 interface ApiInterface
@@ -21,4 +22,5 @@ interface ApiInterface
     public function addSelection(array $uids): void;
     public function removeSelection(int $id): void;
     public function getSelections(): SelectionsListOutput;
+    public function getSelection(int $id): ?SelectionOutput;
 }

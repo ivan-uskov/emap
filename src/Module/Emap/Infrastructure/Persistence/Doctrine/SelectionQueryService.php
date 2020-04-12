@@ -32,19 +32,44 @@ class SelectionQueryService implements SelectionQueryServiceInterface
             GROUP BY
                 s.id
         ");
-        $mapper = fn(array $data) => $this->selection($data);
+        $mapper = fn(array $data) => new SelectionData(
+            $data['id'],
+            $data['date'],
+            array_flip(explode(',', $data['uids'])),
+        );
 
         return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
     }
 
-    private function selection(array $data): SelectionData
+    public function getSelection(int $id): ?SelectionData
     {
-        return new SelectionData(
-            $data['id'],
-            $data['hash'],
-            $data['date'],
-            explode(',', $data['uids']),
-        );
+        $stmt = $this->query("
+            SELECT
+                s.id,
+                s.date,
+                m.uid,
+                m.file
+            FROM
+                selection s
+                INNER JOIN selection_item si on s.id = si.selection_id
+                INNER JOIN melogram m on si.melogram_id = m.id
+            WHERE
+                s.id = {$id}
+        ");
+
+        $res = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        if (empty($res))
+        {
+            return null;
+        }
+
+        $uidsWithFiles = [];
+        foreach ($res as $row)
+        {
+            $uidsWithFiles[$row['uid']] = $row['file'];
+        }
+
+        return new SelectionData($id, $res[0]['date'], $uidsWithFiles);
     }
 
     private function query(string $sql, array $params = []): Statement

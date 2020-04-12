@@ -18,20 +18,12 @@ class SelectionController extends AbstractController
 
     public function selections(): Response
     {
-        $api = new Api($this->getDoctrine());
-        return $this->render('selections_view.html.twig', ['items' => $api->getSelections()->asArray()]);
-    }
-
-    public function view(int $id): Response
-    {
-        return $this->redirectToRoute('selections_list');
+        return $this->render('selections_view.html.twig', ['items' => $this->api()->getSelections()->asArray()]);
     }
 
     public function remove(int $id): Response
     {
-        $api = new Api($this->getDoctrine());
-        $api->removeSelection($id);
-
+        $this->api()->removeSelection($id);
         return $this->redirectToRoute('selections_list');
     }
 
@@ -48,12 +40,16 @@ class SelectionController extends AbstractController
         try
         {
             $request = Request::createFromGlobals();
-            $api = new Api($this->getDoctrine());
-            return $fn($api, $request);
+            return $fn($this->api(), $request);
         }
         catch (\Exception $exception)
         {
             return new Response('Bad Request: ' . get_class($exception) . ' ' . $exception->getMessage(), 400);
         }
+    }
+
+    private function api(): ApiInterface
+    {
+        return new Api($this->getDoctrine());
     }
 }
