@@ -22,7 +22,7 @@ class SelectionRepository implements SelectionRepositoryInterface
         $stmt = $this->query("
             SELECT
                 uid
-            FRO
+            FROM
                 melogram
             WHERE
                 uid IN ({$keysStr})
