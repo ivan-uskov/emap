@@ -19,8 +19,6 @@ class SelectionsListOutput
 
     public function asArray(): array
     {
-
-
         return array_map(fn(SelectionData $data) => [
             'id' => $data->getId(),
             'uids' => $data->getUids(),
