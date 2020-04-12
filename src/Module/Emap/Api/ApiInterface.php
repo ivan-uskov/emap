@@ -6,6 +6,7 @@ use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
+use App\Module\Emap\Api\Output\SelectionsListOutput;
 
 interface ApiInterface
 {
@@ -18,4 +19,5 @@ interface ApiInterface
 
     /** @param string[] $uids */
     public function addSelection(array $uids): void;
+    public function getSelections(): SelectionsListOutput;
 }

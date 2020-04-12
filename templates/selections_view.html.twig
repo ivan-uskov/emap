@@ -15,24 +15,16 @@
             </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th>Выборка 1</th>
-                    <td>07.04.2020</td>
-                    <td>
-                        <a title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
-                        <a title="Просмотреть"><img alt="Просмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
-                        <a class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Выборка 2</th>
-                    <td>01.04.2020</td>
-                    <td>
-                        <a title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
-                        <a title="Просмотреть"><img alt="Просмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
-                        <a class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
-                    </td>
-                </tr>
+                {% for s in items %}
+                    <tr>
+                        <th scope="row">{{ s.id }}</th>
+                        <td>{{ s.uids | join(', ') }}</td>
+                        <td>
+                            <a href="{{ path('edit_melogram', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                            <a href="{{ path('remove_melogram', {id: s.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

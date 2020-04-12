@@ -6,6 +6,7 @@ use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
+use App\Module\Emap\Api\Output\SelectionsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\AddSelectionCommand;
 use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
@@ -16,6 +17,7 @@ use App\Module\Emap\Domain\Service\MelogramService;
 use App\Module\Emap\Domain\Service\SelectionService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramRepository;
+use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -88,5 +90,11 @@ class Api implements ApiInterface
     {
         $handler = new AddSelectionCommandHandler($this->selectionService);
         $handler->handle(new AddSelectionCommand($uids));
+    }
+
+    public function getSelections(): SelectionsListOutput
+    {
+        $qs = new SelectionQueryService($this->manager);
+        return new SelectionsListOutput($qs->getSelections());
     }
 }

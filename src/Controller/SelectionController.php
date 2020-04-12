@@ -18,7 +18,8 @@ class SelectionController extends AbstractController
 
     public function selections(): Response
     {
-        return $this->render("selections_view.html.twig");
+        $api = new Api($this->getDoctrine());
+        return $this->render('selections_view.html.twig', ['items' => $api->getSelections()->asArray()]);
     }
 
     public function add(): Response
