@@ -80,7 +80,6 @@ $(() => {
         });
 
         const melogramContainerId = fileHolder.attr('id') + 'StaveContainer';
-        console.log(fileHolder.data('melogram'));
         const data = fileHolder.data('melogram');
         drawChart(melogramContainerId, fileHolder.data('uid'), data['notes'], data['yAxis']);
     });
