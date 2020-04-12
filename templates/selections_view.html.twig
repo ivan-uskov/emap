@@ -22,8 +22,8 @@
                         <td>{{ s.uids | join(', ') }}</td>
                         <td>{{ s.date }}</td>
                         <td>
-                            <a href="{{ path('edit_melogram', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
-                            <a href="{{ path('remove_melogram', {id: s.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
+                            <a href="{{ path('view_selection', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                            <a href="{{ path('remove_selection', {id: s.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -22,6 +22,16 @@ class SelectionController extends AbstractController
         return $this->render('selections_view.html.twig', ['items' => $api->getSelections()->asArray()]);
     }
 
+    public function view(int $id): Response
+    {
+        return $this->redirectToRoute('selections_list');
+    }
+
+    public function remove(int $id): Response
+    {
+        return $this->redirectToRoute('selections_list');
+    }
+
     public function add(): Response
     {
         return $this->withApiAndRequest(function (ApiInterface $api, Request $request) {

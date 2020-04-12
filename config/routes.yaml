@@ -50,6 +50,18 @@ add_selection:
   path: /selection/add
   controller: App\Controller\SelectionController::add
 
+remove_selection:
+  path: /selection/remove/{id}
+  controller: App\Controller\SelectionController::remove
+  requirements:
+    id: '\d+'
+
+view_selection:
+  path: /selection/view/{id}
+  controller: App\Controller\SelectionController::view
+  requirements:
+    id: '\d+'
+
 selection_result:
   path: /selection/result
   controller: App\Controller\SelectionResultController::result
