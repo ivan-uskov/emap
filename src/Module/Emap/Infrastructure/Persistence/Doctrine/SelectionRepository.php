@@ -25,7 +25,7 @@ class SelectionRepository implements SelectionRepositoryInterface
             FROM
                 melogram
             WHERE
-              uid IN ({$keysStr})
+                uid IN ({$keysStr})
         ", $params);
 
         $res = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
@@ -72,12 +72,13 @@ class SelectionRepository implements SelectionRepositoryInterface
     {
         $keys = [];
         $params = [];
-        for ($i = 1, $count = count($uids); $i < $count; ++$i)
+        foreach ($uids as $i => $iValue)
         {
             $key = 'param' . $i;
-            $params[$key] = $uids[$i];
+            $params[$key] = $iValue;
             $keys[] = ':' . $key;
         }
-        return [implode(',', $keys), $params];
+
+        return [implode(', ', $keys), $params];
     }
 }
