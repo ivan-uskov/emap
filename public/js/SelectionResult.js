@@ -17,11 +17,6 @@ const BORDER_COLOR = [
 
 const BACKGROUND_COLOR = [
     'rgba(255,255,255,0)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)'
 ];
 
 function createDataset(uid, values)
@@ -31,7 +26,7 @@ function createDataset(uid, values)
         steppedLine: true,
         data: values,
         backgroundColor: BACKGROUND_COLOR,
-        borderColor: BORDER_COLOR,
+        borderColor: [BORDER_COLOR[Math.floor(Math.random() * BORDER_COLOR.length)]],
         borderWidth: BORDER_WIDTH
     };
 }
