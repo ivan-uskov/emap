@@ -117,4 +117,9 @@ $(() => {
         },
         options: createOptions(data.yAxis)
     });
+
+    $('#saveBtn').click(() => {
+        $('#saveSelectionForm').submit();
+        return false;
+    });
 });

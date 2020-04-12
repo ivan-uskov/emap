@@ -6,7 +6,6 @@ use App\Module\Emap\Api\Api;
 use App\Module\Emap\Api\ApiInterface;
 use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
-use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -107,7 +106,7 @@ class MelogramController extends AbstractController
             $api->removeMelogram($id);
         }
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('selections_list');
     }
 
     public function edit(int $id): Response

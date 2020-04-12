@@ -16,5 +16,6 @@ interface ApiInterface
     public function updateMelogram(UpdateMelogramInput $input): void;
     public function removeMelogram(int $id): void;
 
-    public function getNoteList(): array;
+    /** @param string[] $uids */
+    public function addSelection(array $uids): void;
 }

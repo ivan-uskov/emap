@@ -3,7 +3,10 @@
 
 namespace App\Controller;
 
+use App\Module\Emap\Api\Api;
+use App\Module\Emap\Api\ApiInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SelectionController extends AbstractController
@@ -16,5 +19,27 @@ class SelectionController extends AbstractController
     public function selections(): Response
     {
         return $this->render("selections_view.html.twig");
+    }
+
+    public function add(): Response
+    {
+        return $this->withApiAndRequest(function (ApiInterface $api, Request $request) {
+            $api->addSelection(json_decode($request->get('items'), true, 512, JSON_THROW_ON_ERROR));
+            return $this->redirectToRoute('selections_list');
+        });
+    }
+
+    private function withApiAndRequest(callable $fn): Response
+    {
+        try
+        {
+            $request = Request::createFromGlobals();
+            $api = new Api($this->getDoctrine());
+            return $fn($api, $request);
+        }
+        catch (\Exception $exception)
+        {
+            return new Response('Bad Request: ' . get_class($exception) . ' ' . $exception->getMessage(), 400);
+        }
     }
 }

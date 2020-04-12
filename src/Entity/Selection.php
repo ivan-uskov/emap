@@ -16,6 +16,11 @@ class Selection
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $hash;
+
     public function getId(): ?int
     {
         return $this->id;

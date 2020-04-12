@@ -46,10 +46,14 @@ selection:
   path: /selection
   controller: App\Controller\SelectionController::selection
 
+add_selection:
+  path: /selection/add
+  controller: App\Controller\SelectionController::add
+
 selection_result:
   path: /selection/result
   controller: App\Controller\SelectionResultController::result
 
-selections_view:
+selections_list:
   path: /selections
   controller: App\Controller\SelectionController:selections

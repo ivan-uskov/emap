@@ -19,6 +19,7 @@
             <a class="btn btn-primary mb-2" href="" id="melogramsBtn" role="button">Мелограммы</a>
             <a class="btn btn-primary mb-2" href="" id="commonBtn" role="button">Склейка</a>
             <a class="btn btn-primary mb-2" href="" id="stavesBtn" role="button">Нотный стан</a>
+            <a class="btn btn-primary mb-2" href="" id="saveBtn" role="button">Сохранить</a>
             <a class="btn btn-secondary mb-2" href="{{ path('selection') }}" role="button">Назад</a>
         </div>
         <div class="block-top uids_container">
@@ -36,4 +37,7 @@
             <canvas id="commonContainerCanvas" style="height:300px"></canvas>
         </div>
     </div>
+    <form method="post" action="{{ path('add_selection') }}" style="display: none" id="saveSelectionForm">
+        <input type="hidden" name="items" value="{{ items }}" />
+    </form>
 {% endblock %}

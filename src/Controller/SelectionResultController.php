@@ -39,12 +39,18 @@ class SelectionResultController extends AbstractController
                 ];
             }
         }
+        if (empty($result))
+        {
+            return $this->redirectToRoute('selection');
+        }
+
         $common = (new CommonView($result))->getData();
 
         return $this->render(
             'selection_result.html.twig',
             [
                 'selection_result' => $result,
+                'items' => json_encode(array_keys($result), JSON_THROW_ON_ERROR, 512),
                 'common_result' => json_encode($common, JSON_THROW_ON_ERROR, 512),
             ]
         );
