@@ -9,11 +9,6 @@ use App\Module\MusicXML\Api\Data\Pause;
 
 class MelogramView implements ElementVisitorInterface
 {
-    private const PAUSE = 'Pause';
-    private const OCTAVES = [1, 2, 3, 4, 5, 6, 7];
-    private const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-
-    private array $notesVariants = [];
     private array $notes = [];
 
     /**
@@ -21,8 +16,6 @@ class MelogramView implements ElementVisitorInterface
      */
     public function __construct(array $elements)
     {
-        $this->initNoteVariants();
-
         foreach ($elements as $element)
         {
             $element->accept($this);
@@ -43,7 +36,7 @@ class MelogramView implements ElementVisitorInterface
         $duration = $note->getDuration();
         while ($duration-- > 0)
         {
-            $this->notes[] = self::PAUSE;
+            $this->notes[] = MelogramViewUtils::PAUSE;
         }
     }
 
@@ -51,18 +44,23 @@ class MelogramView implements ElementVisitorInterface
     {
         return [
             'notes' => $this->notes,
-            'yAxis' => $this->getYAxis(),
+            'yAxis' => MelogramViewUtils::get()->buildYAxis($this->getRawYAxis()),
         ];
     }
 
-    private function getYAxis(): array
+    public function getNotes(): array
+    {
+        return $this->notes;
+    }
+
+    public function getRawYAxis(): array
     {
         $min = null;
         $max = null;
-        $indexes = array_flip($this->notesVariants);
+        $indexes = MelogramViewUtils::get()->getVariantsIndexes();
         foreach ($this->notes as $note)
         {
-            if ($note === self::PAUSE)
+            if ($note === MelogramViewUtils::PAUSE)
             {
                 continue;
             }
@@ -77,42 +75,20 @@ class MelogramView implements ElementVisitorInterface
         }
         ++$max;
 
-        return array_merge(array_reverse(array_slice($this->notesVariants, $min, $max - $min + 1)), [self::PAUSE]);
+        return MelogramViewUtils::get()->getRawYAxis($min, $max);
     }
 
     private function getNoteCode(Note $note): string
     {
-        $code = $this->buildCode($note->getOctave(), $note->getStep());
+        $utils = MelogramViewUtils::get();
+        $code = $utils->buildCode($note->getOctave(), $note->getStep());
         if ($note->getAlter() === null)
         {
             return $code;
         }
 
         // calculate note code wuth dièse and bemolle
-        $noteIndex = array_flip($this->notesVariants)[$code];
-        return $this->notesVariants[$noteIndex + $note->getAlter()];
-    }
-
-    private function initNoteVariants(): void
-    {
-        foreach (self::OCTAVES as $octave)
-        {
-            foreach (self::NOTES as $note)
-            {
-                $this->notesVariants[] = $this->buildCode($octave, $note);
-            }
-        }
-    }
-
-    private function buildCode(int $octave, string $note): string
-    {
-        $spaces = '   ';
-
-        if (strlen($note) === 2)
-        {
-            $spaces = '  ';
-        }
-
-        return $octave . $spaces . $note;
+        $noteIndex = $utils->getVariantsIndexes()[$code];
+        return $utils->getVariants()[$noteIndex + $note->getAlter()];
     }
 }

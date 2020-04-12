@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Module\Emap\Api\Api;
 use App\Module\MusicXML\Api\Api as MusicXMLApi;
+use App\View\CommonView;
 use App\View\MelogramView;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,17 +29,24 @@ class SelectionResultController extends AbstractController
 
             foreach ($api->getMelogramsByHierarchy($itemId, $familyId, $colonyId, $populationId, $specieId)->getAsArray() as $m)
             {
-                $res = (new MusicXMLApi())->parse($m['file']);
-                $view = new MelogramView($res);
+                $view = new MelogramView((new MusicXMLApi())->parse($m['file']));
 
                 $result[$m['uid']] = [
+                    'view' => $view,
                     'uid' => $m['uid'],
                     'file' => $m['file'],
                     'melogram' => json_encode($view->getData(), JSON_THROW_ON_ERROR, 512),
                 ];
             }
         }
+        $common = (new CommonView($result))->getData();
 
-        return $this->render('selection_result.html.twig', ['selection_result' => $result]);
+        return $this->render(
+            'selection_result.html.twig',
+            [
+                'selection_result' => $result,
+                'common_result' => json_encode($common, JSON_THROW_ON_ERROR, 512),
+            ]
+        );
     }
 }
