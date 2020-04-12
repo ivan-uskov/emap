@@ -6,7 +6,7 @@ class Note implements ElementInterface
 {
     private string $step;
     private int $octave;
-    private ?float $alter;
+    private ?int $alter;
     private int $duration;
     private string $type;
     private string $stem;
@@ -14,7 +14,7 @@ class Note implements ElementInterface
     public function __construct(
         string $step,
         int $octave,
-        ?float $alter,
+        ?int $alter,
         int $duration,
         string $type,
         string $stem
@@ -37,7 +37,7 @@ class Note implements ElementInterface
         return $this->octave;
     }
 
-    public function getAlter(): ?float
+    public function getAlter(): ?int
     {
         return $this->alter;
     }

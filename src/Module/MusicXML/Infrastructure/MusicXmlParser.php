@@ -38,7 +38,7 @@ class MusicXmlParser
         return new Note(
             (string) $note['pitch']['step'],
             (int) $note['pitch']['octave'],
-            array_key_exists('alter', $note['pitch']) ? (float) $note['pitch']['alter'] : null,
+            array_key_exists('alter', $note['pitch']) ? (int) $note['pitch']['alter'] : null,
             (int) $note['duration'],
             (string) $note['type'],
             (string) $note['stem']

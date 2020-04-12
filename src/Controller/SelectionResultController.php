@@ -34,7 +34,7 @@ class SelectionResultController extends AbstractController
                 $result[$m['uid']] = [
                     'uid' => $m['uid'],
                     'file' => $m['file'],
-                    'graph' => $view->getData(),
+                    'melogram' => json_encode($view->getData(), JSON_THROW_ON_ERROR, 512),
                 ];
             }
         }

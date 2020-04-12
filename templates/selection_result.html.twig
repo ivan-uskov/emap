@@ -2,6 +2,7 @@
 
 {% block javascripts %}
     <script src="{{ asset('js/lib/opensheetmusicdisplay.min.js') }}"></script>
+    <script src="{{ asset('js/lib/chart.min.js') }}"></script>
     <script src="{{ asset('js/SelectionResult.js') }}"></script>
 {% endblock %}
 
@@ -23,9 +24,10 @@
                 <a class="btn btn-outline-secondary" href="" role="button" style="margin:4px 1px;">
                     {{ m.uid }}
                 </a>
-                <input type="hidden" id="file{{ m.uid }}" class="source_file" value="{{ m.file }}" />
+                <input type="hidden" id="file{{ m.uid }}" data-uid="{{ m.uid }}" data-melogram="{{ m.melogram }}" class="source_file" value="{{ m.file }}" />
             {% endfor %}
         </div>
-        <div class="block-bottom graph_container" id="graphContainer"></div>
+        <div class="block-bottom graph_container" id="melogramsContainer"></div>
+        <div class="block-bottom graph_container" id="stavesContainer"></div>
     </div>
 {% endblock %}
