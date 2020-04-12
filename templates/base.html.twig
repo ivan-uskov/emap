@@ -14,7 +14,13 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                {% block search %}{% endblock %}
+                {% block search %}
+                    {% if app.user %}
+                        <div class="mb-3 text-right" style="display: block;width: 100%;margin: 0 !important;">
+                            Вы в системе как {{ app.user.username }}, <a href="{{ path('logout') }}">Выйти</a>
+                        </div>
+                    {% endif %}
+                {% endblock %}
             </nav>
             {% block body %}{% endblock %}
         </div>
@@ -24,3 +30,4 @@
         {% block javascripts %}{% endblock %}
     </body>
 </html>
+%

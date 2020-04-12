@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{{ path('selection_result')}}"  enctype="multipart/form-data" class="mt-5" method="get">
+    <h3>Сделать выборку</h3>
+    <form action="{{ path('selection_result')}}"  enctype="multipart/form-data" class="mt-1" method="get">
+        <div class="text-right">
+            <a href="" onclick="return false;" id="add_row_link"  class="btn btn-primary mb-2" role="button">Добавить условие</a>
+            <input type="submit" value="Выбрать" class="btn btn-primary mb-2" />
+        </div>
         <table class="table">
             <thead>
             <tr>
@@ -30,9 +35,5 @@
                 </tr>
             </tbody>
         </table>
-        <div class="text-left">
-            <a href="" onclick="return false;" id="add_row_link"  class="btn btn-primary mb-2" role="button">Добавить</a>
-        </div>
-        <input type="submit" value="Выбрать" class="btn btn-primary mb-2" />
     </form>
 {% endblock %}

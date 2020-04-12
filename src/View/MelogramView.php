@@ -75,6 +75,7 @@ class MelogramView implements ElementVisitorInterface
                 $max = $indexes[$note];
             }
         }
+        ++$max;
 
         return array_merge(array_reverse(array_slice($this->notesVariants, $min, $max - $min + 1)), [self::PAUSE]);
     }
