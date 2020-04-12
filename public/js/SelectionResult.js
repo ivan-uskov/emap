@@ -95,10 +95,6 @@ $(() => {
     $('.source_file').each(function () {
         const fileHolder = $(this);
 
-        const melogramContainerId = fileHolder.attr('id') + 'StaveContainer';
-        const data = fileHolder.data('melogram');
-        drawChart(melogramContainerId, fileHolder.data('uid'), data['notes'], data['yAxis']);
-
         const staveContainerId = fileHolder.attr('id') + 'StaveContainer';
         $('#stavesContainer').append('<div id="' + staveContainerId + '"></div>');
         let openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay(staveContainerId, STAVE_OPTIONS);
@@ -106,6 +102,10 @@ $(() => {
             window.osmd = openSheetMusicDisplay;
             openSheetMusicDisplay.render();
         });
+
+        const melogramContainerId = fileHolder.attr('id') + 'StaveContainer';
+        const data = fileHolder.data('melogram');
+        drawChart(melogramContainerId, fileHolder.data('uid'), data['notes'], data['yAxis']);
     });
 
     const data = $('#commonGraphData').data('data');
