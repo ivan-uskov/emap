@@ -5,7 +5,15 @@
         <link rel="shortcut icon" type="image/jpg" href="/favicon.ico"/>
         <title>{% block title %}ЭМАП{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-        {% block stylesheets %}{% endblock %}
+        <style type="text/css">
+            tr:hover
+            {
+                cursor: pointer;
+                background: #e9e9e9;
+            }
+        </style>
+        {% block stylesheets %}
+        {% endblock %}
     </head>
     <body>
         <div class="container">
