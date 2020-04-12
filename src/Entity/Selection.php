@@ -21,6 +21,11 @@ class Selection
      */
     private $hash;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
     public function getId(): ?int
     {
         return $this->id;

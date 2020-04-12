@@ -9,7 +9,8 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Название</th>
+                <th scope="col">ID</th>
+                <th scope="col">Элементы</th>
                 <th scope="col">Дата создания</th>
                 <th scope="col">Действия</th>
             </tr>
@@ -19,6 +20,7 @@
                     <tr>
                         <th scope="row">{{ s.id }}</th>
                         <td>{{ s.uids | join(', ') }}</td>
+                        <td>{{ s.date }}</td>
                         <td>
                             <a href="{{ path('edit_melogram', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" src="{{ asset('img/edit.png') }}?ver=1" /></a>
                             <a href="{{ path('remove_melogram', {id: s.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>

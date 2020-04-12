@@ -40,7 +40,7 @@ class SelectionRepository implements SelectionRepositoryInterface
 
     public function addSelection(string $hash, array $uids): void
     {
-        $this->query('INSERT INTO selection SET hash = :hash', ['hash' => $hash]);
+        $this->query('INSERT INTO selection SET hash = :hash, date = NOW()', ['hash' => $hash]);
 
         [$keysStr, $params] = $this->prepareUidsPlaceholders($uids);
         $this->query("

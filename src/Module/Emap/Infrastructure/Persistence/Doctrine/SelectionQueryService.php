@@ -23,6 +23,7 @@ class SelectionQueryService implements SelectionQueryServiceInterface
             SELECT
                 s.id,
                 s.hash,
+                s.date,
                 GROUP_CONCAT(m.uid SEPARATOR ',') AS uids
             FROM
                 selection s
@@ -41,6 +42,7 @@ class SelectionQueryService implements SelectionQueryServiceInterface
         return new SelectionData(
             $data['id'],
             $data['hash'],
+            $data['date'],
             explode(',', $data['uids']),
         );
     }
