@@ -14,33 +14,16 @@
     </style>
 {% endblock %}
 
-{% block search %}
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"></ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Поиск">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-        </form>
-    </div>
-{% endblock %}
-
 {% block body %}
-    {% if app.user %}
-        <div class="mb-3 text-right">
-           Вы в системе как {{ app.user.username }}, <a href="{{ path('logout') }}">Выйти</a>
-        </div>
-    {% endif %}
-
+    <h3>Особи</h3>
     <div class="text-right">
-        <a class="btn btn-primary mb-2" href="{{ path('selections_list') }}" role="button">Просмотр выборок</a>
-        <a class="btn btn-primary mb-2" href="{{ path('selection') }}" role="button">Выборка</a>
-        <a class="btn btn-primary mb-2" href="{{ path('melogram') }}" role="button">Добавить особь</a>
+        <a class="btn btn-primary mb-2" href="{{ path('melogram') }}" role="button">Добавить</a>
     </div>
     <div class="list">
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="row">#</th>
                 <th scope="col">Вид</th>
                 <th scope="col">Популяция</th>
                 <th scope="col">Колония</th>
@@ -50,22 +33,21 @@
             </tr>
             </thead>
             <tbody>
-            {% for m in items %}
-                <tr>
-                    <th scope="row">{{ m.id }}</th>
-                    <td>{{ m.specie }}</td>
-                    <td>{{ m.population }}</td>
-                    <td>{{ m.colony }}</td>
-                    <td>{{ m.family }}</td>
-                    <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.uid }}</a></td>
-                    <td>
-                        <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
-                        <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}?ver=1" /></a>
-                        <a href="{{ path('remove_melogram', {id: m.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
-                    </td>
-                </tr>
-            {% endfor %}
-
+                {% for m in items %}
+                    <tr>
+                        <th scope="row">{{ m.id }}</th>
+                        <td>{{ m.specie }}</td>
+                        <td>{{ m.population }}</td>
+                        <td>{{ m.colony }}</td>
+                        <td>{{ m.family }}</td>
+                        <td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.uid }}</a></td>
+                        <td>
+                            <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
+                            <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                            <a href="{{ path('remove_melogram', {id: m.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
