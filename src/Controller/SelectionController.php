@@ -29,6 +29,9 @@ class SelectionController extends AbstractController
 
     public function remove(int $id): Response
     {
+        $api = new Api($this->getDoctrine());
+        $api->removeSelection($id);
+
         return $this->redirectToRoute('selections_list');
     }
 

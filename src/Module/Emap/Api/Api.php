@@ -92,6 +92,11 @@ class Api implements ApiInterface
         $handler->handle(new AddSelectionCommand($uids));
     }
 
+    public function removeSelection(int $id): void
+    {
+        $this->selectionService->removeSelection($id);
+    }
+
     public function getSelections(): SelectionsListOutput
     {
         $qs = new SelectionQueryService($this->manager);

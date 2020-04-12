@@ -57,6 +57,11 @@ class SelectionRepository implements SelectionRepositoryInterface
         ", array_merge($params, ['hash' => $hash]));
     }
 
+    public function removeSelection(int $id): void
+    {
+        $this->query("DELETE FROM selection WHERE id = {$id}");
+    }
+
     private function query(string $sql, array $params = []): Statement
     {
         $stmt = $this->em->getConnection()->prepare($sql);

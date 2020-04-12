@@ -19,5 +19,6 @@ interface ApiInterface
 
     /** @param string[] $uids */
     public function addSelection(array $uids): void;
+    public function removeSelection(int $id): void;
     public function getSelections(): SelectionsListOutput;
 }

@@ -24,6 +24,11 @@ class SelectionService
         }
     }
 
+    public function removeSelection(int $id): void
+    {
+        $this->repository->removeSelection($id);
+    }
+
     private function getHash(array $uids): string
     {
         sort($uids);
