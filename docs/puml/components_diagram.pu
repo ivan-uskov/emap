@@ -8,38 +8,53 @@ Person(user, "Иследователь")
 Container_Boundary(controller, "Controller") {
   Component(homecon, "HomeController", '','')
   Component(melogramcon, "MelogramController", '','')
+  Component(selectcon, "SelectionController", '','')
+  Component(selectrescon, "SelectionResultController", '','')
 
 }
 
 Container_Boundary(api, "API") {
   Component(apiCom, "Api", '','')
   Component(apiInt, "ApiInterface", '<<interface>>','')
-  Rel(apiInt, apiCom, " ")
+  Rel_Neighbor(apiInt, apiCom, " ")
 }
 Container_Boundary(infra, "Infrastructure") {
   Component(mqs, "MelogramQueryService", '','')
   Component(mr, "MelogramRepository", '','')
+  Component(sqs, "SelectionQueryService", '','')
+  Component(sr, "SelectionRepository", '','')
 }
 
 Container_Boundary(app, "App") {
   Component(mqsi, "MelogramQueryServiceInterface", '<<interface>>','')
-  Component(hvd, "HiearhyVariantData", '','')
+  Component(sqsi, "SelectionQueryServiceInterface", '<<interface>>','')
   Component(md, "MelogramData", '','')
+  Component(sd, "SelectionData", '','')
   Component(amc, "AddMelogrammCommand", '','')
+  Component(asc, "AddSelectionCommand", '','')
   Component(umc, "UpdateMelogrammCommand", '','')
   Component(amch, "AddMelogrammCommandHandler", '','')
   Component(umch, "UpdateMelogrammCommandHandler", '','')
+  Component(asch, "AddSelectionCommandHandler", '','')
 
-  Rel(mqsi, hvd, "Uses")
   Rel(mqsi, md, "Uses")
+  Rel(sqsi, sd, "Uses")
   Rel(amch, amc, "Uses")
+  Rel(asch, asc, "Uses")
   Rel(umch, umc, "Uses")
 }
 
 Container_Boundary(domain, "Domain") {
-  Component(mri, "MelogramQueryServiceInterface", '<<interface>>','')
+  Component(mri, "MelogramRepositoryInterface", '<<interface>>','')
+  Component(sri, "SelectionRepositoryInterface", '<<interface>>','')
   Component(melogram, "Melogram", '','')
   Component(ms, "MelogramService", '','')
+  Component(mi, "MelogramInterface", '<<interface>>','')
+  Component(msp, "MelogramSpecification", '','')
+  Component(ss, "SelectionService", '','')
+  Component(hei, "HierarchyElementInterface", '<<interface>>','')
+  Component(hev, "HierarchyElementValidator", '','')
+  Component(uib, "UidBuilder", '','')
 
   Rel(ms, mri, " ")
   Rel(mri, melogram, " ")
@@ -47,14 +62,32 @@ Container_Boundary(domain, "Domain") {
 
 Rel(user, homecon, "Uses")
 Rel(user, melogramcon, "Uses")
-Rel(homecon, apiCom, "Uses")
-Rel(melogramcon, apiCom, "Uses")
+Rel(user, selectcon, "Uses")
+Rel(user, selectrescon, "Uses")
+Rel(homecon, apiInt, "Uses")
+Rel(melogramcon, apiInt, "Uses")
+Rel(selectrescon, apiInt, "Uses")
+Rel(selectcon, apiInt, "Uses")
 Rel(apiCom, mqs, "Uses")
 Rel(apiCom, mr, "Uses")
+Rel(apiCom, sqs, "Uses")
+Rel(apiCom, sr, "Uses")
 Rel(mqs, mqsi, "Uses")
 Rel(mr, mri, "Uses")
+Rel(sqs, sqsi, "Uses")
+Rel(sr, sri, "Uses")
 Rel(amch, ms, "Uses")
 Rel(umch, ms, "Uses")
+Rel(asch, ss, "Uses")
+Rel(amch, msp, "Uses")
+Rel(umch, msp, "Uses")
+Rel(ss, sri, "Uses")
+Rel(msp, hei, "Uses")
+Rel(hei, mi, "Uses")
+Rel(mi, melogram, "Uses")
+Rel(hev, hei, "Uses")
+Rel(hei, uib, "Uses")
+Rel(sri, uib, "Uses")
 
 
 @enduml
