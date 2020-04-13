@@ -36,6 +36,11 @@ class Api implements ApiInterface
         $this->selectionService = new SelectionService(new SelectionRepository($this->manager));
     }
 
+    public function getXml()
+    {
+        return $this->parser->parseMusicXml();
+    }
+
     public function getMelogram(int $melogramId): ?MelogramOutput
     {
         $qs = new MelogramQueryService($this->manager);
