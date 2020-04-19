@@ -48,7 +48,7 @@ class MelogramController extends AbstractController
             $itemId = (int)$request->get('item_id');
 
             $file = $request->files->get('melody_file');
-            $fileName = "Test_File";
+            $fileName = $file->getClientOriginalName();
             $filePath = $file ? $file->getRealPath() : '';
             $fileContent = $filePath && file_exists($filePath) ? file_get_contents($filePath) : '';
 
