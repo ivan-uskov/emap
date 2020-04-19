@@ -26,7 +26,6 @@ class AddMelogramCommandHandler
             $command->getFile(),
             $command->getFileName()
         );
-        var_dump($m);
         $this->service->addMelogram($m);
     }
 }
