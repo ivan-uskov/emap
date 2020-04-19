@@ -48,6 +48,8 @@ class MelogramController extends AbstractController
             $itemId = (int)$request->get('item_id');
 
             $file = $request->files->get('melody_file');
+            $fileName = "Test_File";
+
             $filePath = $file ? $file->getRealPath() : '';
             $fileContent = $filePath && file_exists($filePath) ? file_get_contents($filePath) : '';
 
@@ -57,7 +59,8 @@ class MelogramController extends AbstractController
                 $colonyId,
                 $populationId,
                 $specieId,
-                $fileContent
+                $fileContent,
+                $fileName
             ));
 
             return $this->redirectToRoute('homepage');
@@ -77,7 +80,7 @@ class MelogramController extends AbstractController
             'Content-Type' => 'text/xml',
             'Cache-Control' => 'public',
             'Content-Length' => strlen($melogram->getFile()),
-            'Content-Disposition' => 'attachment; filename=' . $melogram->getUid() . '.musicxml',
+            'Content-Disposition' => 'attachment; filename=' . $melogram->getFileName() . '.musicxml',
         ]);
     }
 

@@ -68,14 +68,14 @@
         <div class="input-group mb-3">
             <div class="custom-file">
                 <input type="file" name="melody_file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" {% if melogram is not defined %}required{% endif %}>
-                <label class="custom-file-label" for="inputGroupFile01">Мелодия</label>
+                <label class="custom-file-label" for="inputGroupFile01">{% if melogram is defined %}{{ melogram.fileName }}{% endif %}</label>
             </div>
         </div>
         <div class="block-bottom graph_container" id="melogramsContainer">
             <div class="block-bottom" id="graphContainer" style="margin:2px;border:solid 1px darkgrey;height:auto;overflow:auto;"></div>
         </div>
         <div class="block-bottom graph_container" id="commonContainer">
-            <input type="hidden" id="commonGraphData" data-data="{{ common_result }}" />
+            <input type="hidden" id="commonGraphData" data-data="{% if melogram is defined %}{{ common_result }}{% endif %}" />
             <canvas id="commonContainerCanvas" style="height:300px"></canvas>
         </div>
 

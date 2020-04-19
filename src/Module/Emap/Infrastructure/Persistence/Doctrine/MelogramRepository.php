@@ -36,10 +36,11 @@ class MelogramRepository implements MelogramRepositoryInterface
               family = {$m->getFamily()},
               colony = {$m->getColony()},
               population = {$m->getPopulation()},
-              specie = {$m->getSpecie()}
+              specie = {$m->getSpecie()},
+              file_name = :fileName
         ";
 
-        $this->query($sql, ['uid' => $m->getUid(), 'file' => $m->getFile()]);
+        $this->query($sql, ['uid' => $m->getUid(), 'file' => $m->getFile(), 'fileName' => $m->getFileName()]);
     }
 
     public function updateMelogram(Melogram $m): void

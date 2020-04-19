@@ -18,7 +18,8 @@ class AddMelogramCommand
         int $colony,
         int $population,
         int $specie,
-        string $file
+        string $file,
+        string $fileName
     ) {
         $this->item = $item;
         $this->family = $family;
@@ -27,6 +28,7 @@ class AddMelogramCommand
         $this->specie = $specie;
 
         $this->file = $file;
+        $this->fileName = $fileName;
     }
 
     public function getItem(): int
@@ -57,5 +59,10 @@ class AddMelogramCommand
     public function getFile(): string
     {
         return $this->file;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->fileName;
     }
 }

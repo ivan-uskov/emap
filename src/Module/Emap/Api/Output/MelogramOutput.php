@@ -27,4 +27,9 @@ class MelogramOutput
     {
         return $this->data->getUid();
     }
+
+    public function getFileName() :string
+    {
+        return $this->data->getFileName();
+    }
 }

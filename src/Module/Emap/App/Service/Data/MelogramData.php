@@ -14,8 +14,10 @@ class MelogramData
     private int $specie;
 
     private string $file;
+    private string $fileName;
 
-    public function __construct(int $id, string $uid, int $item, int $family, int $colony, int $population, int $specie, string $file)
+    public function __construct(int $id, string $uid, int $item, int $family, int $colony, int $population, int $specie
+        , string $file, string $fileName)
     {
         $this->id = $id;
         $this->uid = $uid;
@@ -25,6 +27,7 @@ class MelogramData
         $this->population = $population;
         $this->specie = $specie;
         $this->file = $file;
+        $this->fileName = $fileName;
     }
 
     public function getUid(): string
@@ -35,6 +38,11 @@ class MelogramData
     public function getFile(): string
     {
         return $this->file;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->fileName;
     }
 
     public function asArray(): array
@@ -48,6 +56,7 @@ class MelogramData
             'colony' => $this->colony,
             'population' => $this->population,
             'specie' => $this->specie,
+            'fileName' => $this->fileName
         ];
     }
 }

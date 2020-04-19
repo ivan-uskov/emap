@@ -50,6 +50,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
             $data['population'],
             $data['specie'],
             $data['file'],
+            $data['file_name']
         );
     }
 
