@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/Select.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <h3>Выборки</h3>
     <div class="text-right">
@@ -22,7 +26,7 @@
                         <td>{{ s.uids | join(', ') }}</td>
                         <td>{{ s.date }}</td>
                         <td>
-                            <a href="{{ path('view_selection', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" style="width:40px" src="{{ asset('img/view.png') }}?ver=1" /></a>
+                            <a class="open_action" href="{{ path('view_selection', {id: s.id}) }}" title="Посмотреть"><img alt="Посмотреть" style="width:40px" src="{{ asset('img/view.png') }}?ver=1" /></a>
                             <a href="{{ path('remove_selection', {id: s.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
                         </td>
                     </tr>
