@@ -86,7 +86,8 @@ class Api implements ApiInterface
             $input->getColony(),
             $input->getPopulation(),
             $input->getSpecie(),
-            $input->getFile()
+            $input->getFile(),
+            $input->getFileName()
         ));
     }
 

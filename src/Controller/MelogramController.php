@@ -85,6 +85,7 @@ class MelogramController extends AbstractController
 
     public function editAjax(int $id): Response
     {
+        var_dump($_POST);
         return $this->withApiAndRequest(function (ApiInterface $api, Request $request) use ($id) {
             if ($request->getMethod() !== Request::METHOD_POST)
             {
@@ -96,8 +97,9 @@ class MelogramController extends AbstractController
             $colonyId = (int) $request->get('colony_id');
             $familyId = (int) $request->get('family_id');
             $itemId = (int) $request->get('item_id');
-
             $file = $request->files->get('melogram_file');
+            //$fileName = $file->getClientOriginalName();
+            $fileName = "file_edit_placeholder";
             $filePath = $file ? $file->getRealPath() : null;
             $fileContent = $filePath && file_exists($filePath) ? (string) file_get_contents($filePath) : null;
 
@@ -108,7 +110,8 @@ class MelogramController extends AbstractController
                 $colonyId,
                 $populationId,
                 $specieId,
-                $fileContent
+                $fileContent,
+                $fileName
             ));
 
             return $this->redirectToRoute('edit_melogram', ['id' => $id]);
