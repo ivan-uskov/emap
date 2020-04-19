@@ -3,6 +3,13 @@
 {% block javascripts %}
     <script src="{{ asset('js/Melogram.js') }}"></script>
     <script src="{{ asset('js/FileName.js') }}"></script>
+    <script src="{{ asset('js/lib/opensheetmusicdisplay.min.js') }}"></script>
+    <script src="{{ asset('js/SelectionResult.js') }}"></script>
+    <script src="{{ asset('js/lib/chart.min.js') }}"></script>
+    <script src="{{ asset('js/SelectionResult.js') }}"></script>
+    <script src="{{ asset('js/SelectionSave.js') }}"></script>
+    <script src="{{ asset('js/FileSaver.min.js') }}"></script>
+    <script src="{{ asset('js/jszip.min.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -64,6 +71,15 @@
                 <label class="custom-file-label" for="inputGroupFile01">Мелодия</label>
             </div>
         </div>
+        <div class="block-bottom graph_container" id="melogramsContainer">
+            <div class="block-bottom" id="graphContainer" style="margin:2px;border:solid 1px darkgrey;height:auto;overflow:auto;"></div>
+        </div>
+        <div class="block-bottom graph_container" id="commonContainer">
+            <input type="hidden" id="commonGraphData" data-data="{{ common_result }}" />
+            <canvas id="commonContainerCanvas" style="height:300px"></canvas>
+        </div>
+
+
         <button type="submit" class="btn btn-success">{% if melogram is defined %}Сохранить{% else %}Добавить{% endif %}</button>
     </form>
 {% endblock %}

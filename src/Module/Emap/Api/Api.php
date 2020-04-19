@@ -14,6 +14,7 @@ use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
 use App\Module\Emap\App\Command\Handler\AddSelectionCommandHandler;
 use App\Module\Emap\App\Command\Handler\UpdateMelogramCommandHandler;
 use App\Module\Emap\App\Command\UpdateMelogramCommand;
+use App\Module\Emap\App\Service\Data\MelogramData;
 use App\Module\Emap\Domain\Service\MelogramService;
 use App\Module\Emap\Domain\Service\SelectionService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
@@ -34,6 +35,12 @@ class Api implements ApiInterface
         $this->manager = $doctrine->getManager();
         $this->melogramService = new MelogramService(new MelogramRepository($this->manager));
         $this->selectionService = new SelectionService(new SelectionRepository($this->manager));
+    }
+
+    public function getMelogramHierarchyData(int $melogramId) : ?MelogramData
+    {
+        $qs = new MelogramQueryService($this->manager);
+        return $qs->getMelogram($melogramId);
     }
 
     public function getMelogram(int $melogramId): ?MelogramOutput
