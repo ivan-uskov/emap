@@ -33,7 +33,7 @@ class MelogramQueryService implements MelogramQueryServiceInterface
      */
     public function getAllMelograms(): array
     {
-        $stmt = $this->query('SELECT * FROM melogram');
+        $stmt = $this->query('SELECT * FROM melogram ORDER BY specie, population, colony, family, item');
         $mapper = fn(array $data) => $this->melogram($data);
 
         return array_map($mapper, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
