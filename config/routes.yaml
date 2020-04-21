@@ -69,3 +69,23 @@ selection_result:
 selections_list:
   path: /selections
   controller: App\Controller\SelectionController:selections
+
+add_selection_group:
+  path: /selection/group/add
+  controller: App\Controller\SelectionGroupController::add
+
+selection_groups_list:
+  path: /selection/group/list
+  controller: App\Controller\SelectionGroupController::list
+
+remove_selection_group:
+  path: /selection/group/remove/{id}
+  controller: App\Controller\SelectionGroupController::remove
+  requirements:
+    id: '\d+'
+
+view_selection_group:
+  path: /selection/group/view/{id}
+  controller: App\Controller\SelectionGroupController::view
+  requirements:
+    id: '\d+'
