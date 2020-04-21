@@ -19,13 +19,13 @@
         <div class="block-header">
             <h2>Выборка</h2>
         </div>
-        <div class="text-right button_container">
-            <a class="btn btn-secondary mb-2" onclick="return false;" href="" id="saveSelection" role="button">Экспорт</a>
-            <a class="btn btn-secondary mb-2" href="" id="melogramsBtn" role="button">Мелограммы</a>
-            <a class="btn btn-secondary mb-2" href="" id="commonBtn" role="button">Склейка</a>
-            <a class="btn btn-secondary mb-2" href="" id="stavesBtn" role="button">Ноты</a>
+        <div class="custom_button_container">
+            <a class="btn btn-info mb-2 option_button" onclick="return false;" href="" id="saveSelection" role="button">Экспорт</a>
+            <a class="btn btn-info mb-2 option_button" href="" id="melogramsBtn" role="button">Мелограммы</a>
+            <a class="btn btn-info mb-2 option_button" href="" id="commonBtn" role="button">Склейка</a>
+            <a class="btn btn-info mb-2 option_button" href="" id="stavesBtn" role="button">Ноты</a>
             {% if not already_saved %}
-                <a class="btn btn-success mb-2" href="" id="saveBtn" role="button">Сохранить</a>
+                <a class="btn btn-success mb-2 save_button" href="" id="saveBtn" role="button">Сохранить</a>
             {% endif %}
         </div>
         <div class="block-top uids_container">
