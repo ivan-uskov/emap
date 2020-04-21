@@ -10,13 +10,12 @@ $(document).ready(function () {
             // I really hate js
             lastIndex = (+lastIndex + +1);
 
-            let elementId = name.match(/\[\D+\]/);
-            name = "select"+"["+ lastIndex +"]"+elementId;
+            name = "select"+"["+ lastIndex +"]";
             child.name = name;
         }
     }
 
-    $(document).on('click', '#add_row_link', function() {
+    $(document).on('click', '#addRowLink', function() {
         let all = $('.empty_row');
         // get last row in page
         let last = all.last();
@@ -25,7 +24,7 @@ $(document).ready(function () {
         // get children
         let children = newSelectRow.find('input');
         changeRowSelectId(children);
-        let selections = $(".selections");
+        let selections = $(".inputs");
         selections.append(newSelectRow);
     } );
 
@@ -36,8 +35,6 @@ $(document).ready(function () {
             return;
         }
 
-        let th = $(this).parent();
-        let td = $(th).parent();
-        td.remove();
+        $(this).parent().remove();
     } );
 });

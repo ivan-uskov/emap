@@ -4,7 +4,7 @@
     <script src="{{ asset('js/lib/opensheetmusicdisplay.min.js') }}"></script>
     <script src="{{ asset('js/lib/chart.min.js') }}"></script>
     <script src="{{ asset('js/SelectionRendering.js') }}"></script>
-    <script src="{{ asset('js/SelectionResult.js') }}"></script>
+    <script src="{{ asset('js/SelectionGroupResult.js') }}"></script>
     <script src="{{ asset('js/SelectionSave.js') }}"></script>
     <script src="{{ asset('js/FileSaver.min.js') }}"></script>
     <script src="{{ asset('js/jszip.min.js') }}"></script>
@@ -21,29 +21,16 @@
         </div>
         <div class="text-right button_container">
             <a class="btn btn-primary mb-2" onclick="return false;" href="" id="saveSelection" role="button">Экспорт</a>
-            <a class="btn btn-primary mb-2" href="" id="melogramsBtn" role="button">Мелограммы</a>
-            <a class="btn btn-primary mb-2" href="" id="commonBtn" role="button">Склейка</a>
-            <a class="btn btn-primary mb-2" href="" id="stavesBtn" role="button">Ноты</a>
             {% if not already_saved %}
                 <a class="btn btn-success mb-2" href="" id="saveBtn" role="button">Сохранить</a>
             {% endif %}
         </div>
-        <div class="block-top uids_container">
-            {% for m in selection_result %}
-                <a class="btn btn-outline-secondary" href="" role="button" style="margin:4px 1px;">
-                    {{ m.uid }}
-                </a>
-                <input type="hidden" id="file{{ m.uid }}" data-uid="{{ m.uid }}" data-melogram="{{ m.melogram }}" class="source_file" value="{{ m.file }}" />
-            {% endfor %}
-        </div>
-        <div class="block-bottom graph_container" id="melogramsContainer"></div>
-        <div class="block-bottom graph_container" id="stavesContainer"></div>
         <div class="block-bottom graph_container" id="commonContainer">
             <input type="hidden" id="commonGraphData" data-data="{{ common_result }}" />
             <canvas id="commonContainerCanvas" style="height:300px"></canvas>
         </div>
     </div>
     <form method="post" action="{{ path('add_selection') }}" style="display: none" id="saveSelectionForm">
-        <input type="hidden" name="items" value="{{ items }}" />
+        <input type="hidden" name="items" value="{{ items | join(',') }}" />
     </form>
 {% endblock %}
