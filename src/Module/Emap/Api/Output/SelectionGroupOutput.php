@@ -12,4 +12,9 @@ class SelectionGroupOutput
     {
         $this->data = $data;
     }
+
+    public function getItemIds(): array
+    {
+        return $this->data->getIds();
+    }
 }

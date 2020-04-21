@@ -12,10 +12,12 @@ class SelectionGroupView
 
     private array $yAxis = [];
     private int $length = 0;
+    private bool $alreadySaved;
 
-    public function __construct(array $selections)
+    public function __construct(array $selections, bool $alreadySaved = false)
     {
         $this->selections = $selections;
+        $this->alreadySaved = $alreadySaved;
     }
 
     public function asArray(): array
@@ -36,13 +38,13 @@ class SelectionGroupView
         }
 
         return [
+            'already_saved' => $this->alreadySaved,
             'items' => json_encode(array_map(fn(SelectionOutput $s) => $s->getId(), $this->selections), JSON_THROW_ON_ERROR, 512),
             'common_result' => json_encode([
                 'items' => $items,
                 'yAxis' => MelogramViewUtils::get()->buildYAxis($this->yAxis),
                 'length' => $this->length,
             ], JSON_THROW_ON_ERROR, 512),
-            'already_saved' => false
         ];
     }
 }

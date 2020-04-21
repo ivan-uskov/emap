@@ -53,7 +53,20 @@ class SelectionGroupController extends AbstractController
 
     public function view(int $id): Response
     {
+        $group = $this->api()->getSelectionGroup($id);
+        if ($group === null)
+        {
+            return new Response('Not Found', 404);
+        }
 
+        $selections = array_filter(array_map(fn($id) => $this->api()->getSelection((int) $id), $group->getItemIds()));
+
+        if (empty($selections))
+        {
+            return $this->redirectToRoute('add_selection_group');
+        }
+
+        return $this->render('selection_group_result.html.twig', (new SelectionGroupView($selections, true))->asArray());
     }
 
     private function withApiAndRequest(callable $fn): Response
