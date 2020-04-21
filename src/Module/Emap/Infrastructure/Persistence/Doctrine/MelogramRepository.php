@@ -51,6 +51,7 @@ class MelogramRepository implements MelogramRepositoryInterface
             SET
               uid = :uid,
               file = :file,
+              file_name = :fileName,
               item = {$m->getItem()},
               family = {$m->getFamily()},
               colony = {$m->getColony()},
@@ -60,7 +61,7 @@ class MelogramRepository implements MelogramRepositoryInterface
               id = :id
         ";
 
-        $this->query($sql, ['uid' => $m->getUid(), 'file' => $m->getFile(), 'id' => $m->getId()]);
+        $this->query($sql, ['uid' => $m->getUid(), 'file' => $m->getFile(), 'fileName' => $m->getFileName(), 'id' => $m->getId()]);
     }
 
     public function hasMelogram(string $uid): bool
@@ -86,7 +87,8 @@ class MelogramRepository implements MelogramRepositoryInterface
             $res[0]['colony'],
             $res[0]['population'],
             $res[0]['specie'],
-            $res[0]['file']
+            $res[0]['file'],
+            $res[0]['file_name']
         );
     }
 

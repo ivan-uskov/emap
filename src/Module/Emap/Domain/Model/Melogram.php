@@ -14,8 +14,9 @@ class Melogram implements HierarchyElementInterface
     private int $specie;
 
     private string $file;
+    private string $fileName;
 
-    public function __construct(int $id, string $uid, int $item, int $family, int $colony, int $population, int $specie, string $file)
+    public function __construct(int $id, string $uid, int $item, int $family, int $colony, int $population, int $specie, string $file, string $fileName)
     {
         $this->id = $id;
         $this->uid = $uid;
@@ -25,6 +26,7 @@ class Melogram implements HierarchyElementInterface
         $this->population = $population;
         $this->specie = $specie;
         $this->file = $file;
+        $this->fileName = $fileName;
     }
 
     public function getId(): int
@@ -100,5 +102,15 @@ class Melogram implements HierarchyElementInterface
     public function setFile(string $file): void
     {
         $this->file = $file;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName(string $fileName): void
+    {
+        $this->fileName = $fileName;
     }
 }

@@ -12,11 +12,10 @@ class MelogramSpecification implements HierarchyElementInterface
     private int $population;
     private int $specie;
 
-    private ?string $file;
+    private string $file;
     private string $fileName;
 
-    public function __construct(int $item, int $family, int $colony, int $population, int $specie
-        , ?string $file, string $fileName)
+    public function __construct(int $item, int $family, int $colony, int $population, int $specie, string $file, string $fileName)
     {
         $this->item = $item;
         $this->family = $family;

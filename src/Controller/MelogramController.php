@@ -79,13 +79,12 @@ class MelogramController extends AbstractController
             'Content-Type' => 'text/xml',
             'Cache-Control' => 'public',
             'Content-Length' => strlen($melogram->getFile()),
-            'Content-Disposition' => 'attachment; filename=' . $melogram->getFileName() . '.musicxml',
+            'Content-Disposition' => 'attachment; filename=' . $melogram->getFileName(),
         ]);
     }
 
     public function editAjax(int $id): Response
     {
-        var_dump($_POST);
         return $this->withApiAndRequest(function (ApiInterface $api, Request $request) use ($id) {
             if ($request->getMethod() !== Request::METHOD_POST)
             {
@@ -97,9 +96,8 @@ class MelogramController extends AbstractController
             $colonyId = (int) $request->get('colony_id');
             $familyId = (int) $request->get('family_id');
             $itemId = (int) $request->get('item_id');
-            $file = $request->files->get('melogram_file');
-            //$fileName = $file->getClientOriginalName();
-            $fileName = "file_edit_placeholder";
+            $file = $request->files->get('melody_file');
+            $fileName = $file ? $file->getClientOriginalName() : '';
             $filePath = $file ? $file->getRealPath() : null;
             $fileContent = $filePath && file_exists($filePath) ? (string) file_get_contents($filePath) : null;
 

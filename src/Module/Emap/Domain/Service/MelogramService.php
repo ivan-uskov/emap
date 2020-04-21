@@ -66,7 +66,8 @@ class MelogramService
 
         if ($specification->getFile() !== '')
         {
-            $melogram->setFile($melogram->getFile());
+            $melogram->setFile($specification->getFile());
+            $melogram->setFileName($specification->getFileName());
         }
 
         $melogram->setUid($specification->getUid());
