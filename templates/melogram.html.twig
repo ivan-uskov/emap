@@ -4,6 +4,7 @@
     <script src="{{ asset('js/Melogram.js') }}"></script>
     <script src="{{ asset('js/FileName.js') }}"></script>
     <script src="{{ asset('js/lib/opensheetmusicdisplay.min.js') }}"></script>
+    <script src="{{ asset('js/SelectionRendering.js') }}"></script>
     <script src="{{ asset('js/SelectionResult.js') }}"></script>
     <script src="{{ asset('js/lib/chart.min.js') }}"></script>
     <script src="{{ asset('js/SelectionResult.js') }}"></script>
@@ -19,12 +20,13 @@
         <h3>Добавление особи</h3>
     {% endif %}
     <a href="{{ path('homepage') }}">Назад</a>
-    {% if melogram is defined %}
-        <div class="text-right">
-            <a href="{{ path('export_melogram', {id: melogram.id}) }}" title="Экспортировать"><img alt="Экспортировать" class="mr-1" src="{{ asset('img/download.png') }}" />Экспортировать</a>
-        </div>
-    {% endif %}
     <form action="{% if melogram is defined %}{{ path('edit_melogram_ajax', {id: melogram.id}) }}{% else %}{{ path('add_melogram_ajax') }}{% endif %}" method="post" enctype="multipart/form-data" class="mt-5">
+        <div class="text-right">
+            {% if melogram is defined %}
+                <a href="{{ path('export_melogram', {id: melogram.id}) }}" title="Экспортировать"><img alt="Экспортировать" class="mr-1" src="{{ asset('img/download.png') }}" /></a>
+            {% endif %}
+            <button type="submit" class="btn btn-success">{% if melogram is defined %}Сохранить{% else %}Добавить{% endif %}</button>
+        </div>
         <div class="form-group row">
             <label for="form" class="col-form-label col-sm-2">Вид</label>
             <div>
@@ -78,7 +80,5 @@
             <input type="hidden" id="commonGraphData" data-data="{% if melogram is defined %}{{ common_result }}{% endif %}" />
             <canvas id="commonContainerCanvas" style="height:300px"></canvas>
         </div>
-
-        <button type="submit" class="btn btn-success">{% if melogram is defined %}Сохранить{% else %}Добавить{% endif %}</button>
     </form>
 {% endblock %}
