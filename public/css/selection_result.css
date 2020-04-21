@@ -27,3 +27,18 @@ h2
     background-color: #007bff;
     border-color: #007bff;
 }
+
+.custom_button_container
+{
+    display: flex;
+}
+
+.save_button
+{
+    margin-left: auto;
+}
+
+.option_button
+{
+    margin: 0 5px;
+}
