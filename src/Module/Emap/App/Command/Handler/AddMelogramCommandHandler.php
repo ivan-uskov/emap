@@ -17,13 +17,15 @@ class AddMelogramCommandHandler
 
     public function handle(AddMelogramCommand $command): void
     {
-        $this->service->addMelogram(new MelogramSpecification(
+        $m = new MelogramSpecification(
             $command->getItem(),
             $command->getFamily(),
             $command->getColony(),
             $command->getPopulation(),
             $command->getSpecie(),
-            $command->getFile()
-        ));
+            $command->getFile(),
+            $command->getFileName()
+        );
+        $this->service->addMelogram($m);
     }
 }

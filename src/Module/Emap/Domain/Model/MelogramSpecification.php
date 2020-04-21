@@ -13,8 +13,10 @@ class MelogramSpecification implements HierarchyElementInterface
     private int $specie;
 
     private ?string $file;
+    private string $fileName;
 
-    public function __construct(int $item, int $family, int $colony, int $population, int $specie, ?string $file)
+    public function __construct(int $item, int $family, int $colony, int $population, int $specie
+        , ?string $file, string $fileName)
     {
         $this->item = $item;
         $this->family = $family;
@@ -22,7 +24,7 @@ class MelogramSpecification implements HierarchyElementInterface
         $this->population = $population;
         $this->specie = $specie;
         $this->file = $file;
-
+        $this->fileName = $fileName;
         $this->uid = UidBuilder::build($this);
         HierarchyElementValidator::validate($this);
     }
@@ -60,5 +62,10 @@ class MelogramSpecification implements HierarchyElementInterface
     public function getFile(): string
     {
         return $this->file;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->fileName;
     }
 }

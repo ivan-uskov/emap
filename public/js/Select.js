@@ -1,8 +1,8 @@
 $(function () {
     $('tr').click(function() {
-        var href = $(this).find("a").attr("href");
-        if(href) {
-            window.location = href;
+        let editAction = $(this).find(".open_action").attr("href");
+        if(editAction) {
+            window.location = editAction;
         }
     });
 });

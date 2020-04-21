@@ -23,7 +23,8 @@ class UpdateMelogramCommandHandler
             $command->getColony(),
             $command->getPopulation(),
             $command->getSpecie(),
-            (string) $command->getFile()
+            (string) $command->getFile(),
+            $command->getFileName()
         ));
     }
 }

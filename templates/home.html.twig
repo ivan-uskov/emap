@@ -30,10 +30,9 @@
                         <td>{{ m.colony }}</td>
                         <td>{{ m.family }}</td>
                         <td>{{ m.item }}</td>
-                        {#<td> <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать">{{ m.uid }}</a></td>#}
                         <td>
                             <a href="{{ path('export_melogram', {id: m.id}) }}" title="Экспортировать"><img alt="Экспортировать" src="{{ asset('img/download.png') }}" /></a>
-                            <a href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}?ver=1" /></a>
+                            <a class="open_action" href="{{ path('edit_melogram', {id: m.id}) }}" title="Редактировать"><img alt="Редактировать" src="{{ asset('img/edit.png') }}?ver=1" /></a>
                             <a href="{{ path('remove_melogram', {id: m.id}) }}" class="remove_melogram_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}?ver=1" /></a>
                         </td>
                     </tr>

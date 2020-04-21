@@ -11,6 +11,7 @@ class AddMelogramInput
     private int $specie;
 
     private string $file;
+    private string $fileName;
 
     public function __construct(
         int $item,
@@ -18,7 +19,8 @@ class AddMelogramInput
         int $colony,
         int $population,
         int $specie,
-        string $file
+        string $file,
+        string $fileName
     ) {
         $this->item = $item;
         $this->family = $family;
@@ -27,6 +29,7 @@ class AddMelogramInput
         $this->specie = $specie;
 
         $this->file = $file;
+        $this->fileName = $fileName;
     }
 
     public function getItem(): int
@@ -57,5 +60,10 @@ class AddMelogramInput
     public function getFile(): string
     {
         return $this->file;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->fileName;
     }
 }

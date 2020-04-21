@@ -51,6 +51,11 @@ class Melogram
      */
     private $file;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
     public function getId(): ?int
     {
         return $this->id;
