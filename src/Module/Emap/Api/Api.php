@@ -12,15 +12,20 @@ use App\Module\Emap\Api\Output\SelectionOutput;
 use App\Module\Emap\Api\Output\SelectionsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
 use App\Module\Emap\App\Command\AddSelectionCommand;
+use App\Module\Emap\App\Command\AddSelectionGroupCommand;
 use App\Module\Emap\App\Command\Handler\AddMelogramCommandHandler;
 use App\Module\Emap\App\Command\Handler\AddSelectionCommandHandler;
+use App\Module\Emap\App\Command\Handler\AddSelectionGroupCommandHandler;
 use App\Module\Emap\App\Command\Handler\UpdateMelogramCommandHandler;
 use App\Module\Emap\App\Command\UpdateMelogramCommand;
 use App\Module\Emap\App\Service\Data\MelogramData;
 use App\Module\Emap\Domain\Service\MelogramService;
+use App\Module\Emap\Domain\Service\SelectionGroupService;
 use App\Module\Emap\Domain\Service\SelectionService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\MelogramRepository;
+use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionGroupQueryService;
+use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionGroupRepository;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionQueryService;
 use App\Module\Emap\Infrastructure\Persistence\Doctrine\SelectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,12 +36,14 @@ class Api implements ApiInterface
     private EntityManagerInterface $manager;
     private MelogramService $melogramService;
     private SelectionService $selectionService;
+    private SelectionGroupService $selectionGroupService;
 
     public function __construct(ManagerRegistry $doctrine)
     {
         $this->manager = $doctrine->getManager();
         $this->melogramService = new MelogramService(new MelogramRepository($this->manager));
         $this->selectionService = new SelectionService(new SelectionRepository($this->manager));
+        $this->selectionGroupService = new SelectionGroupService(new SelectionGroupRepository($this->manager));
     }
 
     public function getMelogramHierarchyData(int $melogramId) : ?MelogramData
@@ -129,21 +136,30 @@ class Api implements ApiInterface
 
     public function addSelectionGroup(array $ids): void
     {
-        // TODO: Implement addSelectionGroup() method.
+        $handler = new AddSelectionGroupCommandHandler($this->selectionGroupService);
+        $handler->handle(new AddSelectionGroupCommand($ids));
     }
 
     public function removeSelectionGroup(int $id): void
     {
-        // TODO: Implement removeSelectionGroup() method.
+        $this->selectionGroupService->remove($id);
     }
 
     public function getSelectionGroups(): SelectionGroupListOutput
     {
-        // TODO: Implement getSelectionGroups() method.
+        $qs = new SelectionGroupQueryService($this->manager);
+        return new SelectionGroupListOutput($qs->getSelectionGroups());
     }
 
     public function getSelectionGroup(int $id): ?SelectionGroupOutput
     {
-        // TODO: Implement getSelectionGroup() method.
+        $qs = new SelectionGroupQueryService($this->manager);
+        $group = $qs->getSelectionGroup($id);
+        if ($group === null)
+        {
+            return null;
+        }
+
+        return new SelectionGroupOutput($group);
     }
 }

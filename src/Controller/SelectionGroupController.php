@@ -65,7 +65,7 @@ class SelectionGroupController extends AbstractController
         }
         catch (\Exception $exception)
         {
-            return new Response('Bad Request: ' . get_class($exception) . ' ' . $exception->getMessage(), 400);
+            return new Response('Bad Request: ' . get_class($exception) . ' ' . $exception->getTraceAsString(), 400);
         }
     }
 

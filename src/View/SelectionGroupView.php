@@ -36,7 +36,7 @@ class SelectionGroupView
         }
 
         return [
-            'items' => array_map(fn(SelectionOutput $s) => $s->getId(), $this->selections),
+            'items' => json_encode(array_map(fn(SelectionOutput $s) => $s->getId(), $this->selections), JSON_THROW_ON_ERROR, 512),
             'common_result' => json_encode([
                 'items' => $items,
                 'yAxis' => MelogramViewUtils::get()->buildYAxis($this->yAxis),

@@ -31,6 +31,6 @@
         </div>
     </div>
     <form method="post" action="{{ path('add_selection_group_ajax') }}" style="display: none" id="saveSelectionForm">
-        <input type="hidden" name="items" value="{{ items | join(',') }}" />
+        <input type="hidden" name="items" value="{{ items }}" />
     </form>
 {% endblock %}
