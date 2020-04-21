@@ -14,10 +14,20 @@ class CommonView
         {
             /** @var MelogramView $view */
             $view = $melogram['view'];
-            $this->expandYAxis($view->getRawYAxis());
+            $this->yAxis = MelogramViewUtils::get()->expandYAxis($this->yAxis, $view->getRawYAxis());
             $this->expandMaxLength($view->getNotes());
             $this->notes[] = ['uid' => $uid, 'notes' => $view->getNotes()];
         }
+    }
+
+    public function getRawYAxis(): array
+    {
+        return $this->yAxis;
+    }
+
+    public function getMaxLength(): int
+    {
+        return $this->maxLength;
     }
 
     public function getData(): array
@@ -36,22 +46,5 @@ class CommonView
         {
             $this->maxLength = $new;
         }
-    }
-
-    private function expandYAxis(array $yAxis): void
-    {
-        if (empty($this->yAxis))
-        {
-            $this->yAxis = $yAxis;
-            return;
-        }
-
-        $indexes = MelogramViewUtils::get()->getVariantsIndexes();
-        $oldMin = $indexes[$this->yAxis[0]];
-        $oldMax = $indexes[array_reverse($this->yAxis)[0]];
-        $newMin = $indexes[$this->yAxis[0]];
-        $newMax = $indexes[array_reverse($this->yAxis)[0]];
-
-        $this->yAxis = MelogramViewUtils::get()->getRawYAxis(min($oldMin, $newMin), max($oldMax, $newMax));
     }
 }

@@ -28,6 +28,26 @@ class MelogramViewUtils
         return array_merge(array_reverse($rawValues), [self::PAUSE]);
     }
 
+    public function expandYAxis(array $one, array $another): array
+    {
+        if (empty($one))
+        {
+            return $another;
+        }
+        if (empty($another))
+        {
+            return $one;
+        }
+
+        $indexes = $this->getVariantsIndexes();
+        $oldMin = $indexes[$one[0]];
+        $oldMax = $indexes[array_reverse($one)[0]];
+        $newMin = $indexes[$another[0]];
+        $newMax = $indexes[array_reverse($another)[0]];
+
+        return $this->getRawYAxis(min($oldMin, $newMin), max($oldMax, $newMax));
+    }
+
     public function getRawYAxis(int $min, int $max): array
     {
         return array_slice($this->noteVariants, $min, $max - $min + 1);

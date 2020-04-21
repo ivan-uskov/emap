@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/SelectionGroup.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h3>Добавить склейку</h3>
+    <form action="{{ path('add_selection_group_preview')}}"  enctype="multipart/form-data" class="mt-1" method="get">
+        <div class="text-right">
+            <a href="" onclick="return false;" id="addRowLink"  class="btn btn-primary mb-2" role="button">Добавить условие</a>
+            <input type="submit" value="Добавить" class="btn btn-success mb-2" />
+        </div>
+        <div class="inputs">
+            <div class="empty_row" style="float: left; margin-right: 20px; margin-bottom: 10px">
+                <input type="number" class="form-control" value="0" name="select[0]" style="display: inline-block;width: auto">
+                <a href="" onclick="return false;" class="remove_row_link" title="Удалить"><img alt="Удалить" src="{{ asset('img/remove.png') }}" /></a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

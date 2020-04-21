@@ -13,6 +13,11 @@ class SelectionOutput
         $this->data = $data;
     }
 
+    public function getId(): int
+    {
+        return $this->data->getId();
+    }
+
     public function getUidsWithFiles(): array
     {
         return $this->data->getUidsWithFiles();
