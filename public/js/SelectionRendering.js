@@ -49,13 +49,26 @@ function createOptions(notes) {
         scales: {
             yAxes: [{
                 type: 'category',
-                labels: notes
-            }],
-            xAxes: [{
+                labels: notes,
                 ticks: {
-                    beginAtZero: true
+                    min: notes[0],
+                    max: notes[notes.length - 1]
                 }
-            }]
+            }],
+            xAxes: [{ticks: {beginAtZero: true}}]
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'x'
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'x',
+                    speed: 1000
+                }
+            }
         }
     };
 }
