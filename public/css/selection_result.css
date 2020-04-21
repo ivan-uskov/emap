@@ -20,3 +20,10 @@ h2
 {
     padding-bottom: 50px;
 }
+
+.btn:focus
+{
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
