@@ -35,6 +35,11 @@ h2
 
 .save_button
 {
+    margin-left: 10px;
+}
+
+.export_button
+{
     margin-left: auto;
 }
 
