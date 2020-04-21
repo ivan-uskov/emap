@@ -21,7 +21,7 @@ h2
     padding-bottom: 50px;
 }
 
-.btn:focus
+.option_button:focus
 {
     color: #fff;
     background-color: #007bff;
