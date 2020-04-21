@@ -78,6 +78,10 @@ add_selection_group_preview:
   path: /selection/group/preview
   controller: App\Controller\SelectionGroupController::preview
 
+add_selection_group_ajax:
+  path: /selection/group/add/ajax
+  controller: App\Controller\SelectionGroupController::addAjax
+
 selection_groups_list:
   path: /selection/group/list
   controller: App\Controller\SelectionGroupController::list

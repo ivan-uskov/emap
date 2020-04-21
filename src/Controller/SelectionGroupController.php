@@ -32,19 +32,41 @@ class SelectionGroupController extends AbstractController
         return $this->render('selection_group_result.html.twig', (new SelectionGroupView($selections))->asArray());
     }
 
+    public function addAjax(): Response
+    {
+        return $this->withApiAndRequest(function (ApiInterface $api, Request $request) {
+            $api->addSelectionGroup(json_decode($request->get('items'), true, 512, JSON_THROW_ON_ERROR));
+            return $this->redirectToRoute('selection_groups_list');
+        });
+    }
+
     public function list(): Response
     {
-        return $this->render('selection_group_list.html.twig', ['items' => []]);
+        return $this->render('selection_group_list.html.twig', ['items' => $this->api()->getSelectionGroups()->asArray()]);
     }
 
     public function remove(int $id): Response
     {
-
+        $this->api()->removeSelectionGroup($id);
+        return $this->redirectToRoute('selection_groups_list');
     }
 
     public function view(int $id): Response
     {
 
+    }
+
+    private function withApiAndRequest(callable $fn): Response
+    {
+        try
+        {
+            $request = Request::createFromGlobals();
+            return $fn($this->api(), $request);
+        }
+        catch (\Exception $exception)
+        {
+            return new Response('Bad Request: ' . get_class($exception) . ' ' . $exception->getMessage(), 400);
+        }
     }
 
     private function api(): ApiInterface

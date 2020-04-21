@@ -6,6 +6,8 @@ use App\Module\Emap\Api\Input\AddMelogramInput;
 use App\Module\Emap\Api\Input\UpdateMelogramInput;
 use App\Module\Emap\Api\Output\MelogramOutput;
 use App\Module\Emap\Api\Output\MelogramsListOutput;
+use App\Module\Emap\Api\Output\SelectionGroupListOutput;
+use App\Module\Emap\Api\Output\SelectionGroupOutput;
 use App\Module\Emap\Api\Output\SelectionOutput;
 use App\Module\Emap\Api\Output\SelectionsListOutput;
 use App\Module\Emap\App\Command\AddMelogramCommand;
@@ -123,5 +125,25 @@ class Api implements ApiInterface
         }
 
         return new SelectionOutput($qs->getSelection($id));
+    }
+
+    public function addSelectionGroup(array $ids): void
+    {
+        // TODO: Implement addSelectionGroup() method.
+    }
+
+    public function removeSelectionGroup(int $id): void
+    {
+        // TODO: Implement removeSelectionGroup() method.
+    }
+
+    public function getSelectionGroups(): SelectionGroupListOutput
+    {
+        // TODO: Implement getSelectionGroups() method.
+    }
+
+    public function getSelectionGroup(int $id): ?SelectionGroupOutput
+    {
+        // TODO: Implement getSelectionGroup() method.
     }
 }

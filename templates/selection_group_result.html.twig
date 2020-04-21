@@ -17,7 +17,7 @@
 {% block body %}
     <div class="list">
         <div class="block-header">
-            <h2>Выборка</h2>
+            <h2>Склейка выборок</h2>
         </div>
         <div class="text-right button_container">
             <a class="btn btn-primary mb-2" onclick="return false;" href="" id="saveSelection" role="button">Экспорт</a>
@@ -30,7 +30,7 @@
             <canvas id="commonContainerCanvas" style="height:300px"></canvas>
         </div>
     </div>
-    <form method="post" action="{{ path('add_selection') }}" style="display: none" id="saveSelectionForm">
+    <form method="post" action="{{ path('add_selection_group_ajax') }}" style="display: none" id="saveSelectionForm">
         <input type="hidden" name="items" value="{{ items | join(',') }}" />
     </form>
 {% endblock %}
